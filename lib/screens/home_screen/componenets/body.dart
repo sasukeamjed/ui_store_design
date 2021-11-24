@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_store_design/models/product.dart';
+import 'package:ui_store_design/screens/details_screen/details.dart';
 import 'package:ui_store_design/screens/home_screen/componenets/home_upper_header.dart';
 import 'package:ui_store_design/screens/home_screen/componenets/new_arrivals.dart';
 import 'package:ui_store_design/size_config.dart';
@@ -73,7 +74,7 @@ class _BodyState extends State<Body> {
               shrinkWrap: true,
               itemCount: bestSellersProducts.length,
               itemBuilder: (context, index) {
-                return BestSellerItem(product: bestSellersProducts[index]);
+                return GestureDetector(child: BestSellerItem(product: bestSellersProducts[index]), onTap: ()=> Navigator.of(context).pushNamed(DetailsScreen.routeName),);
               },
             ),
           ],

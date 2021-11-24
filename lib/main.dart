@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:ui_store_design/routes.dart';
 import 'package:ui_store_design/screens/welcome_screen/welcome.dart';
