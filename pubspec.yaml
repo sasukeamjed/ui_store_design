@@ -51,6 +51,7 @@ flutter:
     - assets/images/home/
     - assets/images/new_arrivals/
     - assets/images/best_sellers/
+    - assets/images/details_page/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
