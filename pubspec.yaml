@@ -52,6 +52,7 @@ flutter:
     - assets/images/new_arrivals/
     - assets/images/best_sellers/
     - assets/images/details_page/
+    - assets/images/dummy_product_images/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

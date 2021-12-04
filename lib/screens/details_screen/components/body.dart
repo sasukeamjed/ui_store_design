@@ -37,7 +37,8 @@ class Body extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+          padding:
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
           child: Row(
             children: [
               ...List.generate(
@@ -61,15 +62,30 @@ class Body extends StatelessWidget {
         SizedBox(
           height: getProportionateScreenWidth(20),
         ),
-        Stack(
-          children: [
-            Image.asset(
-              "assets/images/details_page/details_page_product_img.png",
-              fit: BoxFit.fitWidth,
-              height: getProportionateScreenWidth(250),
-            ),
-            Positioned(child: ImageCircle(),),
-          ],
+        Container(
+          height: getProportionateScreenWidth(250),
+          width: double.infinity,
+          child: Stack(
+            children: [
+              Image.asset(
+                "assets/images/dummy_product_images/artificial_flower_1.png",
+                fit: BoxFit.fill,
+                height: getProportionateScreenWidth(250),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 15),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ...List.generate(4, (index) => ImageCircle())
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ],
     );
@@ -81,16 +97,16 @@ class ImageCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: getProportionateScreenWidth(10),
-      width: getProportionateScreenWidth(10),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors.grey,
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(5)),
+      child: Container(
+        height: getProportionateScreenWidth(10),
+        width: getProportionateScreenWidth(10),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.grey,
+        ),
       ),
     );
   }
 }
-
-
-
