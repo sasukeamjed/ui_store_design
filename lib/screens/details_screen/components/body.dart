@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ui_store_design/screens/details_screen/components/is_favorite_star.dart';
+import 'package:ui_store_design/screens/details_screen/components/product_image_slider.dart';
 import 'package:ui_store_design/size_config.dart';
 
 class Body extends StatelessWidget {
@@ -62,51 +63,68 @@ class Body extends StatelessWidget {
         SizedBox(
           height: getProportionateScreenWidth(20),
         ),
-        Container(
-          height: getProportionateScreenWidth(250),
-          width: double.infinity,
-          child: Stack(
-            children: [
-              Image.asset(
-                "assets/images/dummy_product_images/artificial_flower_1.png",
-                fit: BoxFit.fill,
-                height: getProportionateScreenWidth(250),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 15),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ...List.generate(4, (index) => ImageCircle())
-                    ],
+        ProductImagesSlider(),
+        SizedBox(
+          height: 5,
+        ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: getProportionateScreenWidth(15)),
+            child: Row(
+              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: Colors.black,
+                        width: 2.5,
+                      ),
+                    ),
+                  ),
+                  child: Text(
+                    "Description",
+                    style: TextStyle(
+                      fontSize: getProportionateScreenWidth(17),
+                      fontFamily: "Avenir",
+                      height: 1.5,
+                    ),
                   ),
                 ),
-              ),
-            ],
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: getProportionateScreenWidth(48)),
+                  child: Text(
+                    "Review",
+                    style: TextStyle(
+                      fontSize: getProportionateScreenWidth(17),
+                      fontFamily: "Avenir-Roman",
+                      color: Colors.black.withOpacity(0.5),
+                      height: 1.5,
+                    ),
+                  ),
+                ),
+                Text(
+                  "Additional information",
+                  style: TextStyle(
+                    fontSize: getProportionateScreenWidth(17),
+                    fontFamily: "Avenir-Roman",
+                    color: Colors.black.withOpacity(0.5),
+                    height: 1.5,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
-      ],
-    );
-  }
-}
-
-class ImageCircle extends StatelessWidget {
-  const ImageCircle({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(5)),
-      child: Container(
-        height: getProportionateScreenWidth(10),
-        width: getProportionateScreenWidth(10),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Colors.grey,
+        Divider(
+          height: 1,
+          // color: Colors.black,
+          color: Color(0xFFF1F2F6),
         ),
-      ),
+      ],
     );
   }
 }

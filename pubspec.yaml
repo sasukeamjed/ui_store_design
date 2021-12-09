@@ -78,10 +78,13 @@ flutter:
         - asset: assets/fonts/Avenir-Heavy.ttf
     - family: Avenir-Medium
       fonts:
-        - asset: assets/fonts/Avenir-Heavy.ttf
+        - asset: assets/fonts/Avenir Medium.ttf
     - family: Roboto
       fonts:
         - asset: assets/fonts/RobotoCondensed-Bold.ttf
+    - family: Avenir-Roman
+      fonts:
+        - asset: assets/fonts/Avenir-Roman.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
