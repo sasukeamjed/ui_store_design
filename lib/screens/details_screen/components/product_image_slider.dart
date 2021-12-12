@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/size_config.dart';
 
 class ProductImagesSlider extends StatefulWidget {
@@ -18,7 +19,7 @@ class _ProductImagesSliderState extends State<ProductImagesSlider> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: getProportionateScreenWidth(250),
+      height: 250.h,
       width: double.infinity,
       child: Stack(
         children: [
@@ -34,14 +35,14 @@ class _ProductImagesSliderState extends State<ProductImagesSlider> {
                   images[index],
                   fit: BoxFit.fitWidth,
                   width: double.infinity,
-                  height: getProportionateScreenWidth(250),
+                  height: 250.h,
                 );
               }
           ),
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 15),
+              padding: EdgeInsets.only(bottom: 15.h),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -57,12 +58,12 @@ class _ProductImagesSliderState extends State<ProductImagesSlider> {
 
   buildImageCircle({required int index}){
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(5)),
+      padding: EdgeInsets.symmetric(horizontal: 5.w),
       child: Opacity(
         opacity: 0.4,
         child: Container(
-          height: getProportionateScreenWidth(10),
-          width: getProportionateScreenWidth(10),
+          height: 10.h,
+          width: 10.w,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: currentImage == index ? Colors.black : Colors.grey,

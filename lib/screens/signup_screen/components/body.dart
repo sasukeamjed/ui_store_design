@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/components/build_btn.dart';
 import 'package:ui_store_design/components/build_text_form_field.dart';
 import 'package:ui_store_design/screens/login_screen/login.dart';
@@ -16,39 +17,39 @@ class Body extends StatelessWidget {
           children: [
             CloseButton(),
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(42)),
+              padding: EdgeInsets.symmetric(horizontal: 42.w),
               child: Column(
                 children: [
-                  Text("Personal details", style: TextStyle(fontFamily: "Avenir", fontSize: getProportionateScreenWidth(34)),),
+                  Text("Personal details", style: TextStyle(fontFamily: "Avenir", fontSize: 34.sp),),
                   SizedBox(
-                    height: getProportionateScreenWidth(23),
+                    height: 23.h,
                   ),
                   Form(
                     child: Column(
                       children: [
                         BuildTextFormField(hint: "Email"),
                         SizedBox(
-                          height: getProportionateScreenWidth(31),
+                          height: 31.h,
                         ),
                         BuildTextFormField(hint: "Password"),
                         SizedBox(
-                          height: getProportionateScreenWidth(31),
+                          height: 31.h,
                         ),
                         BuildTextFormField(hint: "Phone"),
                         SizedBox(
-                          height: getProportionateScreenWidth(31),
+                          height: 31.h,
                         ),
                         BuildTextFormField(hint: "Date of birth"),
                         SizedBox(
-                          height: getProportionateScreenWidth(31),
+                          height: 31.h,
                         ),
                         BuildTextFormField(hint: "Address"),
                         SizedBox(
-                          height: getProportionateScreenWidth(38),
+                          height: 38.h,
                         ),
                         BuildButton(press: (){}, text: "SIGN UP"),
                         SizedBox(
-                          height: getProportionateScreenWidth(70),
+                          height: 70.h,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -56,12 +57,12 @@ class Body extends StatelessWidget {
                             Text(
                               "Don't have an account?",
                               style: TextStyle(
-                                  fontSize: getProportionateScreenWidth(17),
+                                  fontSize: 17.sp,
                                   fontFamily: "Avenir-Book"),
                             ),
                             GestureDetector(
                               child: Text(" Sign In",
-                                style: TextStyle(fontFamily: "Avenir-Medium", fontSize: getProportionateScreenWidth(17)), ),
+                                style: TextStyle(fontFamily: "Avenir-Medium", fontSize: 17.sp), ),
                               onTap: ()=> Navigator.pushNamed(context, LoginScreen.routeName),
                             ),
                           ],

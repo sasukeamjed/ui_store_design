@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/screens/login_screen/login.dart';
 import 'package:ui_store_design/screens/signup_screen/signup.dart';
 import 'package:ui_store_design/size_config.dart';
@@ -10,7 +11,7 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(42)),
+      padding: EdgeInsets.symmetric(horizontal: 42.w),
       width: double.infinity,
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -43,7 +44,7 @@ class Body extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: getProportionateScreenWidth(82),
+            height: 82.h,
           ),
         ],
       ),

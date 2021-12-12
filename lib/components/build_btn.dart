@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/size_config.dart';
 
 class BuildButton extends StatelessWidget {
@@ -13,13 +14,13 @@ class BuildButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: getProportionateScreenWidth(44),
+      height: 44.h,
       child: TextButton(
         child: Text(
           text,
           style: TextStyle(
               fontFamily: "Avenir",
-              fontSize: getProportionateScreenWidth(15)),
+              fontSize: 15.sp),
         ),
         onPressed: press,
       ),

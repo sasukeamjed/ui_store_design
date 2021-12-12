@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/models/product.dart';
 import 'package:ui_store_design/size_config.dart';
 
@@ -11,7 +12,7 @@ class NewArrivalsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        left: getProportionateScreenWidth(20),
+        left: 20.w,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -22,7 +23,7 @@ class NewArrivalsSection extends StatelessWidget {
                 "New Arrivals",
                 style: TextStyle(
                   fontFamily: "Avenir",
-                  fontSize: getProportionateScreenWidth(24),
+                  fontSize: 24.sp,
                 ),
               ),
               Spacer(),
@@ -30,16 +31,16 @@ class NewArrivalsSection extends StatelessWidget {
                 "Show all",
                 style: TextStyle(
                     fontFamily: "Avenir-Book",
-                    fontSize: getProportionateScreenWidth(15)),
+                    fontSize: 15.sp),
               ),
               Icon(Icons.arrow_right),
             ],
           ),
           SizedBox(
-            height: getProportionateScreenWidth(10),
+            height: 10.h,
           ),
           SizedBox(
-            height: getProportionateScreenWidth(200),
+            height: 197.h,
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
@@ -70,34 +71,36 @@ class _NewArrivalItemState extends State<NewArrivalItem> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(right: getProportionateScreenWidth(15)),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Stack(
-            children: [
-              Image.asset(
-                  widget.product.img),
-              Positioned(
-                right: 1,
-                child: GestureDetector(
-                  onTap: (){
-                    setState(() {
-                      widget.product.isFavorited = !widget.product.isFavorited;
-                    });
-                  },
-                  child: Padding(
-                    padding: EdgeInsets.all(getProportionateScreenWidth(10)),
-                    child: widget.product.isFavorited ? Icon(Icons.favorite) : Icon(Icons.favorite_border),
+      padding: EdgeInsets.only(right: 15.w),
+      child: SizedBox(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Stack(
+              children: [
+                Image.asset(
+                    widget.product.img, width: 140.w, height: 140.h, fit: BoxFit.cover,),
+                Positioned(
+                  right: 1,
+                  child: GestureDetector(
+                    onTap: (){
+                      setState(() {
+                        widget.product.isFavorited = !widget.product.isFavorited;
+                      });
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.all(10.w),
+                      child: widget.product.isFavorited ? Icon(Icons.favorite) : Icon(Icons.favorite_border),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(height: getProportionateScreenWidth(10),),
-          Text(widget.product.title, style: TextStyle(fontFamily: "Avenir", fontSize: getProportionateScreenWidth(17)),),
-          Text("\$${widget.product.price}", style: TextStyle(fontFamily: "Avenir-Book", fontSize: getProportionateScreenWidth(15), color: Colors.black.withOpacity(0.4)),),
-        ],
+              ],
+            ),
+            SizedBox(height: 10.h,),
+            Text(widget.product.title, style: TextStyle(fontFamily: "Avenir", fontSize: 17.sp),),
+            Text("\$${widget.product.price}", style: TextStyle(fontFamily: "Avenir-Book", fontSize: 15.sp, color: Colors.black.withOpacity(0.4)),),
+          ],
+        ),
       ),
     );
   }

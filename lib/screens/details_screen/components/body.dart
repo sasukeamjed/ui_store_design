@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/screens/details_screen/components/is_favorite_star.dart';
 import 'package:ui_store_design/screens/details_screen/components/product_image_slider.dart';
 import 'package:ui_store_design/size_config.dart';
@@ -13,10 +14,10 @@ class Body extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(
-            top: getProportionateScreenWidth(20),
-            bottom: 5.0,
-            right: getProportionateScreenWidth(20),
-            left: getProportionateScreenWidth(20),
+            top: 20.h,
+            bottom: 5.h,
+            right: 20.w,
+            left: 20.w,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -24,14 +25,14 @@ class Body extends StatelessWidget {
               Text(
                 "Justo gravida semper",
                 style: TextStyle(
-                    fontSize: getProportionateScreenWidth(20),
+                    fontSize: 20.sp,
                     fontFamily: "Avenir"),
               ),
               Text(
                 "\$24.00",
                 style: TextStyle(
                     color: Color(0xFFFF2D55),
-                    fontSize: getProportionateScreenWidth(20),
+                    fontSize: 20.sp,
                     fontFamily: "Avenir-Book"),
               ),
             ],
@@ -39,7 +40,7 @@ class Body extends StatelessWidget {
         ),
         Padding(
           padding:
-              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+              EdgeInsets.symmetric(horizontal: 20.w),
           child: Row(
             children: [
               ...List.generate(
@@ -48,12 +49,12 @@ class Body extends StatelessWidget {
                         isFavorite: true,
                       )),
               SizedBox(
-                width: 8,
+                width: 8.w,
               ),
               Text(
                 "(323 reviews)",
                 style: TextStyle(
-                    fontSize: getProportionateScreenWidth(15),
+                    fontSize: 15.sp,
                     fontFamily: "Avenir-Book",
                     color: Colors.black.withOpacity(0.4)),
               ),
@@ -61,17 +62,17 @@ class Body extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: getProportionateScreenWidth(20),
+          height: 20.h,
         ),
         ProductImagesSlider(),
         SizedBox(
-          height: 5,
+          height: 5.h,
         ),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: getProportionateScreenWidth(15)),
+                horizontal: 15.w),
             child: Row(
               // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -87,7 +88,7 @@ class Body extends StatelessWidget {
                   child: Text(
                     "Description",
                     style: TextStyle(
-                      fontSize: getProportionateScreenWidth(17),
+                      fontSize: 17.sp,
                       fontFamily: "Avenir",
                       height: 1.5,
                     ),
@@ -95,11 +96,11 @@ class Body extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(
-                      horizontal: getProportionateScreenWidth(48)),
+                      horizontal: 48.w),
                   child: Text(
                     "Review",
                     style: TextStyle(
-                      fontSize: getProportionateScreenWidth(17),
+                      fontSize: 17.sp,
                       fontFamily: "Avenir-Roman",
                       color: Colors.black.withOpacity(0.5),
                       height: 1.5,
@@ -109,7 +110,7 @@ class Body extends StatelessWidget {
                 Text(
                   "Additional information",
                   style: TextStyle(
-                    fontSize: getProportionateScreenWidth(17),
+                    fontSize: 17.sp,
                     fontFamily: "Avenir-Roman",
                     color: Colors.black.withOpacity(0.5),
                     height: 1.5,

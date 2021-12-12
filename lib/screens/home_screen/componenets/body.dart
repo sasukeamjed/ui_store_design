@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/models/product.dart';
 import 'package:ui_store_design/screens/details_screen/details.dart';
 import 'package:ui_store_design/screens/home_screen/componenets/home_upper_header.dart';
@@ -39,15 +40,15 @@ class _BodyState extends State<Body> {
           children: [
             HomeUpperHeader(),
             SizedBox(
-              height: getProportionateScreenHeight(30),
+              height: 30.h,
             ),
             NewArrivalsSection(),
             SizedBox(
-              height: getProportionateScreenHeight(20),
+              height: 20.h,
             ),
             Padding(
               padding: EdgeInsets.only(
-                left: getProportionateScreenWidth(20),
+                left: 20.w,
               ),
               child: Row(
                 children: [
@@ -55,7 +56,7 @@ class _BodyState extends State<Body> {
                     "Best Sellers",
                     style: TextStyle(
                       fontFamily: "Avenir",
-                      fontSize: getProportionateScreenWidth(24),
+                      fontSize: 24.sp,
                     ),
                   ),
                   Spacer(),
@@ -63,14 +64,14 @@ class _BodyState extends State<Body> {
                     "Show all",
                     style: TextStyle(
                         fontFamily: "Avenir-Book",
-                        fontSize: getProportionateScreenWidth(15)),
+                        fontSize: 15.sp),
                   ),
                   Icon(Icons.arrow_right),
                 ],
               ),
             ),
             ListView.builder(
-              padding: EdgeInsets.only(top: getProportionateScreenWidth(10), bottom: getProportionateScreenWidth(10), left: getProportionateScreenWidth(20),),
+              padding: EdgeInsets.only(top: 10.h, bottom: 10.h, left: 20.w,),
               shrinkWrap: true,
               itemCount: bestSellersProducts.length,
               itemBuilder: (context, index) {
@@ -95,15 +96,15 @@ class BestSellerItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: getProportionateScreenWidth(104),
+      height: 104.h,
       width: double.infinity,
       decoration: BoxDecoration(
       ),
       child: Row(
         children: [
-          Image.asset(product.img, height: getProportionateScreenWidth(88), width: getProportionateScreenWidth(88)),
+          Image.asset(product.img, height: 88.h, width: 88.w),
           SizedBox(
-            width: getProportionateScreenWidth(15),
+            width: 15.w,
           ),
           Expanded(
             child: Container(
@@ -121,12 +122,12 @@ class BestSellerItem extends StatelessWidget {
                 children: [
                   Text(
                     product.title,
-                    style: TextStyle(fontSize: getProportionateScreenWidth(17)),
+                    style: TextStyle(fontSize: 17.sp),
                   ),
                   SizedBox(
-                    height: 5,
+                    height: 5.h,
                   ),
-                  Text("\$${product.price}", style: TextStyle(fontSize: getProportionateScreenWidth(15), fontFamily: "Avenir-Book", color: Colors.black.withOpacity(0.4)),),
+                  Text("\$${product.price}", style: TextStyle(fontSize: 15.sp, fontFamily: "Avenir-Book", color: Colors.black.withOpacity(0.4)),),
                 ],
               ),
             ),

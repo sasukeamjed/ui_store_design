@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/components/build_btn.dart';
 import 'package:ui_store_design/components/build_text_form_field.dart';
 import 'package:ui_store_design/screens/forgot_password_screen/forgot_password.dart';
@@ -22,25 +23,25 @@ class Body extends StatelessWidget {
             CloseButton(),
             Padding(
               padding: EdgeInsets.symmetric(
-                  horizontal: getProportionateScreenWidth(42)),
+                  horizontal: 42.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: getProportionateScreenWidth(15),
+                    height: 15.h,
                   ),
                   Padding(
                     padding:
-                        EdgeInsets.only(left: getProportionateScreenWidth(5)),
+                        EdgeInsets.only(left: 5.w),
                     child: Text(
                       "LOGIN",
                       style: TextStyle(
-                          fontSize: getProportionateScreenWidth(30),
+                          fontSize: 30.sp,
                           fontFamily: "Roboto"),
                     ),
                   ),
                   SizedBox(
-                    height: getProportionateScreenWidth(70),
+                    height: 70.h,
                   ),
                   Form(
                     child: Column(
@@ -49,20 +50,20 @@ class Body extends StatelessWidget {
                           hint: "Email",
                         ),
                         SizedBox(
-                          height: getProportionateScreenWidth(30),
+                          height: 30.h,
                         ),
                         BuildTextFormField(
                           hint: "Password",
                         ),
                         SizedBox(
-                          height: getProportionateScreenWidth(90),
+                          height: 90.h,
                         ),
                         BuildButton(
                           press: ()=>Navigator.pushNamed(context, HomeScreen.routeName),
                           text: "LOGIN",
                         ),
                         SizedBox(
-                          height: getProportionateScreenWidth(40),
+                          height: 40.h,
                         ),
                         GestureDetector(
                             onTap: () => Navigator.pushNamed(
@@ -71,14 +72,14 @@ class Body extends StatelessWidget {
                               "Forgot your password?",
                               style: TextStyle(
                                   fontFamily: "Avenir-Book",
-                                  fontSize: getProportionateScreenWidth(17)),
+                                  fontSize: 17.sp),
                             )),
                         SizedBox(
-                          height: getProportionateScreenWidth(80),
+                          height: 80.h,
                         ),
                         SizedBox(
                           width: double.infinity,
-                          height: getProportionateScreenWidth(44),
+                          height: 44.h,
                           child: TextButton(
                             style: OutlinedButton.styleFrom(
                               backgroundColor: Colors.transparent,
@@ -91,14 +92,14 @@ class Body extends StatelessWidget {
                               "LOGIN WITH FACEBOOK",
                               style: TextStyle(
                                   fontFamily: "Avenir",
-                                  fontSize: getProportionateScreenWidth(15),
+                                  fontSize: 15.sp,
                                   color: Colors.blue),
                             ),
                             onPressed: () {},
                           ),
                         ),
                         SizedBox(
-                          height: getProportionateScreenWidth(30),
+                          height: 30.h,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -106,18 +107,18 @@ class Body extends StatelessWidget {
                             Text(
                               "Don't have an account?",
                               style: TextStyle(
-                                  fontSize: getProportionateScreenWidth(17),
+                                  fontSize: 17.sp,
                                   fontFamily: "Avenir-Book"),
                             ),
                             GestureDetector(
                               child: Text(" Sign Up",
-                                  style: TextStyle(fontFamily: "Avenir-Medium", fontSize: getProportionateScreenWidth(17)), ),
+                                  style: TextStyle(fontFamily: "Avenir-Medium", fontSize: 17.sp), ),
                               onTap: ()=> Navigator.pushNamed(context, SignUpScreen.routeName),
                             ),
                           ],
                         ),
                         SizedBox(
-                          height: getProportionateScreenWidth(30),
+                          height: 30.h,
                         ),
                       ],
                     ),
