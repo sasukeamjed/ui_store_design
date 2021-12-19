@@ -12,10 +12,11 @@ class RattingAndReviews extends StatelessWidget {
       child: Row(
         children: [
           ...List.generate(
-              5,
-                  (index) => IsFavoriteStar(
-                isFavorite: true,
-              )),
+            5,
+            (index) => IsFavoriteStar(
+              isFavorite: true,
+            ),
+          ),
           SizedBox(
             width: 8.w,
           ),

@@ -6,10 +6,18 @@ class ScrolledTitles extends StatelessWidget {
     Key? key,
     required ScrollController scrollController,
     required this.initialProductDetailsPage,
-  }) : _scrollController = scrollController, super(key: key);
+    required this.desTap,
+    required this.reviewTap,
+    required this.addInfoTap,
+  })  : _scrollController = scrollController,
+        super(key: key);
 
   final ScrollController _scrollController;
   final int initialProductDetailsPage;
+
+  final GestureTapCallback desTap;
+  final GestureTapCallback reviewTap;
+  final GestureTapCallback addInfoTap;
 
   @override
   Widget build(BuildContext context) {
@@ -20,63 +28,84 @@ class ScrolledTitles extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 15.w),
         child: Row(
           children: [
-            Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: initialProductDetailsPage == 0 ? Colors.black : Colors.transparent,
-                    width: 2.5,
-                  ),
-                ),
-              ),
-              child: Text(
-                "Description",
-                style: TextStyle(
-                  fontSize: 17.sp,
-                  fontFamily: "Avenir",
-                  height: 1.5,
-                  color: initialProductDetailsPage == 0 ? Colors.black : Colors.black.withOpacity(0.5),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 48.w),
+            GestureDetector(
+              onTap: desTap,
               child: Container(
                 decoration: BoxDecoration(
                   border: Border(
                     bottom: BorderSide(
-                      color: initialProductDetailsPage == 1 ? Colors.black : Colors.transparent,
+                      color: initialProductDetailsPage == 0
+                          ? Colors.black
+                          : Colors.transparent,
                       width: 2.5,
                     ),
                   ),
                 ),
                 child: Text(
-                  "Review",
+                  "Description",
                   style: TextStyle(
                     fontSize: 17.sp,
-                    fontFamily: "Avenir-Roman",
-                    color: initialProductDetailsPage == 1 ? Colors.black : Colors.black.withOpacity(0.5),
+                    fontFamily: "Avenir",
                     height: 1.5,
+                    color: initialProductDetailsPage == 0
+                        ? Colors.black
+                        : Colors.black.withOpacity(0.5),
                   ),
                 ),
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(
-                    color: initialProductDetailsPage == 2 ? Colors.black : Colors.transparent,
-                    width: 2.5,
+            GestureDetector(
+              onTap: reviewTap,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 48.w),
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(
+                        color: initialProductDetailsPage == 1
+                            ? Colors.black
+                            : Colors.transparent,
+                        width: 2.5,
+                      ),
+                    ),
+                  ),
+                  child: Text(
+                    "Review",
+                    style: TextStyle(
+                      fontSize: 17.sp,
+                      fontFamily: "Avenir-Roman",
+                      color: initialProductDetailsPage == 1
+                          ? Colors.black
+                          : Colors.black.withOpacity(0.5),
+                      height: 1.5,
+                    ),
                   ),
                 ),
               ),
-              child: Text(
-                "Additional information",
-                style: TextStyle(
-                  fontSize: 17.sp,
-                  fontFamily: "Avenir-Roman",
-                  color: initialProductDetailsPage == 2 ? Colors.black : Colors.black.withOpacity(0.5),
-                  height: 1.5,
+            ),
+            GestureDetector(
+              onTap: addInfoTap,
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: initialProductDetailsPage == 2
+                          ? Colors.black
+                          : Colors.transparent,
+                      width: 2.5,
+                    ),
+                  ),
+                ),
+                child: Text(
+                  "Additional information",
+                  style: TextStyle(
+                    fontSize: 17.sp,
+                    fontFamily: "Avenir-Roman",
+                    color: initialProductDetailsPage == 2
+                        ? Colors.black
+                        : Colors.black.withOpacity(0.5),
+                    height: 1.5,
+                  ),
                 ),
               ),
             ),
