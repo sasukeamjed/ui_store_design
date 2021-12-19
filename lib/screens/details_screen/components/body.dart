@@ -33,7 +33,10 @@ class _BodyState extends State<Body> {
           height: 18.h,
         ),
         ProductDescriptionSection(),
-
+        BuildButton(press: (){}, text: "ADD TO CART"),
+        SizedBox(
+          height: 34.h,
+        ),
       ],
     );
   }

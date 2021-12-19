@@ -8,7 +8,7 @@ class ProductMainTitleWithPrice extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        top: 20.h,
+        top: 15.h,
         bottom: 5.h,
         right: 20.w,
         left: 20.w,
