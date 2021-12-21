@@ -85,7 +85,7 @@ class _ProductDescriptionSectionState extends State<ProductDescriptionSection> {
                 });
               },
               children: [
-                ProductDetails(),
+                SingleChildScrollView(child: ProductDetails()),
                 PageTwo(),
                 PageThree(),
               ],
