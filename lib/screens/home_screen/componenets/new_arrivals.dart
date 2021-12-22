@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/models/product.dart';
-import 'package:ui_store_design/size_config.dart';
+import 'package:ui_store_design/screens/details_screen_2/details_screen_2.dart';
 
 class NewArrivalsSection extends StatelessWidget {
   const NewArrivalsSection({
@@ -46,7 +46,7 @@ class NewArrivalsSection extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: products.length,
               itemBuilder: (context, index){
-                return NewArrivalItem(product: products[index]);
+                return GestureDetector(child: NewArrivalItem(product: products[index]), onTap: ()=> Navigator.of(context).pushNamed(DetailsScreen2.routeName),);
               },
             ),
           ),

@@ -16,7 +16,9 @@ class DetailsScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Color(0xFFFFFFFF),
         elevation: 0.2,
-        leading: IconButton(onPressed: ()=> Navigator.of(context).pop(), icon: Icon(Icons.arrow_back)),
+        leading: IconButton(
+            onPressed: () => Navigator.of(context).pop(),
+            icon: Icon(Icons.arrow_back)),
         actions: [
           Icon(Icons.search),
           SizedBox(
@@ -27,20 +29,30 @@ class DetailsScreen extends StatelessWidget {
             width: 20.w,
           ),
         ],
-        title: Text("Lambs", style: TextStyle(color: Colors.black, ),),
+        title: Text(
+          "Lambs",
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
         centerTitle: true,
       ),
       body: Body(),
       bottomNavigationBar: Row(
         children: [
-          Expanded(child: BuildButton(press: (){}, text: "ADD TO CART",)),
+          Expanded(
+            child: BuildButton(
+              press: () {},
+              text: "ADD TO CART",
+            ),
+          ),
           Container(
             padding: EdgeInsets.all(10.h),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.black, width: 2),
             ),
             child: SvgPicture.asset("assets/icons/left_curved_arrow.svg"),
-          )
+          ),
         ],
       ),
     );
