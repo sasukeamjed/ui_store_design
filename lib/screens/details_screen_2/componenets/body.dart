@@ -65,9 +65,73 @@ class Body extends StatelessWidget {
             ],
           ),
         ),
-        Divider(),
-        Text("Colors",),
+        Divider(
+          height: 30.h,
+          color: Colors.black12,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Colors",
+                style: TextStyle(fontSize: 20.sp, fontFamily: "Avenir"),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ...List.generate(6, (index) => ColorCircle(color: colors[index],)),
+                ],
+              ),
+            ],
+          ),
+        ),
+        Divider(
+          height: 40.h,
+          color: Colors.black12,
+        ),
+        Row(
+          children: [
+            Text(
+              "You may also like",
+              style: TextStyle(
+                fontFamily: "Avenir",
+                fontSize: 20.sp,
+              ),
+            ),
+            Spacer(),
+            Text(
+              "Show all",
+              style: TextStyle(
+                  fontFamily: "Avenir-Book",
+                  fontSize: 15.sp),
+            ),
+            Icon(Icons.arrow_right),
+          ],
+        )
       ],
+    );
+  }
+}
+
+List<Color> colors = [Color(0xFFDDB692), Color(0xFF007AFF), Color(0xFFFF9500), Color(0xFFFF2D55), Color(0xFF5856D6), Color(0xFFE5E5EA)];
+
+class ColorCircle extends StatelessWidget {
+  const ColorCircle({Key? key, required this.color}) : super(key: key);
+  final Color color;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 44.w,
+      width: 44.w,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: color,
+      ),
     );
   }
 }
