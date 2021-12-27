@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ui_store_design/components/custom_expansion_tile.dart';
 import 'package:ui_store_design/screens/details_screen/components/is_favorite_star.dart';
 import 'package:ui_store_design/screens/details_screen/components/product_image_slider.dart';
 
 //Details2_Body
 
 class Body extends StatelessWidget {
-
-
-  List<String> images = ["assets/images/details2_products/item_1.jpg", "assets/images/details2_products/item_2.jpg","assets/images/details2_products/item_3.jpg","assets/images/details2_products/item_4.jpg"];
+  List<String> images = [
+    "assets/images/details2_products/item_1.jpg",
+    "assets/images/details2_products/item_2.jpg",
+    "assets/images/details2_products/item_3.jpg",
+    "assets/images/details2_products/item_4.jpg"
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +91,11 @@ class Body extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ...List.generate(6, (index) => ColorCircle(color: colors[index],)),
+                    ...List.generate(
+                        6,
+                        (index) => ColorCircle(
+                              color: colors[index],
+                            )),
                   ],
                 ),
               ],
@@ -111,9 +119,7 @@ class Body extends StatelessWidget {
                 Spacer(),
                 Text(
                   "Show all",
-                  style: TextStyle(
-                      fontFamily: "Avenir-Book",
-                      fontSize: 15.sp),
+                  style: TextStyle(fontFamily: "Avenir-Book", fontSize: 15.sp),
                 ),
                 Icon(Icons.arrow_right),
               ],
@@ -125,7 +131,8 @@ class Body extends StatelessWidget {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
-              children: List.generate(images.length, (index) => buildPossiblyLikedProducts(images[index])),
+              children: List.generate(images.length,
+                  (index) => buildPossiblyLikedProducts(images[index])),
             ),
           ),
           Divider(
@@ -134,14 +141,20 @@ class Body extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.w),
-            child: Text("Description", style: TextStyle(fontSize: 20.sp, fontFamily: "Avenir"),),
+            child: Text(
+              "Description",
+              style: TextStyle(fontSize: 20.sp, fontFamily: "Avenir"),
+            ),
           ),
           SizedBox(
             height: 10.h,
           ),
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 15.w),
-            child: Text("Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.", style: TextStyle(fontSize: 17.sp, fontFamily: "Avenir-Book"),),
+            child: Text(
+              "Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus.",
+              style: TextStyle(fontSize: 17.sp, fontFamily: "Avenir-Book"),
+            ),
           ),
           SizedBox(
             height: 10.h,
@@ -254,27 +267,51 @@ class Body extends StatelessWidget {
               ],
             ),
           ),
+          ListTile(
+            contentPadding: EdgeInsets.all(0),
+            minVerticalPadding: 0,
+            horizontalTitleGap: 0,
+            leading: Icon(Icons.arrow_right),
+            title: Text("COMPOSITION AND CARE"),
+          ),
+          CustomExpansionTile(
+            leading: Icon(Icons.arrow_right),
+            title: Text("COMPOSITION AND CARE"),
+          ),
         ],
       ),
     );
   }
 
-  buildPossiblyLikedProducts(String image){
+  buildPossiblyLikedProducts(String image) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 15.w),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
-        child: Image.asset(image, height: 88.w, width: 88.w, fit: BoxFit.cover,),
+        child: Image.asset(
+          image,
+          height: 88.w,
+          width: 88.w,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
 }
 
-List<Color> colors = [Color(0xFFDDB692), Color(0xFF007AFF), Color(0xFFFF9500), Color(0xFFFF2D55), Color(0xFF5856D6), Color(0xFFE5E5EA)];
+List<Color> colors = [
+  Color(0xFFDDB692),
+  Color(0xFF007AFF),
+  Color(0xFFFF9500),
+  Color(0xFFFF2D55),
+  Color(0xFF5856D6),
+  Color(0xFFE5E5EA)
+];
 
 class ColorCircle extends StatelessWidget {
   const ColorCircle({Key? key, required this.color}) : super(key: key);
   final Color color;
+
   @override
   Widget build(BuildContext context) {
     return Container(
