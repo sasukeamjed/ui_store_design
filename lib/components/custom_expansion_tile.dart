@@ -81,7 +81,7 @@ class CustomExpansionTile extends StatefulWidget {
 class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTickerProviderStateMixin {
   static final Animatable<double> _easeOutTween = CurveTween(curve: Curves.easeOut);
   static final Animatable<double> _easeInTween = CurveTween(curve: Curves.easeIn);
-  static final Animatable<double> _halfTween = Tween<double>(begin: 0.0, end: 0.5);
+  static final Animatable<double> _halfTween = Tween<double>(begin: 0.0, end: 0.25);
 
   final ColorTween _borderColorTween = ColorTween();
   final ColorTween _headerColorTween = ColorTween();
@@ -92,8 +92,8 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
   late Animation<double> _iconTurns;
   late Animation<double> _heightFactor;
   late Animation<Color?> _borderColor;
-  late Animation<Color?> _headerColor;
-  late Animation<Color?> _iconColor;
+  // late Animation<Color?> _headerColor;
+  // late Animation<Color?> _iconColor;
   late Animation<Color?> _backgroundColor;
 
   bool _isExpanded = false;
@@ -105,8 +105,8 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
     _heightFactor = _controller.drive(_easeInTween);
     _iconTurns = _controller.drive(_halfTween.chain(_easeInTween));
     _borderColor = _controller.drive(_borderColorTween.chain(_easeOutTween));
-    _headerColor = _controller.drive(_headerColorTween.chain(_easeInTween));
-    _iconColor = _controller.drive(_iconColorTween.chain(_easeInTween));
+    // _headerColor = _controller.drive(_headerColorTween.chain(_easeInTween));
+    // _iconColor = _controller.drive(_iconColorTween.chain(_easeInTween));
     _backgroundColor = _controller.drive(_backgroundColorTween.chain(_easeOutTween));
 
     _isExpanded = PageStorage.of(context)?.readState(context) as bool? ?? widget.initiallyExpanded;
@@ -153,7 +153,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
   Widget? _buildIcon(BuildContext context) {
     return RotationTransition(
       turns: _iconTurns,
-      child: const Icon(Icons.arrow_right),
+      child: const Icon(Icons.arrow_right, color: Colors.black,),
     );
   }
 
@@ -184,8 +184,8 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           ListTileTheme.merge(
-            iconColor: _iconColor.value,
-            textColor: _headerColor.value,
+            // iconColor: _iconColor.value,
+            // textColor: _headerColor.value,
             child: ListTile(
               onTap: _handleTap,
               minVerticalPadding: 0,

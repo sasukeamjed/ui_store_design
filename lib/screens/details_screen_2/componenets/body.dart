@@ -267,16 +267,26 @@ class Body extends StatelessWidget {
               ],
             ),
           ),
-          ListTile(
-            contentPadding: EdgeInsets.all(0),
-            minVerticalPadding: 0,
-            horizontalTitleGap: 0,
-            leading: Icon(Icons.arrow_right),
-            title: Text("COMPOSITION AND CARE"),
-          ),
           CustomExpansionTile(
             leading: Icon(Icons.arrow_right),
             title: Text("COMPOSITION AND CARE"),
+            children: [
+              Text("this is the children of the expansion tile widget"),
+            ],
+          ),
+          CustomExpansionTile(
+            leading: Icon(Icons.arrow_right),
+            title: Text("SHIPPING AND RETURNS"),
+            children: [
+              Text("this is the children of the expansion tile widget"),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.only(left:15.w),
+            child: Text("Similar Items",style: TextStyle(fontSize: 20.sp, fontFamily: "Avenir"),),
+          ),
+          SizedBox(
+            height: 10.h,
           ),
         ],
       ),
