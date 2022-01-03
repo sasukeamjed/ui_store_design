@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/models/product.dart';
 import 'package:ui_store_design/screens/details_screen_2/details_screen_2.dart';
 
-class NewArrivalsSection extends StatelessWidget {
-  const NewArrivalsSection({
+class SimilarItemsSection extends StatelessWidget {
+  const SimilarItemsSection({
     Key? key,
   }) : super(key: key);
 
@@ -17,36 +17,14 @@ class NewArrivalsSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Text(
-                "New Arrivals",
-                style: TextStyle(
-                  fontFamily: "Avenir",
-                  fontSize: 24.sp,
-                ),
-              ),
-              Spacer(),
-              Text(
-                "Show all",
-                style: TextStyle(
-                    fontFamily: "Avenir-Book",
-                    fontSize: 15.sp),
-              ),
-              Icon(Icons.arrow_right),
-            ],
-          ),
           SizedBox(
-            height: 10.h,
-          ),
-          SizedBox(
-            height: 197.h,
+            height: 280.h,
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemCount: products.length,
               itemBuilder: (context, index){
-                return GestureDetector(child: NewArrivalItem(product: products[index]), onTap: ()=> Navigator.of(context).pushNamed(DetailsScreen2.routeName),);
+                return GestureDetector(child: SimilarItem(product: products[index]), onTap: ()=> Navigator.of(context).pushNamed(DetailsScreen2.routeName),);
               },
             ),
           ),
@@ -56,18 +34,18 @@ class NewArrivalsSection extends StatelessWidget {
   }
 }
 
-class NewArrivalItem extends StatefulWidget {
-  const NewArrivalItem({
+class SimilarItem extends StatefulWidget {
+  const SimilarItem({
     Key? key, required this.product,
   }) : super(key: key);
 
   final Product product;
 
   @override
-  State<NewArrivalItem> createState() => _NewArrivalItemState();
+  State<SimilarItem> createState() => _SimilarItemState();
 }
 
-class _NewArrivalItemState extends State<NewArrivalItem> {
+class _SimilarItemState extends State<SimilarItem> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -78,7 +56,7 @@ class _NewArrivalItemState extends State<NewArrivalItem> {
           Stack(
             children: [
               Image.asset(
-                  widget.product.img, width: 140.w, height: 140.h, fit: BoxFit.cover,),
+                widget.product.img, width: 165.w, height: 200.h, fit: BoxFit.cover,),
               Positioned(
                 right: 1,
                 child: GestureDetector(
@@ -95,7 +73,7 @@ class _NewArrivalItemState extends State<NewArrivalItem> {
               ),
             ],
           ),
-          SizedBox(height: 10.h,),
+          SizedBox(height: 17.h,),
           Text(widget.product.title, style: TextStyle(fontFamily: "Avenir", fontSize: 17.sp),),
           Text("\$${widget.product.price}", style: TextStyle(fontFamily: "Avenir-Book", fontSize: 15.sp, color: Colors.black.withOpacity(0.4)),),
         ],
@@ -103,3 +81,4 @@ class _NewArrivalItemState extends State<NewArrivalItem> {
     );
   }
 }
+
