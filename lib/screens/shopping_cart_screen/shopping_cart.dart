@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ui_store_design/screens/shopping_cart_screen/components/body.dart';
 
 class ShoppingCart extends StatelessWidget {
   const ShoppingCart({Key? key}) : super(key: key);
@@ -7,6 +8,13 @@ class ShoppingCart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        leading: CloseButton(),
+      ),
+      body: Body(),
+    );
   }
 }
