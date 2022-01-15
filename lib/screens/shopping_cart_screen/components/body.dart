@@ -9,33 +9,61 @@ class Body extends StatelessWidget {
   //shopping_cart body
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 15.w),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 20.h,
-          ),
-          Text(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          height: 20.h,
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 15.w),
+          child: Text(
             "Shopping Cart",
             style: TextStyle(fontSize: 34.sp, fontFamily: "Avenir"),
           ),
-          SizedBox(
-            height: 30.h,
-          ),
-          Text(
+        ),
+        SizedBox(
+          height: 30.h,
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 15.w),
+          child: Text(
             "4 items",
             style: TextStyle(fontSize: 20.sp, fontFamily: "Avenir"),
           ),
-          //ToDo: change the container to sizedbox widget
-          SizedBox(
+        ),
+        SizedBox(
+          height: 10.h,
+        ),
+        //ToDo: change the container to sizedbox widget
+        Padding(
+          padding: EdgeInsets.only(left: 15.w),
+          child: SizedBox(
             // color: Colors.red,
             height: 360.h,
-            child: ,
+            child: ListView.builder(
+              itemCount: shoppingCartProducts.length,
+              itemBuilder: (context, index){
+                return CartItem(image: "assets/images/cart_items/cart_item_1.jpg", itemsCount: 2, product: shoppingCartProducts[index],);
+              },
+            ),
           ),
-        ],
-      ),
+        ),
+        SizedBox(
+          height: 65.h,
+        ),
+        Container(
+          color: Colors.green,
+          height: 108.h,
+          width: double.infinity,
+          padding: EdgeInsets.only(
+            top: 19.h,
+            right: 15.w,
+            left: 15.w,
+            bottom: 8.h,
+          ),
+        ),
+      ],
     );
   }
 
