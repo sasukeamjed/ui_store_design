@@ -12,66 +12,257 @@ class Body extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          height: 20.h,
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: 15.w),
-          child: Text(
-            "Shopping Cart",
-            style: TextStyle(fontSize: 34.sp, fontFamily: "Avenir"),
-          ),
-        ),
-        SizedBox(
-          height: 30.h,
-        ),
-        Padding(
-          padding: EdgeInsets.only(left: 15.w),
-          child: Text(
-            "4 items",
-            style: TextStyle(fontSize: 20.sp, fontFamily: "Avenir"),
-          ),
-        ),
-        SizedBox(
-          height: 10.h,
-        ),
-        //ToDo: change the container to sizedbox widget
-        Padding(
-          padding: EdgeInsets.only(left: 15.w),
-          child: SizedBox(
-            // color: Colors.red,
-            height: 360.h,
-            child: ListView.builder(
-              itemCount: shoppingCartProducts.length,
-              itemBuilder: (context, index){
-                return CartItem(image: "assets/images/cart_items/cart_item_1.jpg", itemsCount: 2, product: shoppingCartProducts[index],);
-              },
+        Expanded(
+          flex: 1,
+          child: Padding(
+            padding: EdgeInsets.only(left: 15.w),
+            child: Container(
+              // color: Colors.green,
+              child: Align(
+                alignment: Alignment.bottomLeft,
+                child: Text(
+                  "Shopping Cart",
+                  style: TextStyle(fontSize: 34.sp, fontFamily: "Avenir"),
+                ),
+              ),
             ),
           ),
         ),
-        SizedBox(
-          height: 65.h,
+        Divider(),
+        //ToDo: change the container to sizedbox widget
+        Expanded(
+          flex: 8,
+          child: Padding(
+            padding: EdgeInsets.only(left: 15.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  // color: Colors.orange,
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(vertical: 10.h),
+                    child: Text(
+                      "4 items",
+                      style: TextStyle(fontSize: 20.sp, fontFamily: "Avenir"),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 4,
+                  child: Container(
+                    // color: Colors.blue,
+                    child: ListView.builder(
+                      itemCount: shoppingCartProducts.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 15.0.h),
+                          child: CartItem(
+                            image: "assets/images/cart_items/cart_item_1.jpg",
+                            itemsCount: 2,
+                            product: shoppingCartProducts[index],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-        Container(
-          color: Colors.green,
-          height: 108.h,
-          width: double.infinity,
-          padding: EdgeInsets.only(
-            top: 19.h,
-            right: 15.w,
-            left: 15.w,
-            bottom: 8.h,
+        Expanded(
+          flex: 3,
+          child: Column(
+            children: [
+              Expanded(
+                flex: 1,
+                child: SizedBox(),
+              ),
+              Expanded(
+                flex: 3,
+                child: Container(
+                  padding: EdgeInsets.only(top: 20.h, left: 15.w, right: 15.w,),
+                  decoration: BoxDecoration(
+                    border: Border(
+                      top: BorderSide(
+                        color: Colors.grey.withOpacity(0.3),
+                        style: BorderStyle.solid,
+                      ),
+                    ),
+                  ),
+                  // color: Colors.green,
+                  width: double.infinity,
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Shipping fee:",
+                            style: TextStyle(
+                              fontSize: 17.sp,
+                              fontFamily: "Avenir-Book",
+                              color: Colors.black.withOpacity(0.4),
+                            ),
+                          ),
+                          Text(
+                            "\$6.99",
+                            style: TextStyle(
+                              fontSize: 17.sp,
+                              fontFamily: "Avenir-Book",
+                              color: Colors.black.withOpacity(0.4),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Sub total:",
+                            style: TextStyle(
+                              fontSize: 17.sp,
+                              fontFamily: "Avenir-Book",
+                              color: Colors.black.withOpacity(0.4),
+                            ),
+                          ),
+                          Text(
+                            "\$79.99",
+                            style: TextStyle(
+                              fontSize: 17.sp,
+                              fontFamily: "Avenir-Book",
+                              color: Colors.black.withOpacity(0.4),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Total:",
+                            style: TextStyle(
+                              fontSize: 17.sp,
+                              fontFamily: "Avenir",
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            "\$86.98",
+                            style: TextStyle(
+                              fontSize: 17.sp,
+                              fontFamily: "Avenir",
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          flex: 2,
+          child: Container(
+            width: double.infinity,
+            color: Colors.black,
+            child: Center(
+              child: Text(
+                "CHECKOUT",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15.sp,
+                  fontFamily: "Avenir",
+                ),
+              ),
+            ),
           ),
         ),
       ],
     );
   }
-
-
 }
 
+// class Body extends StatelessWidget {
+//   const Body({Key? key}) : super(key: key);
+//
+//   //shopping_cart body
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         SizedBox(
+//           height: 20.h,
+//         ),
+//         Padding(
+//           padding: EdgeInsets.only(left: 15.w),
+//           child: Text(
+//             "Shopping Cart",
+//             style: TextStyle(fontSize: 34.sp, fontFamily: "Avenir"),
+//           ),
+//         ),
+//         SizedBox(
+//           height: 30.h,
+//         ),
+//         Padding(
+//           padding: EdgeInsets.only(left: 15.w),
+//           child: Text(
+//             "4 items",
+//             style: TextStyle(fontSize: 20.sp, fontFamily: "Avenir"),
+//           ),
+//         ),
+//         SizedBox(
+//           height: 10.h,
+//         ),
+//         //ToDo: change the container to sizedbox widget
+//         Padding(
+//           padding: EdgeInsets.only(left: 15.w),
+//           child: SizedBox(
+//             // color: Colors.red,
+//             height: 360.h,
+//             child: ListView.builder(
+//               itemCount: shoppingCartProducts.length,
+//               itemBuilder: (context, index){
+//                 return CartItem(image: "assets/images/cart_items/cart_item_1.jpg", itemsCount: 2, product: shoppingCartProducts[index],);
+//               },
+//             ),
+//           ),
+//         ),
+//         SizedBox(
+//           height: 65.h,
+//         ),
+//         Container(
+//           color: Colors.green,
+//           height: 108.h,
+//           width: double.infinity,
+//           padding: EdgeInsets.only(
+//             top: 19.h,
+//             right: 15.w,
+//             left: 15.w,
+//             bottom: 8.h,
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+//
+//
+// }
+
 class CartItem extends StatelessWidget {
-  const CartItem({Key? key, required this.image, required this.itemsCount, required this.product}) : super(key: key);
+  const CartItem(
+      {Key? key,
+      required this.image,
+      required this.itemsCount,
+      required this.product})
+      : super(key: key);
 
   final String image;
   final int itemsCount;
@@ -125,8 +316,7 @@ class CartItem extends StatelessWidget {
                       height: 10.w,
                       width: 10.w,
                       decoration: BoxDecoration(
-                        border:
-                        Border.all(width: 1, color: Colors.black),
+                        border: Border.all(width: 1, color: Colors.black),
                         shape: BoxShape.circle,
                         color: Colors.black,
                       ),
@@ -200,17 +390,16 @@ class CartItem extends StatelessWidget {
             ),
             child: Center(
                 child: Text(
-                  "$itemsCount",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: "Avenir-Medium",
-                    fontSize: 11.sp,
-                  ),
-                )),
+              "$itemsCount",
+              style: TextStyle(
+                color: Colors.white,
+                fontFamily: "Avenir-Medium",
+                fontSize: 11.sp,
+              ),
+            )),
           ),
         ),
       ],
     );
   }
 }
-
