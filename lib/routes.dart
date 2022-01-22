@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:ui_store_design/screens/checkout_screen/checkout.dart';
 import 'package:ui_store_design/screens/details_screen/details.dart';
 import 'package:ui_store_design/screens/details_screen_2/details_screen_2.dart';
 import 'package:ui_store_design/screens/forgot_password_screen/forgot_password.dart';
@@ -17,4 +18,5 @@ Map<String, WidgetBuilder> routes = {
   DetailsScreen.routeName : (context)=>DetailsScreen(),
   DetailsScreen2.routeName : (context)=>DetailsScreen2(),
   ShoppingCart.routeName : (context)=>ShoppingCart(),
+  Checkout.routeName : (context)=>Checkout(),
 };

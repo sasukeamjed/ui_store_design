@@ -31,6 +31,7 @@ dependencies:
   flutter_screenutil: ^5.0.1
   flutter_svg: ^1.0.0
   auto_size_text: ^3.0.0
+  dotted_border: ^2.0.0+2
 
 dev_dependencies:
   flutter_test:
