@@ -1,11 +1,13 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class Body extends StatelessWidget {
 
 
-  bool checkAddress = true;
+  bool checkAddress = false;
 
   //Body of Checkout Page
   @override
@@ -30,12 +32,50 @@ class Body extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.only(left: 15.w),
-          child: checkAddress ? EmptyAddress() : SizedBox(),
+          child: checkAddress ? EmptyAddress() : Address(),
         ),
       ],
     );
   }
 }
+
+class Address extends StatelessWidget {
+  const Address({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 70.h,
+      width: 310.w,
+      decoration: BoxDecoration(
+        color: Color(0xFFF3F3F3),
+        borderRadius: BorderRadius.circular(12),
+        boxShadow: [
+          BoxShadow(
+            offset: Offset(0,5),
+            spreadRadius: 0.5,
+            blurRadius: 8,
+            color: Color(0xFFACB1C0).withOpacity(0.3),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            height: 50.w,
+            width: 50.w,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(14),
+            ),
+            child: SvgPicture.asset("assets/icons/home_icon_address.svg", color: Colors.blue, fit: BoxFit.fitHeight,)
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 
 class EmptyAddress extends StatelessWidget {
   const EmptyAddress({
@@ -57,7 +97,7 @@ class EmptyAddress extends StatelessWidget {
               SizedBox(
                 height: 5,
               ),
-              Text("Add your address here", style: TextStyle(fontFamily: "Avenir-Book", fontSize: 14.sp, color: Colors.black.withOpacity(0.4),),),
+              Text("Add a new address", style: TextStyle(fontFamily: "Avenir-Book", fontSize: 14.sp, color: Colors.black.withOpacity(0.4),),),
               Icon(Icons.add, color: Colors.black.withOpacity(0.4),),
             ],
           ),
