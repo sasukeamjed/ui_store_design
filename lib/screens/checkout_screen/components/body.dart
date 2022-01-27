@@ -5,8 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Body extends StatelessWidget {
-
-
   bool checkAddress = false;
 
   //Body of Checkout Page
@@ -32,7 +30,11 @@ class Body extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.only(left: 15.w),
-          child: checkAddress ? EmptyAddress() : Address(),
+          child: Row(
+            children: [
+              Address(),
+            ],
+          ),
         ),
       ],
     );
@@ -45,6 +47,7 @@ class Address extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(right: 15.w),
       height: 70.h,
       width: 310.w,
       decoration: BoxDecoration(
@@ -52,7 +55,7 @@ class Address extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            offset: Offset(0,5),
+            offset: Offset(0, 5),
             spreadRadius: 0.5,
             blurRadius: 8,
             color: Color(0xFFACB1C0).withOpacity(0.3),
@@ -62,20 +65,57 @@ class Address extends StatelessWidget {
       child: Row(
         children: [
           Container(
-            height: 50.w,
-            width: 50.w,
+              padding: EdgeInsets.all(8.w),
+              height: 50.w,
+              width: 50.w,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(14),
+              ),
+              child: SvgPicture.asset(
+                "assets/icons/home_icon_address.svg",
+                color: Colors.blue,
+                fit: BoxFit.fitHeight,
+              )),
+          SizedBox(
+            width: 10.w,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "658 Yost Island Apt",
+                style: TextStyle(
+                  fontFamily: "Avenir",
+                  fontSize: 17.sp,
+                ),
+              ),
+              Text(
+                "Seattle, US",
+                style: TextStyle(
+                  fontFamily: "Avenir-Book",
+                  fontSize: 15.sp,
+                  color: Colors.black.withOpacity(0.4),
+                ),
+              ),
+            ],
+          ),
+          Spacer(),
+          Container(
+            height: 21.w,
+            width: 21.w,
             decoration: BoxDecoration(
+              shape: BoxShape.circle,
               color: Colors.white,
-              borderRadius: BorderRadius.circular(14),
             ),
-            child: SvgPicture.asset("assets/icons/home_icon_address.svg", color: Colors.blue, fit: BoxFit.fitHeight,)
+            child: SvgPicture.asset('assets/icons/check_shipping_address_mark.svg'),
           ),
         ],
       ),
     );
   }
 }
-
 
 class EmptyAddress extends StatelessWidget {
   const EmptyAddress({
@@ -97,8 +137,18 @@ class EmptyAddress extends StatelessWidget {
               SizedBox(
                 height: 5,
               ),
-              Text("Add a new address", style: TextStyle(fontFamily: "Avenir-Book", fontSize: 14.sp, color: Colors.black.withOpacity(0.4),),),
-              Icon(Icons.add, color: Colors.black.withOpacity(0.4),),
+              Text(
+                "Add a new address",
+                style: TextStyle(
+                  fontFamily: "Avenir-Book",
+                  fontSize: 14.sp,
+                  color: Colors.black.withOpacity(0.4),
+                ),
+              ),
+              Icon(
+                Icons.add,
+                color: Colors.black.withOpacity(0.4),
+              ),
             ],
           ),
         ),
