@@ -40,7 +40,7 @@ class NewArrivalsSection extends StatelessWidget {
             height: 10.h,
           ),
           SizedBox(
-            height: 197.h,
+            height: 200.h,
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,

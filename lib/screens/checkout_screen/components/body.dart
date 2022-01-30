@@ -28,11 +28,13 @@ class Body extends StatelessWidget {
             style: TextStyle(fontSize: 20.sp, fontFamily: "Avenir"),
           ),
         ),
-        Padding(
-          padding: EdgeInsets.only(left: 15.w),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
           child: Row(
             children: [
               Address(),
+              EmptyAddress(),
+
             ],
           ),
         ),
@@ -47,7 +49,8 @@ class Address extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(right: 15.w),
+      margin: EdgeInsets.all(15.w),
+      padding: EdgeInsets.symmetric(horizontal: 15.w),
       height: 70.h,
       width: 310.w,
       decoration: BoxDecoration(
