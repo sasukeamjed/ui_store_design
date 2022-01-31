@@ -128,11 +128,11 @@ class EmptyAddress extends StatefulWidget {
 }
 
 class _EmptyAddressState extends State<EmptyAddress> {
-  String _chosenValue = 'Interior';
+  String _chosenValue = "Interior";
 
   DropdownMenuItem<String> buildDropDownMenuItem(String item){
     return DropdownMenuItem(
-      value: _chosenValue,
+      value: item,
       child: Text(item),
     );
   }
