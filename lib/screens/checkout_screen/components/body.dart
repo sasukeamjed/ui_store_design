@@ -121,38 +121,57 @@ class Address extends StatelessWidget {
 }
 
 class EmptyAddress extends StatelessWidget {
-  const EmptyAddress({
-    Key? key,
-  }) : super(key: key);
+
+
+  late String _chosenValue;
 
   @override
   Widget build(BuildContext context) {
-    return DottedBorder(
-      color: Color(0xFF0C66FF).withOpacity(0.9),
-      strokeWidth: 3,
-      dashPattern: [12, 6],
-      child: Container(
-        height: 70.h,
-        width: 310.w,
-        child: Center(
-          child: Column(
+    return GestureDetector(
+      onTap: (){
+        showModalBottomSheet(context: context, builder: (context){
+          return Column(
             children: [
-              SizedBox(
-                height: 5,
-              ),
-              Text(
-                "Add a new address",
-                style: TextStyle(
-                  fontFamily: "Avenir-Book",
-                  fontSize: 14.sp,
-                  color: Colors.black.withOpacity(0.4),
-                ),
-              ),
-              Icon(
-                Icons.add,
-                color: Colors.black.withOpacity(0.4),
+              DropdownButton<String>(
+                focusColor: Colors.white,
+                value: _chosenValue,
+                items: <String>[
+                  'Interior',
+                  'Dofar',
+                  'Al Dahirah'
+                ].map<DropdownMenuItem<String>>((String value){return DropdownMenuItem(value: value, child: Text(value),);}).toList(),
               ),
             ],
+          );
+        });
+      },
+      child: DottedBorder(
+        color: Color(0xFF0C66FF).withOpacity(0.9),
+        strokeWidth: 3,
+        dashPattern: [12, 6],
+        child: Container(
+          height: 70.h,
+          width: 310.w,
+          child: Center(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 5,
+                ),
+                Text(
+                  "Add a new address",
+                  style: TextStyle(
+                    fontFamily: "Avenir-Book",
+                    fontSize: 14.sp,
+                    color: Colors.black.withOpacity(0.4),
+                  ),
+                ),
+                Icon(
+                  Icons.add,
+                  color: Colors.black.withOpacity(0.4),
+                ),
+              ],
+            ),
           ),
         ),
       ),
