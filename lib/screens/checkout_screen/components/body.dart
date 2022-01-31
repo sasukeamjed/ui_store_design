@@ -120,10 +120,22 @@ class Address extends StatelessWidget {
   }
 }
 
-class EmptyAddress extends StatelessWidget {
+class EmptyAddress extends StatefulWidget {
 
 
-  late String _chosenValue;
+  @override
+  State<EmptyAddress> createState() => _EmptyAddressState();
+}
+
+class _EmptyAddressState extends State<EmptyAddress> {
+  String _chosenValue = 'Interior';
+
+  DropdownMenuItem<String> buildDropDownMenuItem(String item){
+    return DropdownMenuItem(
+      value: _chosenValue,
+      child: Text(item),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -133,13 +145,20 @@ class EmptyAddress extends StatelessWidget {
           return Column(
             children: [
               DropdownButton<String>(
-                focusColor: Colors.white,
                 value: _chosenValue,
+                isExpanded: true,
+                hint: Text("Region"),
+                focusColor: Colors.white,
                 items: <String>[
                   'Interior',
                   'Dofar',
                   'Al Dahirah'
-                ].map<DropdownMenuItem<String>>((String value){return DropdownMenuItem(value: value, child: Text(value),);}).toList(),
+                ].map<DropdownMenuItem<String>>(buildDropDownMenuItem).toList(),
+                onChanged: (String? newValue){
+                  setState(() {
+                    _chosenValue = newValue!;
+                  });
+                },
               ),
             ],
           );
