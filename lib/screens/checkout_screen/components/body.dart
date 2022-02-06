@@ -162,6 +162,27 @@ class _EmptyAddressState extends State<EmptyAddress> {
                       });
                     },
                   ),
+                  DropdownButton<String>(
+                    value: _chosenValue,
+                    isExpanded: true,
+                    hint: Text("State"),
+                    focusColor: Colors.white,
+                    items: <String>[
+                      'Nizwa',
+                      'Adam',
+                      'Izki'
+                    ].map<DropdownMenuItem<String>>(buildDropDownMenuItem).toList(),
+                    onChanged: (String? newValue){
+                      setModalState(() {
+                        _chosenValue = newValue;
+                      });
+                    },
+                  ),
+                  TextField(
+                    decoration: InputDecoration(
+                      hintText: "Street Address",
+                    ),
+                  ),
                 ],
               );
             },
