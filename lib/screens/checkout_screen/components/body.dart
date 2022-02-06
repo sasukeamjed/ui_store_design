@@ -128,7 +128,7 @@ class EmptyAddress extends StatefulWidget {
 }
 
 class _EmptyAddressState extends State<EmptyAddress> {
-  String _chosenValue = "Interior";
+  String? _chosenValue;
 
   DropdownMenuItem<String> buildDropDownMenuItem(String item){
     return DropdownMenuItem(
@@ -142,25 +142,29 @@ class _EmptyAddressState extends State<EmptyAddress> {
     return GestureDetector(
       onTap: (){
         showModalBottomSheet(context: context, builder: (context){
-          return Column(
-            children: [
-              DropdownButton<String>(
-                value: _chosenValue,
-                isExpanded: true,
-                hint: Text("Region"),
-                focusColor: Colors.white,
-                items: <String>[
-                  'Interior',
-                  'Dofar',
-                  'Al Dahirah'
-                ].map<DropdownMenuItem<String>>(buildDropDownMenuItem).toList(),
-                onChanged: (String? newValue){
-                  setState(() {
-                    _chosenValue = newValue!;
-                  });
-                },
-              ),
-            ],
+          return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setModalState){
+              return Column(
+                children: [
+                  DropdownButton<String>(
+                    value: _chosenValue,
+                    isExpanded: true,
+                    hint: Text("Region"),
+                    focusColor: Colors.white,
+                    items: <String>[
+                      'Interior',
+                      'Dofar',
+                      'Al Dahirah'
+                    ].map<DropdownMenuItem<String>>(buildDropDownMenuItem).toList(),
+                    onChanged: (String? newValue){
+                      setModalState(() {
+                        _chosenValue = newValue;
+                      });
+                    },
+                  ),
+                ],
+              );
+            },
           );
         });
       },
