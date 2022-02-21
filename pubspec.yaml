@@ -75,6 +75,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
+    - family: SF-UI-Display
+      fonts:
+          - asset: assets/fonts/sf-ui-display-semibold.otf
     - family: Poppins-SemiBold
       fonts:
           - asset: assets/fonts/Poppins-SemiBold.ttf
