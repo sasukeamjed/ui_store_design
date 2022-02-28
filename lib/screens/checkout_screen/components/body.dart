@@ -64,7 +64,9 @@ class Body extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 15.w),
                         child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
                               height: 49.w,
@@ -74,7 +76,28 @@ class Body extends StatelessWidget {
                                 shape: BoxShape.circle,
                               ),
                               child: SvgPicture.asset("assets/icons/vis_svg_icon.svg", width: 30.w, height: 23.w,fit: BoxFit.none,),
-                            )
+                            ),
+                            SizedBox(
+                              width: 15.w,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text("**** **** **** 3765", style: TextStyle(fontFamily: "SF-UI-Display-Semibold", fontSize: 17.sp),),
+                                Text("VISA", style: TextStyle(fontFamily: "SF-UI-Display-Regular", fontSize: 15.sp, color: Color(0xFFBEC2CE)),),
+                              ],
+                            ),
+                            Spacer(),
+                            Container(
+                              height: 21.w,
+                              width: 21.w,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.white,
+                              ),
+                              child: SvgPicture.asset('assets/icons/check_shipping_address_mark.svg'),
+                            ),
                           ],
                         ),
                       ),
