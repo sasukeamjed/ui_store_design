@@ -9,7 +9,7 @@ class ItemsTotalPricing extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      flex: 3,
+      flex: 4,
       child: Column(
         children: [
           Expanded(
