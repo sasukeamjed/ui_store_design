@@ -11,7 +11,7 @@ class HomeUpperHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 243.h,
+      height: 270.h,
       decoration: BoxDecoration(
         image: DecorationImage(
           alignment: Alignment.topCenter,
@@ -55,7 +55,7 @@ class HomeUpperHeader extends StatelessWidget {
             padding: EdgeInsets.only(left: 20.w),
             child: SizedBox(
               width: 112.w,
-              height: 34.h,
+              height: 50.h,
               child: TextButton(
                 child: Text(
                   "Shop Now",
