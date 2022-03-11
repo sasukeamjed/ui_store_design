@@ -57,6 +57,7 @@ class _EmptyAddressState extends State<EmptyAddress> {
                   Icon(
                     Icons.add,
                     color: Colors.black.withOpacity(0.4),
+                    size: 24.h,
                   ),
                 ],
               ),
