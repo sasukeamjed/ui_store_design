@@ -25,7 +25,7 @@ class Body extends StatelessWidget {
         ),
         Divider(),
         Padding(
-          padding: EdgeInsets.only(left: 15.w, top: 10.h, bottom: 8.h),
+          padding: EdgeInsets.only(left: 15.w, top: 10.h),
           child: Text(
             "Shipping to",
             style: TextStyle(fontSize: 20.sp, fontFamily: "Avenir"),
@@ -41,11 +41,103 @@ class Body extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 30.h,
+          height: 20.h,
         ),
         PaymentMethods(),
+        SizedBox(
+          height: 20.h,
+        ),
+        Container(
+          padding:
+              EdgeInsets.only(top: 10.h, left: 15.w, right: 15.w, bottom: 5.h),
+          height: 105.h,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                color: Color(0xFFEFEFF4),
+              ),
+            ),
+          ),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Text(
+                    "Shipping fee",
+                    style: TextStyle(
+                      fontFamily: "Avenir-Book",
+                      fontSize: 17.sp,
+                      color: Colors.black.withOpacity(0.4),
+                    ),
+                  ),
+                  Spacer(),
+                  Text(
+                    " \$6.99",
+                    style: TextStyle(
+                      fontFamily: "Avenir-Book",
+                      fontSize: 17.sp,
+                      color: Colors.black.withOpacity(0.4),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Text(
+                    "Sub total",
+                    style: TextStyle(
+                      fontFamily: "Avenir-Book",
+                      fontSize: 17.sp,
+                      color: Colors.black.withOpacity(0.4),
+                    ),
+                  ),
+                  Spacer(),
+                  Text(
+                    " \$79.99",
+                    style: TextStyle(
+                      fontFamily: "Avenir-Book",
+                      fontSize: 17.sp,
+                      color: Colors.black.withOpacity(0.4),
+                    ),
+                  ),
+                ],
+              ),
+              Spacer(),
+              Row(
+                children: [
+                  Text(
+                    "Total",
+                    style: TextStyle(
+                      fontFamily: "Avenir",
+                      fontSize: 17.sp,
+                      color: Colors.black,
+                    ),
+                  ),
+                  Spacer(),
+                  Text(
+                    " \$86.98",
+                    style: TextStyle(
+                      fontFamily: "Avenir",
+                      fontSize: 17.sp,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          child: Container(
+            width: double.infinity,
+            color: Colors.black,
+            child: Center(
+              child: Text("PAYMENT", style: TextStyle(fontSize: 15.sp, color: Colors.white, fontFamily: "Avenir"),),
+            ),
+          ),
+        ),
       ],
     );
   }
 }
-

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ui_store_design/size_config.dart';
 
 class HomeUpperHeader extends StatelessWidget {
   const HomeUpperHeader({
