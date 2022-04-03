@@ -12,58 +12,49 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  late TextEditingController _searchController;
   late bool _isSearching;
 
   @override
   void initState() {
+    _searchController = TextEditingController();
     _isSearching = false;
     super.initState();
+  }
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      // backgroundColor: Color(0xFFF0F0F0),
-      appBar: AnimatedAppBar(),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            Text("Drawer"),
-          ],
+    return GestureDetector(
+      onTap: (){
+        FocusManager.instance.primaryFocus?.unfocus();
+        if(_searchController.text.isEmpty){
+          setState(() {
+            _isSearching = false;
+          });
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        // backgroundColor: Color(0xFFF0F0F0),
+        appBar: AnimatedAppBar(searchController: _searchController, isSearching: _isSearching,),
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              Text("Drawer"),
+            ],
+          ),
         ),
+        body: Body(),
       ),
-      body: Body(),
     );
   }
 
-  PreferredSize defaultAppBar() {
-    return PreferredSize(
-        child: AppBar(
-          backgroundColor: Color(0xFFF0F0F0),
-          elevation: 0.0,
-          actions: [
-            GestureDetector(
-              child: Icon(Icons.search),
-              onTap: () {
-                setState(() {
-                  _isSearching = !_isSearching;
-                });
-              },
-            ),
-            if (!_isSearching) ...[
-              SizedBox(
-                width: 20.w,
-              ),
-              Icon(Icons.shopping_basket_outlined),
-            ],
-            SizedBox(
-              width: 20.w,
-            ),
-          ],
-        ),
-        preferredSize: AppBar().preferredSize);
-  }
 
   PreferredSize animatedSearchBar(bool isSearching, GestureTapCallback press) {
     bool animationCompleted = false;
@@ -138,7 +129,11 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class AnimatedAppBar extends StatefulWidget implements PreferredSizeWidget {
-  const AnimatedAppBar({Key? key}) : super(key: key);
+
+  final TextEditingController searchController;
+  bool isSearching;
+
+  AnimatedAppBar({Key? key, required this.searchController, required this.isSearching}) : super(key: key);
 
   @override
   State<AnimatedAppBar> createState() => _AnimatedAppBarState();
@@ -148,17 +143,7 @@ class AnimatedAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _AnimatedAppBarState extends State<AnimatedAppBar> {
-  late double _contWidth;
-  late bool _isSearching;
-  late bool _animationCompleted;
 
-  @override
-  void initState() {
-    // _contWidth = 0;
-    _isSearching = false;
-    _animationCompleted = false;
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -172,37 +157,25 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
             children: [
               Expanded(
                 child: Container(
-                  // onEnd: () {
-                  //   setState(() {
-                  //     _animationCompleted = true;
-                  //   });
-                  // },
                   color: Color(0xFFededed),
-                  // width: double.infinity,
-                  // width: _isSearching
-                  //     ? _contWidth = MediaQuery.of(context).size.width
-                  //     : _contWidth = 0,
                   height: AppBar().preferredSize.height,
-                  // duration: Duration(
-                  //   seconds: 1,
-                  // ),
-                  // curve: Curves.easeOut,
-                  // child: _animationCompleted
-                  //     ? CupertinoSearchTextField()
-                  //     : SizedBox(),
-                  child: _isSearching
-                      ? CupertinoSearchTextField(decoration: BoxDecoration(color: Color(0xFFededed)),)
+                  child: widget.isSearching
+                      ? CupertinoSearchTextField(
+                    controller: widget.searchController,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFededed),
+                          ),
+                        )
                       : SizedBox(),
                 ),
               ),
-              if (!_isSearching) ...[
+              if (!widget.isSearching) ...[
                 Icon(Icons.shopping_cart),
                 GestureDetector(
                   child: Icon(Icons.search),
                   onTap: () {
                     setState(() {
-                      _isSearching = true;
-                      _contWidth = MediaQuery.of(context).size.width;
+                      widget.isSearching = true;
                     });
                   },
                 ),

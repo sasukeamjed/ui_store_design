@@ -10,7 +10,7 @@ class HomeUpperHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 270.h,
+      height: 280.h,
       decoration: BoxDecoration(
         image: DecorationImage(
           alignment: Alignment.topCenter,
