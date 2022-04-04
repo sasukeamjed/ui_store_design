@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 import 'componenets/body.dart';
 
@@ -16,10 +17,19 @@ class _HomeScreenState extends State<HomeScreen> {
   late TextEditingController _searchController;
   late bool _isSearching;
 
+  _stopSearching(){
+    if(_searchController.text.isEmpty){
+      setState(() {
+        _isSearching = false;
+      });
+    }
+  }
+
   @override
   void initState() {
     _searchController = TextEditingController();
     _isSearching = false;
+
     super.initState();
   }
   @override
@@ -50,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-        body: Body(),
+        body: Body(stopSearchCallBack: _stopSearching,),
       ),
     );
   }
@@ -161,6 +171,7 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
                   height: AppBar().preferredSize.height,
                   child: widget.isSearching
                       ? CupertinoSearchTextField(
+                    autofocus: true,
                     controller: widget.searchController,
                           decoration: BoxDecoration(
                             color: Color(0xFFededed),

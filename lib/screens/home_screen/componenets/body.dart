@@ -9,6 +9,8 @@ import 'package:ui_store_design/screens/home_screen/componenets/new_arrivals.dar
 import 'package:ui_store_design/size_config.dart';
 
 class Body extends StatefulWidget {
+  final Function stopSearchCallBack;
+  Body({required this.stopSearchCallBack});
   @override
   State<Body> createState() => _BodyState();
 }
@@ -34,53 +36,61 @@ class _BodyState extends State<Body> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            HomeUpperHeader(),
-            SizedBox(
-              height: 30.h,
-            ),
-            NewArrivalsSection(),
-            SizedBox(
-              height: 20.h,
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                left: 20.w,
+    return NotificationListener<ScrollStartNotification>(
+      onNotification: (ScrollNotification scrollNotification){
+        if(scrollNotification is ScrollStartNotification){
+          widget.stopSearchCallBack();
+        }
+        return false;
+      },
+      child: SafeArea(
+        child: SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              HomeUpperHeader(),
+              SizedBox(
+                height: 30.h,
               ),
-              child: Row(
-                children: [
-                  Text(
-                    "Best Sellers",
-                    style: TextStyle(
-                      fontFamily: "Avenir",
-                      fontSize: 24.sp,
+              NewArrivalsSection(),
+              SizedBox(
+                height: 20.h,
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  left: 20.w,
+                ),
+                child: Row(
+                  children: [
+                    Text(
+                      "Best Sellers",
+                      style: TextStyle(
+                        fontFamily: "Avenir",
+                        fontSize: 24.sp,
+                      ),
                     ),
-                  ),
-                  Spacer(),
-                  Text(
-                    "Show all",
-                    style: TextStyle(
-                        fontFamily: "Avenir-Book",
-                        fontSize: 15.sp),
-                  ),
-                  Icon(Icons.arrow_right),
-                ],
+                    Spacer(),
+                    Text(
+                      "Show all",
+                      style: TextStyle(
+                          fontFamily: "Avenir-Book",
+                          fontSize: 15.sp),
+                    ),
+                    Icon(Icons.arrow_right),
+                  ],
+                ),
               ),
-            ),
-            ListView.builder(
-              padding: EdgeInsets.only(top: 10.h, bottom: 10.h, left: 20.w,),
-              shrinkWrap: true,
-              itemCount: bestSellersProducts.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(child: BestSellerItem(product: bestSellersProducts[index]), onTap: ()=> Navigator.of(context).pushNamed(DetailsScreen.routeName),);
-              },
-            ),
-          ],
+              ListView.builder(
+                padding: EdgeInsets.only(top: 10.h, bottom: 10.h, left: 20.w,),
+                shrinkWrap: true,
+                itemCount: bestSellersProducts.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(child: BestSellerItem(product: bestSellersProducts[index]), onTap: ()=> Navigator.of(context).pushNamed(DetailsScreen.routeName),);
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
