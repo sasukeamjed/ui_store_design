@@ -59,7 +59,7 @@ class Body extends StatelessWidget {
                           height: 90.h,
                         ),
                         BuildButton(
-                          press: ()=>Navigator.pushNamed(context, HomeScreen.routeName),
+                          press: ()=>Navigator.pushReplacementNamed(context, HomeScreen.routeName),
                           text: "LOGIN",
                         ),
                         SizedBox(
