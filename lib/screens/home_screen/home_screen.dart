@@ -26,6 +26,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  _startSearching(){
+    setState(() {
+      _isSearching = true;
+    });
+  }
+
   @override
   void initState() {
     _searchController = TextEditingController();
@@ -42,10 +48,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return GestureDetector(
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
         if (_searchController.text.isEmpty) {
+          print("inside HomeScreen built method issearching = ${_isSearching}");
           setState(() {
             _isSearching = false;
           });
@@ -55,6 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
         key: _scaffoldKey,
         backgroundColor: Colors.white,
         appBar: AnimatedAppBar(
+          stopSearchCallBack: _stopSearching,
+          startSearchCallBack: _startSearching,
           searchController: _searchController,
           isSearching: _isSearching,
           scaffoldKey: _scaffoldKey,
@@ -67,7 +77,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: Text("Login in"),
                   leading: Icon(Icons.person),
                   onTap: (){
-                    Navigator.pop();
+                    Navigator.of(context).pop();
+                    Navigator.pushNamed(context, LoginScreen.routeName);
                   },
                 ),
               ),
@@ -81,88 +92,22 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  PreferredSize animatedSearchBar(bool isSearching, GestureTapCallback press) {
-    bool animationCompleted = false;
-    double contWidth = 0;
-    print(isSearching);
-    return PreferredSize(
-      child: SafeArea(
-        child: Container(
-          // margin: EdgeInsets.only(top: WidgetsBinding.instance!.window.padding.top),
-          height: AppBar().preferredSize.height,
-          color: Colors.green,
-          child: SafeArea(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                if (isSearching)
-                  AnimatedContainer(
-                    onEnd: () {
-                      setState(() {
-                        animationCompleted = true;
-                      });
-                    },
-                    color: Colors.white,
-                    width: contWidth,
-                    height: 10,
-                    duration: Duration(seconds: 5),
-                  ),
-                if (!isSearching) ...[
-                  Icon(Icons.shopping_cart),
-                  GestureDetector(
-                    child: Icon(Icons.search),
-                    onTap: press,
-                  ),
-                ]
-              ],
-            ),
-          ),
-        ),
-      ),
-      preferredSize: Size.fromHeight(AppBar().preferredSize.height),
-      // preferredSize: Size.fromHeight(56),
-    );
-  }
-
-  PreferredSize customAppBar() {
-    return PreferredSize(
-      child: SafeArea(
-        child: Container(
-          // margin: EdgeInsets.only(top: WidgetsBinding.instance!.window.padding.top),
-          height: AppBar().preferredSize.height,
-          color: Colors.green,
-          child: SafeArea(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  color: Colors.white,
-                  width: MediaQuery.of(context).size.width - 50,
-                  height: 10,
-                ),
-                Icon(Icons.shopping_cart),
-                Icon(Icons.search),
-              ],
-            ),
-          ),
-        ),
-      ),
-      preferredSize: Size.fromHeight(AppBar().preferredSize.height),
-      // preferredSize: Size.fromHeight(56),
-    );
-  }
 }
 
 class AnimatedAppBar extends StatefulWidget implements PreferredSizeWidget {
   final TextEditingController searchController;
   final GlobalKey<ScaffoldState> scaffoldKey;
   bool isSearching;
+  final Function stopSearchCallBack;
+  final Function startSearchCallBack;
 
   AnimatedAppBar(
       {Key? key,
       required this.searchController,
       required this.isSearching,
-      required this.scaffoldKey})
+      required this.scaffoldKey,
+      required this.stopSearchCallBack,
+      required this.startSearchCallBack,})
       : super(key: key);
 
   @override
@@ -173,8 +118,10 @@ class AnimatedAppBar extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _AnimatedAppBarState extends State<AnimatedAppBar> {
+
   @override
   Widget build(BuildContext context) {
+    print("inside animated appbar built method issearching = ${widget.isSearching}");
     return SafeArea(
       child: SafeArea(
         child: Container(
@@ -183,10 +130,12 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
           child: widget.isSearching
               ? CupertinoSearchTextField(
                   onSuffixTap: () {
-                    setState(() {
-                      widget.searchController.clear();
-                      widget.isSearching = false;
-                    });
+                    widget.searchController.clear();
+                    widget.stopSearchCallBack();
+                    // setState(() {
+                    //   widget.searchController.clear();
+                    //   widget.isSearching = false;
+                    // });
                   },
                   autofocus: true,
                   controller: widget.searchController,
@@ -213,7 +162,8 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
                         child: Icon(Icons.search),
                         onTap: () {
                           setState(() {
-                            widget.isSearching = true;
+                            widget.startSearchCallBack();
+                            // widget.isSearching = true;
                           });
                         },
                       ),
