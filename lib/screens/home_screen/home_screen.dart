@@ -53,7 +53,6 @@ class _HomeScreenState extends State<HomeScreen> {
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
         if (_searchController.text.isEmpty) {
-          print("inside HomeScreen built method issearching = ${_isSearching}");
           setState(() {
             _isSearching = false;
           });
@@ -85,7 +84,14 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-        body: Body(
+        body: _isSearching ?  Container(
+          color: Color(0xFFededed),
+          height: double.infinity,
+          width: double.infinity,
+          child: Center(
+            child: Text("what are you searching for..."),
+          ),
+        ): Body(
           stopSearchCallBack: _stopSearching,
         ),
       ),
