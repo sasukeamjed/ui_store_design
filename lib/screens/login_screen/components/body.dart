@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/components/build_btn.dart';
@@ -5,11 +6,12 @@ import 'package:ui_store_design/components/build_text_form_field.dart';
 import 'package:ui_store_design/screens/forgot_password_screen/forgot_password.dart';
 import 'package:ui_store_design/screens/home_screen/home_screen.dart';
 import 'package:ui_store_design/screens/signup_screen/signup.dart';
+import 'package:ui_store_design/services/data/data.dart';
 import 'package:ui_store_design/size_config.dart';
 
 class Body extends StatelessWidget {
-  const Body({Key? key}) : super(key: key);
 
+  final FetchingData data = FetchingData();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -59,7 +61,11 @@ class Body extends StatelessWidget {
                           height: 90.h,
                         ),
                         BuildButton(
-                          press: ()=>Navigator.pushReplacementNamed(context, HomeScreen.routeName),
+                          press: ()async{
+                            Response response = await data.fetchAllUsers();
+                            print(response.data);
+                            // press: ()=>Navigator.pushReplacementNamed(context, HomeScreen.routeName),
+                          },
                           text: "LOGIN",
                         ),
                         SizedBox(
