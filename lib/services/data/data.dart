@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:ui_store_design/models/product.dart';
 
@@ -27,6 +29,12 @@ class FetchingData{
         },
         onResponse: (response, _){
           print(response.data);
+          // print(jsonDecode(response.data));
+          // List<dynamic> data = jsonDecode(response.data);
+          response.data.forEach((element) {
+            print(element);
+            print("for real?---------------------------------------------------");
+          });
         },
       ),
     );
