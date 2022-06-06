@@ -1,3 +1,4 @@
+import 'package:ui_store_design/models/billing_model.dart';
 import 'package:ui_store_design/models/shipping_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -7,20 +8,37 @@ part 'user_model.g.dart';
 class UserModel{
 
 
-  final String id;
+  final int? id;
 
-  final String email;
+  final String? email;
 
-  final String firstName;
+  final String? firstName;
 
-  final String lastName;
+  final String? lastName;
 
-  final String username;
+  final String? username;
 
-  final ShippingModel shipping;
+  final ShippingModel? shipping;
 
-  UserModel({required this.id, required this.email, required this.firstName, required this.lastName, required this.username, required this.shipping, });
+  final String dateCreated;
+
+  final String dateCreatedGmt;
+
+  final String dateModified;
+
+  final String dateModifiedGmt;
+
+  final String role;
+
+  final BillingModel billingModel;
+
+  UserModel({ required this.dateCreated, required this.dateCreatedGmt, required this.dateModified, required this.dateModifiedGmt, required this.role, required this.billingModel, required this.id, required this.email, required this.firstName, required this.lastName, required this.username, required this.shipping, });
 
   factory UserModel.fromJson(Map<String, dynamic> json)=> _$UserModelFromJson(json);
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
+
+  @override
+  String toString() {
+    return 'id : $id, email : $email, firstname : $firstName, lastname : $lastName, username : $username, shipping model : $shipping';
+  }
 }

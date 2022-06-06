@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:ui_store_design/models/product.dart';
+import 'package:ui_store_design/models/user_model.dart';
 
 // abstract class Data{
 //   List<Product> fetchAllProducts();
@@ -100,6 +101,9 @@ class FetchingData{
       print(date);
       response = await _fetchUser(parsedJwt['sub'].toString());
       print(response.data);
+      UserModel userModel = UserModel.fromJson(response.data);
+      print('/////////////');
+      print(userModel);
     }catch(e){
       print(e);
     }
