@@ -99,6 +99,7 @@ class FetchingData{
       var date = DateTime.fromMillisecondsSinceEpoch(parsedJwt['iat'] * 1000);
       print(date);
       response = await _fetchUser(parsedJwt['sub'].toString());
+      print(response.data);
     }catch(e){
       print(e);
     }

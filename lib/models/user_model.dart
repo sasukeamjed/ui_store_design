@@ -6,25 +6,21 @@ part 'user_model.g.dart';
 @JsonSerializable()
 class UserModel{
 
-  @JsonKey(name: 'id')
-  final String userID;
 
-  @JsonKey(name: 'email')
+  final String id;
+
   final String email;
 
-  @JsonKey(name: 'first_name')
   final String firstName;
 
-  @JsonKey(name: 'last_name')
   final String lastName;
 
-  @JsonKey(name: 'username')
   final String username;
 
-  // final ShippingModel shippingModel;
+  final ShippingModel shipping;
 
-  UserModel(this.userID, this.email, this.firstName, this.lastName, this.username);
+  UserModel({required this.id, required this.email, required this.firstName, required this.lastName, required this.username, required this.shipping, });
 
   factory UserModel.fromJson(Map<String, dynamic> json)=> _$UserModelFromJson(json);
-  Map<String, dynamic> toJson => _$UserModelToJson(this);
+  Map<String, dynamic> toJson() => _$UserModelToJson(this);
 }
