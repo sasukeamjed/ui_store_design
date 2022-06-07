@@ -2,11 +2,13 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'shipping_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class ShippingModel{
   final String? firstName;
   final String lastName;
+  @JsonKey(name: 'address_1')
   final String address1;
+  @JsonKey(name: 'address_2')
   final String? address2;
   final String state;
   final String city;

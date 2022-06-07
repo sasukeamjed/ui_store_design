@@ -4,10 +4,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'user_model.g.dart';
 
-@JsonSerializable()
-class UserModel{
-
-
+@JsonSerializable(fieldRename: FieldRename.snake)
+class UserModel {
   final int? id;
 
   final String? email;
@@ -20,25 +18,49 @@ class UserModel{
 
   final ShippingModel? shipping;
 
-  final String dateCreated;
+  // final String dateCreated;
 
-  final String dateCreatedGmt;
+  // final String dateCreatedGmt;
+  //
+  // final String dateModified;
+  //
+  // final String dateModifiedGmt;
+  //
+  // final String role;
+  //
+  // final BillingModel billingModel;
 
-  final String dateModified;
+  UserModel({
+    required this.id,
+    required this.email,
+    required this.firstName,
+    required this.lastName,
+    required this.username,
+    required this.shipping,
+  });
 
-  final String dateModifiedGmt;
+  // UserModel({
+  //   required this.dateCreated,
+  //   required this.dateCreatedGmt,
+  //   required this.dateModified,
+  //   required this.dateModifiedGmt,
+  //   required this.role,
+  //   required this.billingModel,
+  //   required this.id,
+  //   required this.email,
+  //   required this.firstName,
+  //   required this.lastName,
+  //   required this.username,
+  //   required this.shipping,
+  // });
 
-  final String role;
+  factory UserModel.fromJson(Map<String, dynamic> json) =>
+      _$UserModelFromJson(json);
 
-  final BillingModel billingModel;
-
-  UserModel({ required this.dateCreated, required this.dateCreatedGmt, required this.dateModified, required this.dateModifiedGmt, required this.role, required this.billingModel, required this.id, required this.email, required this.firstName, required this.lastName, required this.username, required this.shipping, });
-
-  factory UserModel.fromJson(Map<String, dynamic> json)=> _$UserModelFromJson(json);
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
 
   @override
   String toString() {
-    return 'id : $id, email : $email, firstname : $firstName, lastname : $lastName, username : $username, shipping model : $shipping';
+    return 'id : $id, email : $email, firstname : $firstName, lastname : $lastName, username : $username, shipping model => $shipping';
   }
 }

@@ -93,7 +93,7 @@ class FetchingData{
       });
       final data = jsonDecode(response.data);
 
-      Map<String, dynamic> parsedJwt = parseJwt(data["jwt_token"]);
+      Map<String, dynamic> parsedJwt = _parseJwt(data["jwt_token"]);
       print(parsedJwt);
       //ToDo: trying to get the time stamp and convert it to normal date format
       // var date = new DateTime.fromMicrosecondsSinceEpoch(parsedJwt['iat']);
@@ -111,7 +111,7 @@ class FetchingData{
     return response;
   }
 
-  Map<String, dynamic> parseJwt(String token) {
+  Map<String, dynamic> _parseJwt(String token) {
     final parts = token.split('.');
     if (parts.length != 3) {
       throw Exception('invalid token');
