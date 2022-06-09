@@ -28,31 +28,9 @@ class FetchingData{
           print("${request.method} ${request.path}");
           handler.next(request);
         },
-        onResponse: (response, _)async{
+        onResponse: (response, handler)async{
           print("from Onresponse");
-          print(response.data);
-          final data = jsonDecode(response.data);
-
-          Map<String, dynamic> parsedJwt = _parseJwt(data["jwt_token"]);
-          print('parsed JWT -----');
-          print(parsedJwt);
-          //ToDo: trying to get the time stamp and convert it to normal date format
-          // var date = new DateTime.fromMicrosecondsSinceEpoch(parsedJwt['iat']);
-          var date = DateTime.fromMillisecondsSinceEpoch(parsedJwt['iat'] * 1000);
-          print(date);
-          response = await _fetchUser(parsedJwt['sub'].toString());
-          print(response.data);
-          UserModel userModel = UserModel.fromJson(response.data);
-          print('/////////////');
-          print(userModel);
-          // print(jsonDecode(response.data));
-          // final data = jsonDecode(response.data);
-          // print(response.data[1]);
-
-          // data.forEach((element) {
-          //   print(element);
-          //   print("for real?---------------------------------------------------");
-          // });
+          handler.next(response);
         },
       ),
     );
@@ -106,19 +84,19 @@ class FetchingData{
         "username" : "sasukeamjed",
         "password" : "Am95868408"
       });
-      // final data = jsonDecode(response.data);
-      //
-      // Map<String, dynamic> parsedJwt = _parseJwt(data["jwt_token"]);
-      // print(parsedJwt);
-      // //ToDo: trying to get the time stamp and convert it to normal date format
-      // // var date = new DateTime.fromMicrosecondsSinceEpoch(parsedJwt['iat']);
-      // var date = DateTime.fromMillisecondsSinceEpoch(parsedJwt['iat'] * 1000);
-      // print(date);
-      // response = await _fetchUser(parsedJwt['sub'].toString());
-      // print(response.data);
-      // UserModel userModel = UserModel.fromJson(response.data);
-      // print('/////////////');
-      // print(userModel);
+      final data = jsonDecode(response.data);
+
+      Map<String, dynamic> parsedJwt = _parseJwt(data["jwt_token"]);
+      print(parsedJwt);
+      //ToDo: trying to get the time stamp and convert it to normal date format
+      // var date = new DateTime.fromMicrosecondsSinceEpoch(parsedJwt['iat']);
+      var date = DateTime.fromMillisecondsSinceEpoch(parsedJwt['iat'] * 1000);
+      print(date);
+      response = await _fetchUser(parsedJwt['sub'].toString());
+      print(response.data);
+      UserModel userModel = UserModel.fromJson(response.data);
+      print('/////////////');
+      print(userModel);
     }catch(e){
       print(e);
     }
