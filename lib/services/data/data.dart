@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:ui_store_design/models/auth_error_model.dart';
 import 'package:ui_store_design/models/product.dart';
 import 'package:ui_store_design/models/user_model.dart';
 
@@ -21,9 +22,6 @@ class FetchingData{
 
     _dio.interceptors.add(
       InterceptorsWrapper(
-        onError: (error, _){
-          print(error.message);
-        },
         onRequest: (request, handler){
           print("${request.method} ${request.path}");
           handler.next(request);
@@ -76,12 +74,12 @@ class FetchingData{
     return response;
   }
 
-  Future<Response> login() async{
+  Future<Response?> login() async{
     late Response response;
 
     try{
       response = await _dio.post("wp-json/api/v1/token", data: {
-        "username" : "sasukeamjed",
+        "username" : "sasukeamjedd",
         "password" : "Am95868408"
       });
       final data = jsonDecode(response.data);
@@ -97,8 +95,19 @@ class FetchingData{
       UserModel userModel = UserModel.fromJson(response.data);
       print('/////////////');
       print(userModel);
-    }catch(e){
-      print(e);
+    }on DioError catch (e){
+      if (e.response != null) {
+        print(e.response!.data);
+        // print(e.response!.headers);
+        print(e.response!.statusCode);
+      } else {
+        // Something happened in setting up or sending the request that triggered an Error
+        print(e.requestOptions);
+        print(e.message);
+      }
+      final error = AuthErrorModel.fromJson(e.response!.data);
+      print(error);
+      return e.response;
     }
 
     return response;
