@@ -63,7 +63,7 @@ class Body extends StatelessWidget {
                         BuildButton(
                           press: () async{
                             Response? res = await data.login();
-                            print("response from login page : ${res!.data}");
+                            print("response from login page : ${res}");
                             // Response response = await data.fetchUser();
                             // press: ()=>Navigator.pushReplacementNamed(context, HomeScreen.routeName),
                           },
