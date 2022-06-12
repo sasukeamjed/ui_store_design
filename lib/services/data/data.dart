@@ -41,30 +41,31 @@ class FetchingData{
           handler.next(response);
         },
         onError: (DioError err, ErrorInterceptorHandler handler){
-          // switch (err.type) {
-          //   case DioErrorType.connectTimeout:
-          //   case DioErrorType.sendTimeout:
-          //   case DioErrorType.receiveTimeout:
-          //     throw DeadlineExceededException(err.requestOptions);
-          //   case DioErrorType.response:
-          //     switch (err.response?.statusCode) {
-          //       case 400:
-          //         throw BadRequestException(err.requestOptions);
-          //       case 401:
-          //         throw UnauthorizedException(err.requestOptions);
-          //       case 404:
-          //         throw NotFoundException(err.requestOptions);
-          //       case 409:
-          //         throw ConflictException(err.requestOptions);
-          //       case 500:
-          //         throw InternalServerErrorException(err.requestOptions);
-          //     }
-          //     break;
-          //   case DioErrorType.cancel:
-          //     break;
-          //   case DioErrorType.other:
-          //     throw NoInternetConnectionException(err.requestOptions);
-          // }
+          print("errors in handlers");
+          switch (err.type) {
+            case DioErrorType.connectTimeout:
+            case DioErrorType.sendTimeout:
+            case DioErrorType.receiveTimeout:
+              throw DeadlineExceededException(err.requestOptions);
+            case DioErrorType.response:
+              switch (err.response?.statusCode) {
+                case 400:
+                  throw BadRequestException(err.requestOptions);
+                case 401:
+                  throw UnauthorizedException(err.requestOptions);
+                case 404:
+                  throw NotFoundException(err.requestOptions);
+                case 409:
+                  throw ConflictException(err.requestOptions);
+                case 500:
+                  throw InternalServerErrorException(err.requestOptions);
+              }
+              break;
+            case DioErrorType.cancel:
+              break;
+            case DioErrorType.other:
+              throw NoInternetConnectionException(err.requestOptions);
+          }
 
           return handler.next(err);
         },
@@ -134,7 +135,7 @@ class FetchingData{
       print('/////////////');
       print(userModel);
     }on DioError catch (e){
-      print("this is the error ${e.message}");
+      print("this is the error $e");
       if (e.response != null) {
         print(e.response!.data);
         // print(e.response!.headers);
