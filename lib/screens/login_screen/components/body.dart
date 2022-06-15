@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/components/build_btn.dart';
 import 'package:ui_store_design/components/build_text_form_field.dart';
@@ -9,11 +10,18 @@ import 'package:ui_store_design/screens/signup_screen/signup.dart';
 import 'package:ui_store_design/services/data/data.dart';
 import 'package:ui_store_design/size_config.dart';
 
-class Body extends StatelessWidget {
+final dataProvider = Provider<FetchingData>((ref)=> FetchingData());
+
+final loginFutureProvider = FutureProvider((ref){
+  return ref.read(dataProvider).login();
+});
+
+class Body extends ConsumerWidget {
 
   final FetchingData data = FetchingData();
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final login = ref.watch(loginFutureProvider);
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
