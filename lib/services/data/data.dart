@@ -135,6 +135,7 @@ class FetchingData{
       print('/////////////');
       print(userModel);
     }on DioError catch (e){
+      throw e;
       print("this is the error $e");
       if (e.response != null) {
         print(e.response!.data);

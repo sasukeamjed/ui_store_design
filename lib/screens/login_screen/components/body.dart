@@ -10,6 +10,8 @@ import 'package:ui_store_design/screens/signup_screen/signup.dart';
 import 'package:ui_store_design/services/data/data.dart';
 import 'package:ui_store_design/size_config.dart';
 
+import '../../../services/auth/auth.dart';
+
 final dataProvider = Provider<FetchingData>((ref)=> FetchingData());
 
 final loginFutureProvider = FutureProvider((ref){
@@ -18,10 +20,19 @@ final loginFutureProvider = FutureProvider((ref){
 
 class Body extends ConsumerWidget {
 
-  final FetchingData data = FetchingData();
+  // final FetchingData data = FetchingData();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final login = ref.watch(loginFutureProvider);
+
+    void login() async{
+      try {
+        await ref.read(authProvider.notifier).login();
+      } catch (e) {
+        print(e);
+      }
+    }
+
+    final data = ref.read(dataProvider);
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
@@ -47,7 +58,7 @@ class Body extends ConsumerWidget {
                       "LOGIN",
                       style: TextStyle(
                           fontSize: 30.sp,
-                          fontFamily: "Roboto"),
+                          fontFamily: "Roboto",),
                     ),
                   ),
                   SizedBox(
@@ -68,10 +79,21 @@ class Body extends ConsumerWidget {
                         SizedBox(
                           height: 90.h,
                         ),
+                        // ref.watch(loginFutureProvider).when(
+                        //     data: (res){
+                        //       return Text("login succesful");
+                        //     },
+                        //     error: (e, _){
+                        //       return Text(e.toString());
+                        //     },
+                        //     loading: (){
+                        //       return CircularProgressIndicator();
+                        //     },),
                         BuildButton(
                           press: () async{
-                            Response? res = await data.login();
-                            print("response from login page : $res");
+                            login();
+
+                            // print("response from login page : $res");
                             // Response response = await data.fetchUser();
                             // press: ()=>Navigator.pushReplacementNamed(context, HomeScreen.routeName),
                           },
