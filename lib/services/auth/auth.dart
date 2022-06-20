@@ -7,22 +7,23 @@ import 'package:ui_store_design/errors/internal_server_error_exception.dart';
 import 'package:ui_store_design/errors/no_internet_connection_exception.dart';
 import 'package:ui_store_design/errors/not_found_exception.dart';
 import 'package:ui_store_design/errors/unauthorized_exception.dart';
+import 'package:ui_store_design/models/user_model.dart';
 
-enum AuthState {
-  unauthenticated,
-  authenticated,
-  authenticating,
-  failed,
-}
+// enum AuthState {
+//   unauthenticated,
+//   authenticated,
+//   authenticating,
+//   failed,
+// }
 
 // StateNotifier is recommended to encapsulate all your business
 // logic into a single class and use it from there.
-class AuthStateNotifier extends StateNotifier<AuthState> {
+class AuthStateNotifier extends StateNotifier<UserModel?> {
   // Initialize with the default state of "unauthenticated".
   final baseUrl = "https://4ustore.net/";
   late Dio _dio;
 
-  AuthStateNotifier() : super(AuthState.unauthenticated){
+  AuthStateNotifier(UserModel? state) : super(state){
     _dio = Dio(BaseOptions(
       baseUrl: baseUrl,
       receiveTimeout: 15000, // 15 seconds
@@ -89,11 +90,12 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     if (response.statusCode == 200) {
       // await APIClient().saveTokens(response);
       // UserDefaultEntity entity = await ref.watch(userDefaultsProvider(param.sgId).future);
-      state = AuthState.authenticated;
+      print("This is the succesful response data : ${response.data}");
+      // state = UserModel.fromJson(json);
       return response;
     } else {
-      state = AuthState.failed;
-      print(response.data);
+
+      print("this is the failed response");
       // throw Exception(jsonDecode(response.body)['message'] ?? 'Unknown Error');
     }
     return response;
@@ -101,4 +103,4 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
 }
 
 // Finally, create a provider that can be consumed in the presentation layer (UI).
-final authProvider = StateNotifierProvider<AuthStateNotifier, AuthState>((ref) => AuthStateNotifier());
+final authProvider = StateNotifierProvider<AuthStateNotifier, UserModel?>((ref) => AuthStateNotifier(null));

@@ -24,15 +24,6 @@ class Body extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    void login() async{
-      try {
-        await ref.read(authProvider.notifier).login();
-      } catch (e) {
-        print(e);
-      }
-    }
-
-    final data = ref.read(dataProvider);
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
@@ -91,7 +82,7 @@ class Body extends ConsumerWidget {
                         //     },),
                         BuildButton(
                           press: () async{
-                            login();
+                            ref.read(authProvider.notifier).login();
 
                             // print("response from login page : $res");
                             // Response response = await data.fetchUser();
