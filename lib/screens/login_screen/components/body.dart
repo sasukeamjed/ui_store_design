@@ -7,23 +7,24 @@ import 'package:ui_store_design/components/build_text_form_field.dart';
 import 'package:ui_store_design/screens/forgot_password_screen/forgot_password.dart';
 import 'package:ui_store_design/screens/home_screen/home_screen.dart';
 import 'package:ui_store_design/screens/signup_screen/signup.dart';
+import 'package:ui_store_design/services/auth/states/auth_state.dart';
 import 'package:ui_store_design/services/data/data.dart';
 import 'package:ui_store_design/size_config.dart';
 
 import '../../../services/auth/auth.dart';
 
-final dataProvider = Provider<FetchingData>((ref)=> FetchingData());
-
-final loginFutureProvider = FutureProvider((ref){
-  return ref.read(dataProvider).login();
-});
+// final dataProvider = Provider<FetchingData>((ref) => FetchingData());
+//
+// final loginFutureProvider = FutureProvider((ref) {
+//   return ref.read(authProvider.notifier).login();
+// });
 
 class Body extends ConsumerWidget {
 
   // final FetchingData data = FetchingData();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
+    final state = ref.watch(authProvider);
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
@@ -44,12 +45,12 @@ class Body extends ConsumerWidget {
                   ),
                   Padding(
                     padding:
-                        EdgeInsets.only(left: 5.w),
+                    EdgeInsets.only(left: 5.w),
                     child: Text(
                       "LOGIN",
                       style: TextStyle(
-                          fontSize: 30.sp,
-                          fontFamily: "Roboto",),
+                        fontSize: 30.sp,
+                        fontFamily: "Roboto",),
                     ),
                   ),
                   SizedBox(
@@ -70,18 +71,9 @@ class Body extends ConsumerWidget {
                         SizedBox(
                           height: 90.h,
                         ),
-                        // ref.watch(loginFutureProvider).when(
-                        //     data: (res){
-                        //       return Text("login succesful");
-                        //     },
-                        //     error: (e, _){
-                        //       return Text(e.toString());
-                        //     },
-                        //     loading: (){
-                        //       return CircularProgressIndicator();
-                        //     },),
+
                         BuildButton(
-                          press: () async{
+                          press: () async {
                             ref.read(authProvider.notifier).login();
 
                             // print("response from login page : $res");
@@ -90,12 +82,27 @@ class Body extends ConsumerWidget {
                           },
                           text: "LOGIN",
                         ),
+                        Consumer(builder: (context, ref, child){
+                          final state = ref.watch(authProvider);
+                          if(state is AuthInitial){
+                            return Container();
+                          }
+                          else if(state is AuthLoading){
+                            return CircularProgressIndicator();
+                          }else if(state is AuthLoaded){
+                            return Text("state is loaded");
+                          }else if(state is AuthError){
+                            return Text(state.message);
+                          }
+                          return Container();
+                        },),
                         SizedBox(
                           height: 40.h,
                         ),
                         GestureDetector(
-                            onTap: () => Navigator.pushNamed(
-                                context, ForgotPasswordScreen.routeName),
+                            onTap: () =>
+                                Navigator.pushNamed(
+                                    context, ForgotPasswordScreen.routeName),
                             child: Text(
                               "Forgot your password?",
                               style: TextStyle(
@@ -140,8 +147,11 @@ class Body extends ConsumerWidget {
                             ),
                             GestureDetector(
                               child: Text(" Sign Up",
-                                  style: TextStyle(fontFamily: "Avenir-Medium", fontSize: 17.sp), ),
-                              onTap: ()=> Navigator.pushNamed(context, SignUpScreen.routeName),
+                                style: TextStyle(fontFamily: "Avenir-Medium",
+                                    fontSize: 17.sp),),
+                              onTap: () =>
+                                  Navigator.pushNamed(
+                                      context, SignUpScreen.routeName),
                             ),
                           ],
                         ),
