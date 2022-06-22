@@ -138,6 +138,7 @@ class FetchingData{
       throw e;
       print("this is the error $e");
       if (e.response != null) {
+        print("response not equals null");
         print(e.response!.data);
         // print(e.response!.headers);
         print(e.response!.statusCode);
@@ -148,7 +149,7 @@ class FetchingData{
         print(e.message);
       }
       // final error = AuthErrorModel.fromJson(e.response.data);
-      print("returning an error : ${e.response}");
+      print("returning an error : ${e.error}");
       return e.error;
     }
     print("returning a response");
