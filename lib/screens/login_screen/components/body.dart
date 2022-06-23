@@ -22,6 +22,11 @@ import '../../../services/auth/auth.dart';
 class Body extends ConsumerWidget {
 
   // final FetchingData data = FetchingData();
+  Future<void> delay(BuildContext context){
+    return Future.delayed(Duration(microseconds: 50), (){
+      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+    });
+  }
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
@@ -90,7 +95,8 @@ class Body extends ConsumerWidget {
                           else if(state is AuthLoading){
                             return CircularProgressIndicator();
                           }else if(state is AuthLoaded){
-                            Navigator.pushNamed(context, HomeScreen.routeName);
+                            delay(context);
+                            // Navigator.pushReplacementNamed(context, HomeScreen.routeName);
                           }else if(state is AuthError){
                             return Text(state.message);
                           }

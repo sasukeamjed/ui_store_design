@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
             //   color: Colors.black,
             // ),
           ),
-          initialRoute: LoginScreen.routeName,
+          initialRoute: WelcomeScreen.routeName,
           routes: routes,
         );
       },
