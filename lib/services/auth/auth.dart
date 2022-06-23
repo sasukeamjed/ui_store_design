@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ui_store_design/errors/bad_request_exeption.dart';
@@ -10,12 +12,6 @@ import 'package:ui_store_design/errors/unauthorized_exception.dart';
 import 'package:ui_store_design/models/user_model.dart';
 import 'package:ui_store_design/services/auth/states/auth_state.dart';
 
-enum AuthStateEnum {
-  unauthenticated,
-  authenticated,
-  authenticating,
-  failed,
-}
 
 // StateNotifier is recommended to encapsulate all your business
 // logic into a single class and use it from there.
@@ -89,29 +85,75 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     try{
       state = AuthLoading();
       response = await _dio.post("wp-json/api/v1/token", data: {
-        "username" : "sasukeamjedd",
+        "username" : "sasukeamjed",
         "password" : "Am95868408"
       });
+      final data = jsonDecode(response.data);
+
+      Map<String, dynamic> parsedJwt = _parseJwt(data["jwt_token"]);
       // await APIClient().saveTokens(response);
       // UserDefaultEntity entity = await ref.watch(userDefaultsProvider(param.sgId).future);
+      response = await _fetchUser(parsedJwt['sub'].toString());
       print("This is the succesful response data : ${response.data}");
       // state = UserModel.fromJson(json);
-      state = AuthLoaded();
-      // return response;
+      state = AuthLoaded(UserModel.fromJson(response.data));
     }catch(e){
       state = AuthError(e.toString());
       print("this is the failed response with error : $e");
     }
 
+  }
 
-    // if (response.statusCode == 200) {
-    //
-    // } else {
-    //
-    //
-    //   // throw Exception(jsonDecode(response.body)['message'] ?? 'Unknown Error');
-    // }
-    // return response;
+  Future<Response> _fetchUser(String id) async{
+
+    late Response response;
+
+    //ToDo: we have to make the user object nullable by adding the ? mark like this => User? user
+
+    try{
+      response = await _dio.get("/wp-json/wc/v3/customers/$id?consumer_key=ck_66f5ac06e98a00deed07deb52084af2c8582b1b4&consumer_secret=cs_edccfa40d65e6ede5b3ed40126793ef296910c58");
+      return response;
+
+
+    }catch(e){
+      print(e);
+    }
+
+    return response;
+  }
+
+  Map<String, dynamic> _parseJwt(String token) {
+    final parts = token.split('.');
+    if (parts.length != 3) {
+      throw Exception('invalid token');
+    }
+
+    final payload = _decodeBase64(parts[1]);
+    final payloadMap = json.decode(payload);
+    if (payloadMap is! Map<String, dynamic>) {
+      throw Exception('invalid payload');
+    }
+
+    return payloadMap;
+  }
+
+  String _decodeBase64(String str) {
+    String output = str.replaceAll('-', '+').replaceAll('_', '/');
+
+    switch (output.length % 4) {
+      case 0:
+        break;
+      case 2:
+        output += '==';
+        break;
+      case 3:
+        output += '=';
+        break;
+      default:
+        throw Exception('Illegal base64url string!"');
+    }
+
+    return utf8.decode(base64Url.decode(output));
   }
 }
 

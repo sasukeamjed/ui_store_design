@@ -118,7 +118,7 @@ class FetchingData{
 
     try{
       response = await _dio.post("wp-json/api/v1/token", data: {
-        "username" : "sasukeamjedd",
+        "username" : "sasukeamjed",
         "password" : "Am95868408"
       });
       final data = jsonDecode(response.data);

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/routes.dart';
+import 'package:ui_store_design/screens/home_screen/home_screen.dart';
+import 'package:ui_store_design/screens/login_screen/login.dart';
 import 'package:ui_store_design/screens/welcome_screen/welcome.dart';
 
 void main() {
@@ -39,7 +41,7 @@ class MyApp extends StatelessWidget {
             //   color: Colors.black,
             // ),
           ),
-          initialRoute: WelcomeScreen.routeName,
+          initialRoute: LoginScreen.routeName,
           routes: routes,
         );
       },

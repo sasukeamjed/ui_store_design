@@ -24,7 +24,7 @@ class Body extends ConsumerWidget {
   // final FetchingData data = FetchingData();
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final state = ref.watch(authProvider);
+
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
@@ -90,7 +90,7 @@ class Body extends ConsumerWidget {
                           else if(state is AuthLoading){
                             return CircularProgressIndicator();
                           }else if(state is AuthLoaded){
-                            return Text("state is loaded");
+                            Navigator.pushNamed(context, HomeScreen.routeName);
                           }else if(state is AuthError){
                             return Text(state.message);
                           }
