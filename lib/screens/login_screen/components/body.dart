@@ -19,7 +19,15 @@ import '../../../services/auth/auth.dart';
 //   return ref.read(authProvider.notifier).login();
 // });
 
-class Body extends ConsumerWidget {
+class Body extends ConsumerStatefulWidget  {
+  @override
+  ConsumerState<Body> createState() {
+    return _BodyState();
+  }
+
+}
+
+class _BodyState extends ConsumerState <Body> {
 
   // final FetchingData data = FetchingData();
   Future<void> delay(BuildContext context){
@@ -27,8 +35,29 @@ class Body extends ConsumerWidget {
       Navigator.pushReplacementNamed(context, HomeScreen.routeName);
     });
   }
+
+  late final state;
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  void initState() {
+
+    super.initState();
+  }
+
+
+  @override
+  void didChangeDependencies() {
+    state = ref.watch(authProvider);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if(state == AuthLoaded){
+        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+      }
+    });
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     return SafeArea(
       child: SingleChildScrollView(
@@ -79,7 +108,7 @@ class Body extends ConsumerWidget {
 
                         BuildButton(
                           press: () async {
-                            ref.read(authProvider.notifier).login();
+                            // ref.read(authProvider.notifier).login();
 
                             // print("response from login page : $res");
                             // Response response = await data.fetchUser();
@@ -87,21 +116,22 @@ class Body extends ConsumerWidget {
                           },
                           text: "LOGIN",
                         ),
-                        Consumer(builder: (context, ref, child){
-                          final state = ref.watch(authProvider);
-                          if(state is AuthInitial){
-                            return Container();
-                          }
-                          else if(state is AuthLoading){
-                            return CircularProgressIndicator();
-                          }else if(state is AuthLoaded){
-                            delay(context);
-                            // Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-                          }else if(state is AuthError){
-                            return Text(state.message);
-                          }
-                          return Container();
-                        },),
+                        state is AuthInitial ? CircularProgressIndicator() : Text("error"),
+                        // Consumer(builder: (context, ref, child){
+                        //   final state = ref.watch(authProvider);
+                        //   if(state is AuthInitial){
+                        //     return Container();
+                        //   }
+                        //   else if(state is AuthLoading){
+                        //     return CircularProgressIndicator();
+                        //   }else if(state is AuthLoaded){
+                        //     delay(context);
+                        //     // Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+                        //   }else if(state is AuthError){
+                        //     return Text(state.message);
+                        //   }
+                        //   return Container();
+                        // },),
                         SizedBox(
                           height: 40.h,
                         ),
