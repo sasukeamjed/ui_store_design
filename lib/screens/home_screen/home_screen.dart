@@ -1,19 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ui_store_design/screens/home_screen/componenets/appbar.dart';
 import 'package:ui_store_design/screens/login_screen/login.dart';
+import 'package:ui_store_design/services/auth/auth.dart';
+import 'package:ui_store_design/services/auth/states/auth_state.dart';
+import 'package:ui_store_design/services/data/data.dart';
+import 'package:ui_store_design/services/data/states/data_states.dart';
 
 import 'componenets/body.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   static String routeName = "/home";
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState <HomeScreen> {
   late TextEditingController _searchController;
   late bool _isSearching;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
@@ -36,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     _searchController = TextEditingController();
     _isSearching = false;
-
+    ref.read(dataProvider.notifier).fetchRecentProducts();
     super.initState();
   }
 
@@ -72,13 +76,28 @@ class _HomeScreenState extends State<HomeScreen> {
           child: ListView(
             children: [
               Card(
-                child: ListTile(
-                  title: Text("Login in"),
-                  leading: Icon(Icons.person),
-                  onTap: (){
-                    Navigator.of(context).pop();
-                    Navigator.pushNamed(context, LoginScreen.routeName);
-                  },
+                child: Consumer(
+                  builder: (context, ref, _) {
+                    final state = ref.watch(authProvider);
+                    if(state is AuthLoaded){
+                      return ListTile(
+                        title: Text(state.userModel.email ?? "default name"),
+                        leading: Icon(Icons.person),
+                        onTap: (){
+                          Navigator.of(context).pop();
+                          Navigator.pushNamed(context, LoginScreen.routeName);
+                        },
+                      );
+                    }
+                    return ListTile(
+                      title: Text("Log In"),
+                      leading: Icon(Icons.person),
+                      onTap: (){
+                        Navigator.of(context).pop();
+                        Navigator.pushNamed(context, LoginScreen.routeName);
+                      },
+                    );
+                  }
                 ),
               ),
             ],
@@ -100,84 +119,3 @@ class _HomeScreenState extends State<HomeScreen> {
 
 }
 
-class AnimatedAppBar extends StatefulWidget implements PreferredSizeWidget {
-  final TextEditingController searchController;
-  final GlobalKey<ScaffoldState> scaffoldKey;
-  bool isSearching;
-  final Function stopSearchCallBack;
-  final Function startSearchCallBack;
-
-  AnimatedAppBar(
-      {Key? key,
-      required this.searchController,
-      required this.isSearching,
-      required this.scaffoldKey,
-      required this.stopSearchCallBack,
-      required this.startSearchCallBack,})
-      : super(key: key);
-
-  @override
-  State<AnimatedAppBar> createState() => _AnimatedAppBarState();
-
-  @override
-  Size get preferredSize => Size.fromHeight(AppBar().preferredSize.height);
-}
-
-class _AnimatedAppBarState extends State<AnimatedAppBar> {
-
-  @override
-  Widget build(BuildContext context) {
-    print("inside animated appbar built method issearching = ${widget.isSearching}");
-    return SafeArea(
-      child: SafeArea(
-        child: Container(
-          color: Color(0xFFededed),
-          height: AppBar().preferredSize.height,
-          child: widget.isSearching
-              ? CupertinoSearchTextField(
-                  onSuffixTap: () {
-                    widget.searchController.clear();
-                    widget.stopSearchCallBack();
-                    // setState(() {
-                    //   widget.searchController.clear();
-                    //   widget.isSearching = false;
-                    // });
-                  },
-                  autofocus: true,
-                  controller: widget.searchController,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFededed),
-                  ),
-                )
-              : Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                        child: Icon(Icons.menu),
-                        onTap: () {
-                          widget.scaffoldKey.currentState!.openDrawer();
-                        },
-                      ),
-                      Spacer(),
-                      Icon(Icons.shopping_cart),
-                      SizedBox(
-                        width: 20.w,
-                      ),
-                      GestureDetector(
-                        child: Icon(Icons.search),
-                        onTap: () {
-                          setState(() {
-                            widget.startSearchCallBack();
-                            // widget.isSearching = true;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-        ),
-      ),
-    );
-  }
-}

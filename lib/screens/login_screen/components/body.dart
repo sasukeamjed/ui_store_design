@@ -19,54 +19,17 @@ import '../../../services/auth/auth.dart';
 //   return ref.read(authProvider.notifier).login();
 // });
 
-class Body extends ConsumerStatefulWidget  {
-  @override
-  ConsumerState<Body> createState() {
-    return _BodyState();
-  }
-
-}
-
-class _BodyState extends ConsumerState <Body> {
-
-  // final FetchingData data = FetchingData();
-  Future<void> delay(BuildContext context){
-    return Future.delayed(Duration(microseconds: 50), (){
-      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-    });
-  }
-
-  late final state;
-
-  @override
-  void initState() {
-
-    super.initState();
-  }
+class Body extends ConsumerWidget {
 
 
   @override
-  void didChangeDependencies() {
-    state = ref.watch(authProvider);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if(state == AuthLoaded){
-        Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-      }
-    });
-    super.didChangeDependencies();
-  }
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
 
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // SizedBox(
-            //   height: getProportionateScreenWidth(20),
-            // ),
             CloseButton(),
             Padding(
               padding: EdgeInsets.symmetric(
@@ -108,7 +71,7 @@ class _BodyState extends ConsumerState <Body> {
 
                         BuildButton(
                           press: () async {
-                            // ref.read(authProvider.notifier).login();
+                            ref.read(authProvider.notifier).login();
 
                             // print("response from login page : $res");
                             // Response response = await data.fetchUser();
@@ -116,22 +79,23 @@ class _BodyState extends ConsumerState <Body> {
                           },
                           text: "LOGIN",
                         ),
-                        state is AuthInitial ? CircularProgressIndicator() : Text("error"),
-                        // Consumer(builder: (context, ref, child){
-                        //   final state = ref.watch(authProvider);
-                        //   if(state is AuthInitial){
-                        //     return Container();
-                        //   }
-                        //   else if(state is AuthLoading){
-                        //     return CircularProgressIndicator();
-                        //   }else if(state is AuthLoaded){
-                        //     delay(context);
-                        //     // Navigator.pushReplacementNamed(context, HomeScreen.routeName);
-                        //   }else if(state is AuthError){
-                        //     return Text(state.message);
-                        //   }
-                        //   return Container();
-                        // },),
+                        // state is AuthLoading ? CircularProgressIndicator() : state is AuthError ? Text("error") : Container(),
+                        Consumer(builder: (context, ref, child){
+                          final state = ref.watch(authProvider);
+                          if(state is AuthInitial){
+                            return Container();
+                          }
+                          else if(state is AuthLoading){
+                            return CircularProgressIndicator();
+                          }else if(state is AuthLoaded){
+                            // delay(context);
+                            Future.microtask(() => Navigator.pushReplacementNamed(context, HomeScreen.routeName));
+                            // return HomeScreen();
+                          }else if(state is AuthError){
+                            return Text(state.message);
+                          }
+                          return Container();
+                        },),
                         SizedBox(
                           height: 40.h,
                         ),

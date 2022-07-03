@@ -75,7 +75,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   }
 
   Future<void> login() async {
-
+    print("login method is running");
     late Response response;
     // if (email.isEmpty || password.isEmpty) {
     //   state = AuthState.failed;
