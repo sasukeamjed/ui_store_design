@@ -41,7 +41,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
           handler.next(response);
         },
         onError: (DioError err, ErrorInterceptorHandler handler){
-          print("errors in handlers");
+          print("errors in handlers: ${err.response?.statusCode}");
           switch (err.type) {
             case DioErrorType.connectTimeout:
             case DioErrorType.sendTimeout:
@@ -99,7 +99,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       state = AuthLoaded(UserModel.fromJson(response.data));
     }catch(e){
       state = AuthError(e.toString());
-      print("this is the failed response with error : $e");
+      print("this is the failed response with error : $e}");
     }
 
   }
