@@ -71,11 +71,11 @@ class Body extends ConsumerWidget {
 
                         BuildButton(
                           press: () async {
-                            ref.read(authProvider.notifier).login();
+                            // ref.read(authProvider.notifier).login();
 
                             // print("response from login page : $res");
                             // Response response = await data.fetchUser();
-                            // press: ()=>Navigator.pushReplacementNamed(context, HomeScreen.routeName),
+                           Navigator.pushReplacementNamed(context, HomeScreen.routeName);
                           },
                           text: "LOGIN",
                         ),
