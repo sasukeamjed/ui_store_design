@@ -104,6 +104,51 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
 
   }
 
+  Future<void> signIn() async {
+    print("signin method is running");
+    late Response response;
+    // if (email.isEmpty || password.isEmpty) {
+    //   state = AuthState.failed;
+    //   return;
+    // }
+
+    try{
+      // state = AuthLoading();
+      response = await _dio.post("wp-json/wc/v3/customers", data: {
+        "email": "sasukeamjed2@gmail.com",
+        "first_name": "Amjed",
+        "last_name": "Al Anqoodi",
+        "username": "sasamjed",
+        "password": "123456789",
+        "billing": {
+          "first_name": "John",
+          "last_name": "Doe",
+          "company": "",
+          "address_1": "969 Market",
+          "address_2": "",
+          "city": "San Francisco",
+          "state": "CA",
+          "postcode": "94103",
+          "country": "US",
+          "email": "john.doe@example.com",
+          "phone": "(555) 555-5555"
+        }
+      });
+      // final data = jsonDecode(response.data);
+      //
+      // Map<String, dynamic> parsedJwt = _parseJwt(data["jwt_token"]);
+      // // await APIClient().saveTokens(response);
+      // // UserDefaultEntity entity = await ref.watch(userDefaultsProvider(param.sgId).future);
+      // response = await _fetchUser(parsedJwt['sub'].toString());
+      print("This is the succesful response data : ${response.data}");
+      // state = UserModel.fromJson(json);
+      // state = AuthLoaded(UserModel.fromJson(response.data));
+    }catch(e){
+      // state = AuthError(e.toString());
+      print("this is the failed response with error : $e}");
+    }
+  }
+
   Future<Response> _fetchUser(String id) async{
 
     late Response response;
