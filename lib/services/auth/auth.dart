@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,6 +29,15 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       receiveTimeout: 15000, // 15 seconds
       connectTimeout: 15000,
       sendTimeout: 15000,
+      queryParameters: {
+        'oauth_consumer_key' : 'ck_6ec2927822064d4c16919e31dc454ddd756aa0d8',
+        'consumer_secret' : 'cs_74939d4af6f411eefd570a307ef79685ea47e250',
+      },
+      headers: {
+        //HttpHeaders.authorizationHeader:'Bearer: $authToken',
+        HttpHeaders.contentTypeHeader: 'application/json',
+      },
+
     ));
 
     _dio.interceptors.add(
@@ -105,7 +115,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   }
 
   Future<void> signIn() async {
-    print("signin method is running");
+    print("SignIn method is running");
     late Response response;
     // if (email.isEmpty || password.isEmpty) {
     //   state = AuthState.failed;

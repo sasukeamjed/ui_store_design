@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/components/build_btn.dart';
 import 'package:ui_store_design/components/build_text_form_field.dart';
 import 'package:ui_store_design/screens/login_screen/login.dart';
+import 'package:ui_store_design/services/auth/auth.dart';
 import 'package:ui_store_design/size_config.dart';
 
-class Body extends StatelessWidget {
+class Body extends ConsumerWidget {
   const Body({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
@@ -47,7 +49,9 @@ class Body extends StatelessWidget {
                         SizedBox(
                           height: 38.h,
                         ),
-                        BuildButton(press: (){}, text: "SIGN UP"),
+                        BuildButton(press: (){
+                          ref.read(authProvider.notifier).signIn();
+                        }, text: "SIGN UP"),
                         SizedBox(
                           height: 70.h,
                         ),
