@@ -13,6 +13,8 @@ import 'package:ui_store_design/errors/unauthorized_exception.dart';
 import 'package:ui_store_design/models/user_model.dart';
 import 'package:ui_store_design/services/auth/states/auth_state.dart';
 
+import 'authO_1.0/autho_1.0.dart';
+
 
 // StateNotifier is recommended to encapsulate all your business
 // logic into a single class and use it from there.
@@ -124,7 +126,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
 
     try{
       // state = AuthLoading();
-      response = await _dio.post("wp-json/wc/v3/customers", data: {
+      response = await _dio.post(getOAuthURL('POST','http://localhost:10010/wp-json/wc/v3/customers'), data: {
         "email": "sasukeamjed2@gmail.com",
         "first_name": "Amjed",
         "last_name": "Al Anqoodi",
@@ -143,7 +145,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
           "email": "john.doe@example.com",
           "phone": "(555) 555-5555"
         }
-      });
+      },);
       // final data = jsonDecode(response.data);
       //
       // Map<String, dynamic> parsedJwt = _parseJwt(data["jwt_token"]);
