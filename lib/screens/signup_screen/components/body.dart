@@ -50,7 +50,7 @@ class Body extends ConsumerWidget {
                           height: 38.h,
                         ),
                         BuildButton(press: (){
-                          ref.read(authProvider.notifier).signIn();
+                          ref.read(authProvider.notifier).signUp();
                         }, text: "SIGN UP"),
                         SizedBox(
                           height: 70.h,

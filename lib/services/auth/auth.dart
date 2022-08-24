@@ -15,7 +15,6 @@ import 'package:ui_store_design/services/auth/states/auth_state.dart';
 
 import 'authO_1.0/autho_1.0.dart';
 
-
 // StateNotifier is recommended to encapsulate all your business
 // logic into a single class and use it from there.
 class AuthStateNotifier extends StateNotifier<AuthState> {
@@ -23,37 +22,38 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   final baseUrl = "https://4ustore.net/";
   late Dio _dio;
 
-
-  AuthStateNotifier() : super(AuthInitial()){
+  AuthStateNotifier() : super(AuthInitial()) {
+    // String username = 'ck_7fb1734b3d50ba0e55aedd31753d9450e021f8b7';
+    // String password = 'cs_c84a554bf9fbcabceeb864c518f9ae34efe97fe1';
+    // String basicAuth =
+    //     'Basic ' + base64Encode(utf8.encode('$username:$password'));
 
     _dio = Dio(BaseOptions(
       baseUrl: baseUrl,
-      receiveTimeout: 15000, // 15 seconds
+      receiveTimeout: 15000,
+      // 15 seconds
       connectTimeout: 15000,
       sendTimeout: 15000,
-      queryParameters: {
-        'oauth_consumer_key' : 'ck_6ec2927822064d4c16919e31dc454ddd756aa0d8',
-        'consumer_secret' : 'cs_74939d4af6f411eefd570a307ef79685ea47e250',
-      },
       headers: {
-        //HttpHeaders.authorizationHeader:'Bearer: $authToken',
+        // 'authorization': basicAuth,
+        // HttpHeaders.authorizationHeader: basicAuth,
         HttpHeaders.contentTypeHeader: 'application/json',
       },
-
     ));
 
     _dio.interceptors.add(
       InterceptorsWrapper(
-        onRequest: (request, handler){
+        onRequest: (request, handler) {
           print("${request.method} ${request.path}");
           handler.next(request);
         },
-        onResponse: (response, handler)async{
+        onResponse: (response, handler) async {
           print("from Onresponse");
           handler.next(response);
         },
-        onError: (DioError err, ErrorInterceptorHandler handler){
+        onError: (DioError err, ErrorInterceptorHandler handler) {
           print("errors in handlers: ${err.response?.statusCode}");
+          print("errors message: ");
           switch (err.type) {
             case DioErrorType.connectTimeout:
             case DioErrorType.sendTimeout:
@@ -83,7 +83,6 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
         },
       ),
     );
-
   }
 
   Future<void> login() async {
@@ -94,12 +93,10 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     //   return;
     // }
 
-    try{
+    try {
       state = AuthLoading();
-      response = await _dio.post("wp-json/api/v1/token", data: {
-        "username" : "sasukeamjed",
-        "password" : "Am95868408"
-      });
+      response = await _dio.post("wp-json/api/v1/token",
+          data: {"username": "sasukeamjed", "password": "Am95868408"});
       final data = jsonDecode(response.data);
 
       Map<String, dynamic> parsedJwt = _parseJwt(data["jwt_token"]);
@@ -109,14 +106,13 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       print("This is the succesful response data : ${response.data}");
       // state = UserModel.fromJson(json);
       state = AuthLoaded(UserModel.fromJson(response.data));
-    }catch(e){
+    } catch (e) {
       state = AuthError(e.toString());
       print("this is the failed response with error : $e}");
     }
-
   }
 
-  Future<void> signIn() async {
+  Future<void> signUp() async {
     print("SignIn method is running");
     late Response response;
     // if (email.isEmpty || password.isEmpty) {
@@ -124,28 +120,39 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     //   return;
     // }
 
-    try{
+    String username = 'ck_7fb1734b3d50ba0e55aedd31753d9450e021f8b7';
+    String password = 'cs_c84a554bf9fbcabceeb864c518f9ae34efe97fe1';
+    String basicAuth =
+        'Basic ' + base64Encode(utf8.encode('$username:$password'));
+
+    try {
       // state = AuthLoading();
-      response = await _dio.post(getOAuthURL('POST','http://localhost:10010/wp-json/wc/v3/customers'), data: {
-        "email": "sasukeamjed2@gmail.com",
-        "first_name": "Amjed",
-        "last_name": "Al Anqoodi",
-        "username": "sasamjed",
-        "password": "123456789",
-        "billing": {
-          "first_name": "John",
-          "last_name": "Doe",
-          "company": "",
-          "address_1": "969 Market",
-          "address_2": "",
-          "city": "San Francisco",
-          "state": "CA",
-          "postcode": "94103",
-          "country": "US",
-          "email": "john.doe@example.com",
-          "phone": "(555) 555-5555"
-        }
-      },);
+      response = await _dio.post(
+        'wp-json/wc/v3/customers',
+        options: Options(
+          headers: <String, String>{'authorization': basicAuth}
+        ),
+        data: {
+          "email": "sasukeamjed2@gmail.com",
+          "first_name": "Amjed",
+          "last_name": "Al Anqoodi",
+          "username": "sasamjed",
+          "password": "123456789",
+          "billing": {
+            "first_name": "John",
+            "last_name": "Doe",
+            "company": "",
+            "address_1": "969 Market",
+            "address_2": "",
+            "city": "San Francisco",
+            "state": "CA",
+            "postcode": "94103",
+            "country": "US",
+            "email": "john.doe@example.com",
+            "phone": "(555) 555-5555"
+          }
+        },
+      );
       // final data = jsonDecode(response.data);
       //
       // Map<String, dynamic> parsedJwt = _parseJwt(data["jwt_token"]);
@@ -155,24 +162,22 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       print("This is the succesful response data : ${response.data}");
       // state = UserModel.fromJson(json);
       // state = AuthLoaded(UserModel.fromJson(response.data));
-    }catch(e){
+    } catch (e) {
       // state = AuthError(e.toString());
       print("this is the failed response with error : $e}");
     }
   }
 
-  Future<Response> _fetchUser(String id) async{
-
+  Future<Response> _fetchUser(String id) async {
     late Response response;
 
     //ToDo: we have to make the user object nullable by adding the ? mark like this => User? user
 
-    try{
-      response = await _dio.get("/wp-json/wc/v3/customers/$id?consumer_key=ck_66f5ac06e98a00deed07deb52084af2c8582b1b4&consumer_secret=cs_edccfa40d65e6ede5b3ed40126793ef296910c58");
+    try {
+      response = await _dio.get(
+          "/wp-json/wc/v3/customers/$id?consumer_key=ck_66f5ac06e98a00deed07deb52084af2c8582b1b4&consumer_secret=cs_edccfa40d65e6ede5b3ed40126793ef296910c58");
       return response;
-
-
-    }catch(e){
+    } catch (e) {
       print(e);
     }
 

@@ -112,6 +112,6 @@ String getOAuthURL(String requestMethod, String queryUrl) {
         "&oauth_signature=" +
         Uri.encodeQueryComponent(finalSignature);
   }
-
+  print(requestUrl);
   return requestUrl;
 }
