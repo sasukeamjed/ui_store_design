@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ui_store_design/screens/home_screen/componenets/appbar.dart';
+import 'package:ui_store_design/screens/home_screen/componenets/home_drawer.dart';
 import 'package:ui_store_design/screens/login_screen/login.dart';
 import 'package:ui_store_design/services/auth/auth.dart';
 import 'package:ui_store_design/services/auth/states/auth_state.dart';
@@ -54,6 +55,9 @@ class _HomeScreenState extends ConsumerState <HomeScreen> {
   Widget build(BuildContext context) {
 
     return GestureDetector(
+      //Wraped the whole Scaffold in GestureDetector to remove the search TextField keyboard
+      //and check if Search TextField is empty or not if it is empty then we will set the _isSearching variable to false
+      //and then will return to home page
       onTap: () {
         FocusManager.instance.primaryFocus?.unfocus();
         if (_searchController.text.isEmpty) {
@@ -72,37 +76,9 @@ class _HomeScreenState extends ConsumerState <HomeScreen> {
           isSearching: _isSearching,
           scaffoldKey: _scaffoldKey,
         ),
-        drawer: Drawer(
-          child: ListView(
-            children: [
-              Card(
-                child: Consumer(
-                  builder: (context, ref, _) {
-                    final state = ref.watch(authProvider);
-                    if(state is AuthLoaded){
-                      return ListTile(
-                        title: Text(state.userModel.email ?? "default name"),
-                        leading: Icon(Icons.person),
-                        onTap: (){
-                          Navigator.of(context).pop();
-                          Navigator.pushNamed(context, LoginScreen.routeName);
-                        },
-                      );
-                    }
-                    return ListTile(
-                      title: Text("Log In"),
-                      leading: Icon(Icons.person),
-                      onTap: (){
-                        Navigator.of(context).pop();
-                        Navigator.pushNamed(context, LoginScreen.routeName);
-                      },
-                    );
-                  }
-                ),
-              ),
-            ],
-          ),
-        ),
+        drawer: HomeDrawer(),
+        //Here we check for _isSearching if it is true we will return The Search page which
+        //it is just a Container and if it is False we will return the body.
         body: _isSearching ?  Container(
           color: Color(0xFFededed),
           height: double.infinity,

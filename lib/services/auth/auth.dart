@@ -113,7 +113,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   }
 
   Future<void> signUp() async {
-    print("SignIn method is running");
+    print("SignUp method is running");
     late Response response;
     // if (email.isEmpty || password.isEmpty) {
     //   state = AuthState.failed;
@@ -133,10 +133,10 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
           headers: <String, String>{'authorization': basicAuth}
         ),
         data: {
-          "email": "sasukeamjed2@gmail.com",
+          "email": "sasukeamjed3@gmail.com",
           "first_name": "Amjed",
           "last_name": "Al Anqoodi",
-          "username": "sasamjed",
+          "username": "sasamjed2",
           "password": "123456789",
           "billing": {
             "first_name": "John",

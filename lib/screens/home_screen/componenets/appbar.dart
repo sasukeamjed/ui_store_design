@@ -33,52 +33,50 @@ class _AnimatedAppBarState extends State<AnimatedAppBar> {
   Widget build(BuildContext context) {
     print("inside animated appbar built method issearching = ${widget.isSearching}");
     return SafeArea(
-      child: SafeArea(
-        child: Container(
-          color: Color(0xFFededed),
-          height: AppBar().preferredSize.height,
-          child: widget.isSearching
-              ? CupertinoSearchTextField(
-            onSuffixTap: () {
-              widget.searchController.clear();
-              widget.stopSearchCallBack();
-              // setState(() {
-              //   widget.searchController.clear();
-              //   widget.isSearching = false;
-              // });
-            },
-            autofocus: true,
-            controller: widget.searchController,
-            decoration: BoxDecoration(
-              color: Color(0xFFededed),
-            ),
-          )
-              : Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: Row(
-              children: [
-                GestureDetector(
-                  child: Icon(Icons.menu),
-                  onTap: () {
-                    widget.scaffoldKey.currentState!.openDrawer();
-                  },
-                ),
-                Spacer(),
-                Icon(Icons.shopping_cart),
-                SizedBox(
-                  width: 20.w,
-                ),
-                GestureDetector(
-                  child: Icon(Icons.search),
-                  onTap: () {
-                    setState(() {
-                      widget.startSearchCallBack();
-                      // widget.isSearching = true;
-                    });
-                  },
-                ),
-              ],
-            ),
+      child: Container(
+        color: Color(0xFFededed),
+        height: AppBar().preferredSize.height,
+        child: widget.isSearching
+            ? CupertinoSearchTextField(
+          onSuffixTap: () {
+            widget.searchController.clear();
+            widget.stopSearchCallBack();
+            // setState(() {
+            //   widget.searchController.clear();
+            //   widget.isSearching = false;
+            // });
+          },
+          autofocus: true,
+          controller: widget.searchController,
+          decoration: BoxDecoration(
+            color: Color(0xFFededed),
+          ),
+        )
+            : Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          child: Row(
+            children: [
+              GestureDetector(
+                child: Icon(Icons.menu),
+                onTap: () {
+                  widget.scaffoldKey.currentState!.openDrawer();
+                },
+              ),
+              Spacer(),
+              Icon(Icons.shopping_cart),
+              SizedBox(
+                width: 20.w,
+              ),
+              GestureDetector(
+                child: Icon(Icons.search),
+                onTap: () {
+                  setState(() {
+                    widget.startSearchCallBack();
+                    // widget.isSearching = true;
+                  });
+                },
+              ),
+            ],
           ),
         ),
       ),

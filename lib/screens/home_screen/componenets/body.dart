@@ -8,6 +8,8 @@ import 'package:ui_store_design/screens/home_screen/componenets/home_upper_heade
 import 'package:ui_store_design/screens/home_screen/componenets/new_arrivals.dart';
 import 'package:ui_store_design/size_config.dart';
 
+
+//Body of HomeScreen
 class Body extends StatefulWidget {
   final Function stopSearchCallBack;
   Body({required this.stopSearchCallBack});
@@ -37,6 +39,7 @@ class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
     return NotificationListener<ScrollStartNotification>(
+      //Listen for Scroll Notifications and call stopSearchCallBack method when it dose
       onNotification: (ScrollNotification scrollNotification){
         if(scrollNotification is ScrollStartNotification){
           widget.stopSearchCallBack();
