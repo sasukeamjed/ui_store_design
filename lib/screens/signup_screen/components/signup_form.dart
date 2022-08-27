@@ -44,7 +44,7 @@ class SignUpForm extends ConsumerWidget {
               },
               text: "SIGN UP"),
           SizedBox(
-            height: 70.h,
+            height: 50.h,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

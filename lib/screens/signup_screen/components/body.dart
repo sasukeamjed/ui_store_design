@@ -35,9 +35,12 @@ class Body extends StatelessWidget {
                         style: TextStyle(fontFamily: "Avenir", fontSize: 34.sp),
                       ),
                       SizedBox(
-                        height: 23.h,
+                        height: 15.h,
                       ),
                       SignUpForm(),
+                      SizedBox(
+                        height: 15.h,
+                      ),
                     ],
                   ),
                 ),
