@@ -34,11 +34,11 @@ class SignInForm extends ConsumerWidget {
 
           BuildButton(
             press: () async {
-              // ref.read(authProvider.notifier).login();
+              ref.read(authProvider.notifier).login();
 
               // print("response from login page : $res");
               // Response response = await data.fetchUser();
-              Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+              // Navigator.pushReplacementNamed(context, HomeScreen.routeName);
             },
             text: "LOGIN",
           ),
@@ -73,7 +73,7 @@ class SignInForm extends ConsumerWidget {
                     fontSize: 17.sp),
               )),
           SizedBox(
-            height: 80.h,
+            height: 60.h,
           ),
           SizedBox(
             width: double.infinity,

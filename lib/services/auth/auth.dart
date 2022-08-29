@@ -20,6 +20,7 @@ import 'authO_1.0/autho_1.0.dart';
 class AuthStateNotifier extends StateNotifier<AuthState> {
   // Initialize with the default state of "unauthenticated".
   final baseUrl = "https://4ustore.net/";
+  final testUrl = "http://localhost:10010/";
   late Dio _dio;
 
   AuthStateNotifier() : super(AuthInitial()) {
@@ -29,7 +30,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     //     'Basic ' + base64Encode(utf8.encode('$username:$password'));
 
     _dio = Dio(BaseOptions(
-      baseUrl: baseUrl,
+      baseUrl: testUrl,
       receiveTimeout: 15000,
       // 15 seconds
       connectTimeout: 15000,
@@ -95,14 +96,17 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
 
     try {
       state = AuthLoading();
-      response = await _dio.post("wp-json/api/v1/token",
-          data: {"username": "sasukeamjed", "password": "Am95868408"});
-      final data = jsonDecode(response.data);
+      response = await _dio.post(
+        "wp-json/jwt-auth/v1/token",
+        queryParameters: {"username": "sasukeamjed", "password": "Am95868408"},
+        data: {"username": "sasukeamjed", "password": "Am95868408"},
+      );
+      // final data = jsonDecode(response.data);
 
-      Map<String, dynamic> parsedJwt = _parseJwt(data["jwt_token"]);
+      // Map<String, dynamic> parsedJwt = _parseJwt(data["jwt_token"]);
       // await APIClient().saveTokens(response);
       // UserDefaultEntity entity = await ref.watch(userDefaultsProvider(param.sgId).future);
-      response = await _fetchUser(parsedJwt['sub'].toString());
+      // response = await _fetchUser(parsedJwt['sub'].toString());
       print("This is the succesful response data : ${response.data}");
       // state = UserModel.fromJson(json);
       state = AuthLoaded(UserModel.fromJson(response.data));
@@ -129,9 +133,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       // state = AuthLoading();
       response = await _dio.post(
         'wp-json/wc/v3/customers',
-        options: Options(
-          headers: <String, String>{'authorization': basicAuth}
-        ),
+        options: Options(headers: <String, String>{'authorization': basicAuth}),
         data: {
           "email": "sasukeamjed3@gmail.com",
           "first_name": "Amjed",
