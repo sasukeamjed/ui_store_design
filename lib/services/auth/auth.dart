@@ -20,7 +20,7 @@ import 'authO_1.0/autho_1.0.dart';
 class AuthStateNotifier extends StateNotifier<AuthState> {
   // Initialize with the default state of "unauthenticated".
   final baseUrl = "https://4ustore.net/";
-  final testUrl = "http://localhost:10010/";
+  final testUrl = "http://firashi.local/";
   late Dio _dio;
 
   AuthStateNotifier() : super(AuthInitial()) {
@@ -77,6 +77,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
             case DioErrorType.cancel:
               break;
             case DioErrorType.other:
+              print("No internet Connection Error: ${err.message}");
               throw NoInternetConnectionException(err.requestOptions);
           }
 
