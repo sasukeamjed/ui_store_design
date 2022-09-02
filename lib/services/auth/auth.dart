@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,6 +22,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   // Initialize with the default state of "unauthenticated".
   final baseUrl = "https://4ustore.net/";
   final testUrl = "http://firashi.local/";
+  final desktopTestUrl = "http://10.0.2.2:10010/";
   late Dio _dio;
 
   AuthStateNotifier() : super(AuthInitial()) {
@@ -30,13 +32,13 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     //     'Basic ' + base64Encode(utf8.encode('$username:$password'));
 
     _dio = Dio(BaseOptions(
-      baseUrl: testUrl,
+      baseUrl: desktopTestUrl,
       receiveTimeout: 15000,
       // 15 seconds
       connectTimeout: 15000,
       sendTimeout: 15000,
       headers: {
-        // 'authorization': basicAuth,
+        // 'authorization': desktopTestUrl,
         // HttpHeaders.authorizationHeader: basicAuth,
         HttpHeaders.contentTypeHeader: 'application/json',
       },
@@ -54,7 +56,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
         },
         onError: (DioError err, ErrorInterceptorHandler handler) {
           print("errors in handlers: ${err.response?.statusCode}");
-          print("errors message: ");
+          print("errors message: ${err.message}");
           switch (err.type) {
             case DioErrorType.connectTimeout:
             case DioErrorType.sendTimeout:
@@ -97,17 +99,17 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
 
     try {
       state = AuthLoading();
-      response = await _dio.post(
-        "wp-json/jwt-auth/v1/token",
-        queryParameters: {"username": "sasukeamjed", "password": "Am95868408"},
+      response = await _dio.post("wp-json/jwt-auth/v1/token",
         data: {"username": "sasukeamjed", "password": "Am95868408"},
       );
+
       // final data = jsonDecode(response.data);
 
-      // Map<String, dynamic> parsedJwt = _parseJwt(data["jwt_token"]);
+      Map<String, dynamic> parsedJwt = _parseJwt(response.data["token"]);
+      print("this parsed token => $parsedJwt");
       // await APIClient().saveTokens(response);
       // UserDefaultEntity entity = await ref.watch(userDefaultsProvider(param.sgId).future);
-      // response = await _fetchUser(parsedJwt['sub'].toString());
+      response = await _fetchUser(parsedJwt['data']['user']['id'].toString());
       print("This is the succesful response data : ${response.data}");
       // state = UserModel.fromJson(json);
       state = AuthLoaded(UserModel.fromJson(response.data));
@@ -178,7 +180,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
 
     try {
       response = await _dio.get(
-          "/wp-json/wc/v3/customers/$id?consumer_key=ck_66f5ac06e98a00deed07deb52084af2c8582b1b4&consumer_secret=cs_edccfa40d65e6ede5b3ed40126793ef296910c58");
+          "/wp-json/wc/v3/customers/$id?consumer_key=ck_88c454b2ecca2c7771ab5cb55b78960373bf34e2&consumer_secret=cs_16028554482085ee4873df46b4b1dcc090c3e448");
       return response;
     } catch (e) {
       print(e);
@@ -201,6 +203,103 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
 
     return payloadMap;
   }
+
+  /// This Generates a valid OAuth 1.0 URL
+  ///
+  /// if [isHttps] is true we just return the URL with
+  /// [consumerKey] and [consumerSecret] as query parameters
+  String _getOAuthURL(String requestMethod, String queryUrl) {
+    String cKey = 'ck_7fb1734b3d50ba0e55aedd31753d9450e021f8b7';
+    String cSecret = 'cs_c84a554bf9fbcabceeb864c518f9ae34efe97fe1';
+
+    String consumerKey = cKey;
+    String consumerSecret = cSecret;
+
+    String token = "";
+    String url = queryUrl;
+    bool containsQueryParams = url.contains("?");
+
+    Random rand = Random();
+    List<int> codeUnits = List.generate(10, (index) {
+      return rand.nextInt(26) + 97;
+    });
+
+    /// Random string uniquely generated to identify each signed request
+    String nonce = String.fromCharCodes(codeUnits);
+
+    /// The timestamp allows the Service Provider to only keep nonce values for a limited time
+    int timestamp = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+
+    String parameters = "oauth_consumer_key=" +
+        consumerKey +
+        "&oauth_nonce=" +
+        nonce +
+        "&oauth_signature_method=HMAC-SHA1&oauth_timestamp=" +
+        timestamp.toString() +
+        "&oauth_token=" +
+        token +
+        "&oauth_version=1.0&";
+
+    if (containsQueryParams == true) {
+      parameters = parameters + url.split("?")[1];
+    } else {
+      parameters = parameters.substring(0, parameters.length - 1);
+    }
+
+    Map<dynamic, dynamic> params = QueryString.parse(parameters);
+    Map<dynamic, dynamic> treeMap = new SplayTreeMap<dynamic, dynamic>();
+    treeMap.addAll(params);
+
+    String parameterString = "";
+
+    for (var key in treeMap.keys) {
+      parameterString = parameterString +
+          Uri.encodeQueryComponent(key) +
+          "=" +
+          treeMap[key] +
+          "&";
+    }
+
+    parameterString = parameterString.substring(0, parameterString.length - 1);
+
+    String method = requestMethod;
+    String baseString = method +
+        "&" +
+        Uri.encodeQueryComponent(
+            containsQueryParams == true ? url.split("?")[0] : url) +
+        "&" +
+        Uri.encodeQueryComponent(parameterString);
+
+    String signingKey = consumerSecret + "&" + token;
+    crypto.Hmac hmacSha1 =
+    crypto.Hmac(crypto.sha1, utf8.encode(signingKey)); // HMAC-SHA1
+
+    /// The Signature is used by the server to verify the
+    /// authenticity of the request and prevent unauthorized access.
+    /// Here we use HMAC-SHA1 method.
+    crypto.Digest signature = hmacSha1.convert(utf8.encode(baseString));
+
+    String finalSignature = base64Encode(signature.bytes);
+
+    String requestUrl = "";
+
+    if (containsQueryParams == true) {
+      requestUrl = url.split("?")[0] +
+          "?" +
+          parameterString +
+          "&oauth_signature=" +
+          Uri.encodeQueryComponent(finalSignature);
+    } else {
+      requestUrl = url +
+          "?" +
+          parameterString +
+          "&oauth_signature=" +
+          Uri.encodeQueryComponent(finalSignature);
+    }
+
+    return requestUrl;
+  }
+
 
   String _decodeBase64(String str) {
     String output = str.replaceAll('-', '+').replaceAll('_', '/');
