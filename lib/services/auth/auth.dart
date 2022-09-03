@@ -1,6 +1,8 @@
+import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
+import 'package:crypto/crypto.dart' as crypto;
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,6 +25,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   final baseUrl = "https://4ustore.net/";
   final testUrl = "http://firashi.local/";
   final desktopTestUrl = "http://10.0.2.2:10010/";
+  final laptopTestUrl = "http://firshibackup.local/";
   late Dio _dio;
 
   AuthStateNotifier() : super(AuthInitial()) {
@@ -32,7 +35,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     //     'Basic ' + base64Encode(utf8.encode('$username:$password'));
 
     _dio = Dio(BaseOptions(
-      baseUrl: desktopTestUrl,
+      baseUrl: laptopTestUrl,
       receiveTimeout: 15000,
       // 15 seconds
       connectTimeout: 15000,
@@ -179,11 +182,10 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     //ToDo: we have to make the user object nullable by adding the ? mark like this => User? user
 
     try {
-      response = await _dio.get(
-          "/wp-json/wc/v3/customers/$id?consumer_key=ck_88c454b2ecca2c7771ab5cb55b78960373bf34e2&consumer_secret=cs_16028554482085ee4873df46b4b1dcc090c3e448");
+      response = await Dio().get(_getOAuthURL("GET", "http://firshibackup.local/wp-json/wc/v3/customers/1"));
       return response;
     } catch (e) {
-      print(e);
+      print("fetchUser error => $e");
     }
 
     return response;
@@ -209,8 +211,8 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   /// if [isHttps] is true we just return the URL with
   /// [consumerKey] and [consumerSecret] as query parameters
   String _getOAuthURL(String requestMethod, String queryUrl) {
-    String cKey = 'ck_7fb1734b3d50ba0e55aedd31753d9450e021f8b7';
-    String cSecret = 'cs_c84a554bf9fbcabceeb864c518f9ae34efe97fe1';
+    String cKey = 'ck_40d53efed9efc25c197e03e94e45bd339492a4a4';
+    String cSecret = 'cs_cd1c44df7a8542d66abfa1ade9807286a1524542';
 
     String consumerKey = cKey;
     String consumerSecret = cSecret;
@@ -246,7 +248,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       parameters = parameters.substring(0, parameters.length - 1);
     }
 
-    Map<dynamic, dynamic> params = QueryString.parse(parameters);
+    Map<dynamic, dynamic> params = parse(parameters);
     Map<dynamic, dynamic> treeMap = new SplayTreeMap<dynamic, dynamic>();
     treeMap.addAll(params);
 
@@ -271,8 +273,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
         Uri.encodeQueryComponent(parameterString);
 
     String signingKey = consumerSecret + "&" + token;
-    crypto.Hmac hmacSha1 =
-    crypto.Hmac(crypto.sha1, utf8.encode(signingKey)); // HMAC-SHA1
+    crypto.Hmac hmacSha1 = crypto.Hmac(crypto.sha1, utf8.encode(signingKey)); // HMAC-SHA1
 
     /// The Signature is used by the server to verify the
     /// authenticity of the request and prevent unauthorized access.
@@ -298,6 +299,24 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     }
 
     return requestUrl;
+  }
+
+  Map parse(String query) {
+    var search = new RegExp('([^&=]+)=?([^&]*)');
+    var result = new Map();
+
+    // Get rid off the beginning ? in query strings.
+    if (query.startsWith('?')) query = query.substring(1);
+
+    // A custom decoder.
+    decode(String s) => Uri.decodeComponent(s.replaceAll('+', ' '));
+
+    // Go through all the matches and build the result map.
+    for (Match match in search.allMatches(query)) {
+      result[decode(match.group(1) ?? "null")] = decode(match.group(2) ?? "null");
+    }
+
+    return result;
   }
 
 

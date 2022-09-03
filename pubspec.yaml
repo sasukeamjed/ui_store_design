@@ -36,7 +36,7 @@ dependencies:
   dio: ^4.0.6
   json_annotation:
   flutter_riverpod: ^1.0.4
-  http:
+  crypto: ^3.0.2
 
 
 dev_dependencies:

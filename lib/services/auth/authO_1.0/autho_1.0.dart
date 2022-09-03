@@ -1,7 +1,6 @@
 import 'dart:collection';
 import 'dart:math';
 import 'package:crypto/crypto.dart' as crypto;
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 /// This Generates a valid OAuth 1.0 URL
