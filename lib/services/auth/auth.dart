@@ -16,6 +16,7 @@ import 'package:ui_store_design/errors/unauthorized_exception.dart';
 import 'package:ui_store_design/models/user_model.dart';
 import 'package:ui_store_design/services/auth/states/auth_state.dart';
 
+
 import 'authO_1.0/autho_1.0.dart';
 
 // StateNotifier is recommended to encapsulate all your business
@@ -24,7 +25,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   // Initialize with the default state of "unauthenticated".
   final baseUrl = "https://4ustore.net/";
   final testUrl = "http://firashi.local/";
-  final desktopTestUrl = "http://10.0.2.2:10010/";
+  final desktopTestUrl = "https://10.0.2.2:10010/";
   final laptopTestUrl = "http://firshibackup.local/";
   late Dio _dio;
 
@@ -35,7 +36,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     //     'Basic ' + base64Encode(utf8.encode('$username:$password'));
 
     _dio = Dio(BaseOptions(
-      baseUrl: laptopTestUrl,
+      baseUrl: baseUrl,
       receiveTimeout: 15000,
       // 15 seconds
       connectTimeout: 15000,
@@ -93,8 +94,9 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   }
 
   Future<void> login() async {
+
     print("login method is running");
-    late Response response;
+    Response responseUrl;
     // if (email.isEmpty || password.isEmpty) {
     //   state = AuthState.failed;
     //   return;
@@ -102,20 +104,22 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
 
     try {
       state = AuthLoading();
-      response = await _dio.post("wp-json/jwt-auth/v1/token",
-        data: {"username": "sasukeamjed", "password": "Am95868408"},
+      responseUrl = await _dio.post("wp-json/jwt-auth/v1/token",
+        data: {"username": "amjad", "password": "Am95868408"},
       );
 
       // final data = jsonDecode(response.data);
 
-      Map<String, dynamic> parsedJwt = _parseJwt(response.data["token"]);
+      Map<String, dynamic> parsedJwt = _parseJwt(responseUrl.data["token"]);
       print("this parsed token => $parsedJwt");
+      String id = parsedJwt["data"]["user"]["id"];
+      Response? response = await _fetchUser(id);
       // await APIClient().saveTokens(response);
       // UserDefaultEntity entity = await ref.watch(userDefaultsProvider(param.sgId).future);
-      response = await _fetchUser(parsedJwt['data']['user']['id'].toString());
-      print("This is the succesful response data : ${response.data}");
+      // response = await _fetchUser(parsedJwt['data']['user']['id'].toString());
+      print("This is the succesful response data : ${response?.data}");
       // state = UserModel.fromJson(json);
-      state = AuthLoaded(UserModel.fromJson(response.data));
+      state = AuthLoaded(UserModel.fromJson(response?.data));
     } catch (e) {
       state = AuthError(e.toString());
       print("this is the failed response with error : $e}");
@@ -176,13 +180,18 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  Future<Response> _fetchUser(String id) async {
-    late Response response;
+  Future<Response?> _fetchUser(String id) async {
+    Response? response;
 
     //ToDo: we have to make the user object nullable by adding the ? mark like this => User? user
-
+    String username = 'ck_acbdf21ce866d51e80917a414ee6b5ce43631536';
+    String password = 'cs_4ad9edebd22674617f8e0affba8c5f737a5bd3d5';
+    String basicAuth =
+        'Basic ' + base64.encode(utf8.encode('$username:$password'));
     try {
-      response = await Dio().get(_getOAuthURL("GET", "http://firshibackup.local/wp-json/wc/v3/customers/1"));
+      response = await _dio.get("wp-json/wc/v3/customers/$id", options: Options(headers: <String, String>{'authorization': basicAuth}));
+
+      print("fetch user response => $response");
       return response;
     } catch (e) {
       print("fetchUser error => $e");
@@ -211,8 +220,8 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   /// if [isHttps] is true we just return the URL with
   /// [consumerKey] and [consumerSecret] as query parameters
   String _getOAuthURL(String requestMethod, String queryUrl) {
-    String cKey = 'ck_40d53efed9efc25c197e03e94e45bd339492a4a4';
-    String cSecret = 'cs_cd1c44df7a8542d66abfa1ade9807286a1524542';
+    String cKey = 'ck_c68618d20d9e95ac083ffbb4d0f8c9a7112316d1';
+    String cSecret = 'cs_256b777addc13d3955e4feb704906981e078903c';
 
     String consumerKey = cKey;
     String consumerSecret = cSecret;

@@ -24,6 +24,7 @@ class FetchingData extends StateNotifier<DataState>{
   final baseUrl = "https://4ustore.net/";
   late Dio _dio;
 
+
   FetchingData() : super(DataInitial()){
     _dio = Dio(BaseOptions(
       baseUrl: baseUrl,
