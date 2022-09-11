@@ -37,11 +37,16 @@ dependencies:
   json_annotation:
   flutter_riverpod: ^1.0.4
   crypto: ^3.0.2
+  flutter_secure_storage: ^6.0.0
+
 
 
 dev_dependencies:
   build_runner:
   json_serializable:
+
+  flutter_native_splash: ^2.2.9
+    image: assets/images/splash_screen/logo-small.png
   flutter_test:
     sdk: flutter
 

@@ -14,6 +14,7 @@ import 'package:ui_store_design/errors/no_internet_connection_exception.dart';
 import 'package:ui_store_design/errors/not_found_exception.dart';
 import 'package:ui_store_design/errors/unauthorized_exception.dart';
 import 'package:ui_store_design/models/user_model.dart';
+import 'package:ui_store_design/secure_storage/secure_storage.dart';
 import 'package:ui_store_design/services/auth/states/auth_state.dart';
 
 
@@ -118,7 +119,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       // UserDefaultEntity entity = await ref.watch(userDefaultsProvider(param.sgId).future);
       // response = await _fetchUser(parsedJwt['data']['user']['id'].toString());
       print("This is the succesful response data : ${response?.data}");
-      // state = UserModel.fromJson(json);
+      UserDataSecureStorage.setUserToken(responseUrl.data["token"]);
       state = AuthLoaded(UserModel.fromJson(response?.data));
     } catch (e) {
       state = AuthError(e.toString());
