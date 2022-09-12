@@ -46,7 +46,11 @@ dev_dependencies:
   json_serializable:
 
   flutter_native_splash: ^2.2.9
-    image: assets/images/splash_screen/logo-small.png
+
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/images/splash_screen/logo-small.png
   flutter_test:
     sdk: flutter
 
