@@ -14,7 +14,7 @@ import 'package:ui_store_design/errors/no_internet_connection_exception.dart';
 import 'package:ui_store_design/errors/not_found_exception.dart';
 import 'package:ui_store_design/errors/unauthorized_exception.dart';
 import 'package:ui_store_design/models/user_model.dart';
-import 'package:ui_store_design/secure_storage/secure_storage.dart';
+import 'package:ui_store_design/secure_storage/secure_and_store_user_data.dart';
 import 'package:ui_store_design/services/auth/states/auth_state.dart';
 
 
@@ -125,6 +125,13 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       state = AuthError(e.toString());
       print("this is the failed response with error : $e}");
     }
+  }
+
+  Future<Response> tokenVerification(String token)async{
+    Response response = await _dio
+        .post("wp-json/jwt-auth/v1/token/validate",options: Options(headers: <String, String>{'authorization': 'Bearer xeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvNHVzdG9yZS5uZXQiLCJpYXQiOjE2NjI5ODg2ODIsIm5iZiI6MTY2Mjk4ODY4MiwiZXhwIjoxNjYzNTkzNDgyLCJkYXRhIjp7InVzZXIiOnsiaWQiOiIzIn19fQ.zKjYMn5XpPdTCf6dM6gq0HZ8irBprKLKrFhW1OcRxHo'}));
+    print(response.data);
+    return response;
   }
 
   Future<void> signUp() async {
