@@ -17,10 +17,11 @@ class WelcomeScreen extends ConsumerStatefulWidget {
 }
 
 class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
-
+  late Widget _mainBody;
   @override
   void initState() {
     super.initState();
+    _mainBody = Body();
     initialization();
   }
 
@@ -31,27 +32,27 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
     // ignore_for_file: avoid_print
     print('getting user data');
     print(await UserDataSecureStorage.getUserToken());
-    print('user data is ready');
-    Response response = await ref.read(authProvider.notifier).tokenVerification("token");
-    if(response.data['data']['status'] == 200){
-      print("status is 200");
+    String? token = await UserDataSecureStorage.getUserToken();
+    print('user data is ready: $token');
+    //ToDo: modifi parameter
+    Map<String, dynamic> response = await ref.read(authProvider.notifier).tokenVerification(token!);
+
+    if(token != "" && response['data']['status'] == 200){
+      setState(() {
+        _mainBody = HomeScreen();
+      });
     }
-    print('ready in 1...');
-    await Future.delayed(const Duration(seconds: 1));
-    print('go!');
     FlutterNativeSplash.remove();
+    print('go!');
   }
   //This function returns a widget according to the status code returned from authrizing header
-  Widget _authTokenPage(){
-    return statusCode == 200 ? HomeScreen() : Body();
-  }
+
+
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
 
-    return Scaffold(
-      body: _authTokenPage(),
-    );
+    return _mainBody;
   }
 }

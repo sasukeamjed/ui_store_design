@@ -127,11 +127,22 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     }
   }
 
-  Future<Response> tokenVerification(String token)async{
-    Response response = await _dio
-        .post("wp-json/jwt-auth/v1/token/validate",options: Options(headers: <String, String>{'authorization': 'Bearer xeyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvNHVzdG9yZS5uZXQiLCJpYXQiOjE2NjI5ODg2ODIsIm5iZiI6MTY2Mjk4ODY4MiwiZXhwIjoxNjYzNTkzNDgyLCJkYXRhIjp7InVzZXIiOnsiaWQiOiIzIn19fQ.zKjYMn5XpPdTCf6dM6gq0HZ8irBprKLKrFhW1OcRxHo'}));
-    print(response.data);
-    return response;
+  Future<Map<String, dynamic>> tokenVerification(String token)async{
+    Response response;
+    try{
+      response = await _dio
+          .post("wp-json/jwt-auth/v1/token/validate",options: Options(headers: <String, String>{'authorization': 'Bearer $token'}));
+      return response.data;
+    }catch(e){
+      return {
+        "code": "jwt_auth_invalid_token",
+        "message": e,
+        "data": {
+          "status": 403
+        },
+      };
+    }
+
   }
 
   Future<void> signUp() async {

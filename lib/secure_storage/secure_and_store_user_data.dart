@@ -10,6 +10,6 @@ class UserDataSecureStorage{
   }
 
   static Future<String?> getUserToken() async{
-    return await _storage.read(key: _keyToken);
+    return await _storage.read(key: _keyToken) ?? "";
   }
 }

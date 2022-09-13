@@ -10,43 +10,45 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 42.w),
-      width: double.infinity,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/images/welcome_screen/welcome_screen_bg.png"),
-          fit: BoxFit.cover,
+    return Scaffold(
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 42.w),
+        width: double.infinity,
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/welcome_screen/welcome_screen_bg.png"),
+            fit: BoxFit.cover,
+          ),
         ),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Container(
-            width: double.infinity,
-            child: TextButton(
-              child: Text("Sign Up", style: TextStyle(color: Colors.black),),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(Colors.white),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              width: double.infinity,
+              child: TextButton(
+                child: Text("Sign Up", style: TextStyle(color: Colors.black),),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.white),
+                ),
+                onPressed: (){
+                  Navigator.pushNamed(context, SignUpScreen.routeName);
+                },
               ),
-              onPressed: (){
-                Navigator.pushNamed(context, SignUpScreen.routeName);
-              },
             ),
-          ),
-          Container(
-            width: double.infinity,
-            child: TextButton(
-              child: Text("Log In"),
-              onPressed: (){
-                Navigator.pushNamed(context, LoginScreen.routeName);
-              },
+            Container(
+              width: double.infinity,
+              child: TextButton(
+                child: Text("Log In"),
+                onPressed: (){
+                  Navigator.pushNamed(context, LoginScreen.routeName);
+                },
+              ),
             ),
-          ),
-          SizedBox(
-            height: 82.h,
-          ),
-        ],
+            SizedBox(
+              height: 82.h,
+            ),
+          ],
+        ),
       ),
     );
   }
