@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ui_store_design/screens/home_screen/componenets/appbar.dart';
 import 'package:ui_store_design/screens/home_screen/componenets/home_drawer.dart';
+import 'package:ui_store_design/screens/home_screen/componenets/searching_page.dart';
 import 'package:ui_store_design/screens/login_screen/login.dart';
 import 'package:ui_store_design/services/auth/auth.dart';
 import 'package:ui_store_design/services/auth/states/auth_state.dart';
@@ -79,14 +80,7 @@ class _HomeScreenState extends ConsumerState <HomeScreen> {
         drawer: HomeDrawer(),
         //Here we check for _isSearching if it is true we will return The Search page which
         //it is just a Container and if it is False we will return the body.
-        body: _isSearching ?  Container(
-          color: Color(0xFFededed),
-          height: double.infinity,
-          width: double.infinity,
-          child: Center(
-            child: Text("what are you searching for..."),
-          ),
-        ): Body(
+        body: _isSearching ?  SearchingPage(): Body(
           stopSearchCallBack: _stopSearching,
         ),
       ),

@@ -31,7 +31,6 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
     // delaying the user experience is a bad design practice!
     // ignore_for_file: avoid_print
     print('getting user data');
-    print(await UserDataSecureStorage.getUserToken());
     String? token = await UserDataSecureStorage.getUserToken();
     print('user data is ready: $token');
     //ToDo: modifi parameter

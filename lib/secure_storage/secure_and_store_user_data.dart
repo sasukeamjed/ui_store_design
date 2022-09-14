@@ -12,4 +12,8 @@ class UserDataSecureStorage{
   static Future<String?> getUserToken() async{
     return await _storage.read(key: _keyToken) ?? "";
   }
+
+  static Future<void> deleteUserToken() async{
+    return await _storage.delete(key: _keyToken);
+  }
 }

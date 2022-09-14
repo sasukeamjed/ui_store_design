@@ -132,6 +132,12 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     try{
       response = await _dio
           .post("wp-json/jwt-auth/v1/token/validate",options: Options(headers: <String, String>{'authorization': 'Bearer $token'}));
+      //if token is validated and we got 200 response than we want to fetch user by id
+      if(response.statusCode == 200){
+        Map<String, dynamic> parsedJwt = _parseJwt(token);
+        Response? fetchedUser = await _fetchUser(parsedJwt['data']['user']['id']);
+        state = AuthLoaded(UserModel.fromJson(fetchedUser?.data));
+      }
       return response.data;
     }catch(e){
       return {
@@ -197,6 +203,11 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       // state = AuthError(e.toString());
       print("this is the failed response with error : $e}");
     }
+  }
+
+  Future<void> logOut() async{
+    state = AuthInitial();
+    return UserDataSecureStorage.deleteUserToken();
   }
 
   Future<Response?> _fetchUser(String id) async {

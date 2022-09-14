@@ -43,35 +43,35 @@ class SignInForm extends ConsumerWidget {
             text: "LOGIN",
           ),
           // state is AuthLoading ? CircularProgressIndicator() : state is AuthError ? Text("error") : Container(),
-          Consumer(builder: (context, ref, child){
-            final state = ref.watch(authProvider);
-            if(state is AuthInitial){
+          Consumer(
+            builder: (context, ref, child) {
+              final state = ref.watch(authProvider);
+              if (state is AuthInitial) {
+                return Container();
+              } else if (state is AuthLoading) {
+                return CircularProgressIndicator();
+              } else if (state is AuthLoaded) {
+                // delay(context);
+                Future.microtask(() => Navigator.pushReplacementNamed(
+                    context, HomeScreen.routeName));
+                // return HomeScreen();
+              } else if (state is AuthError) {
+                return Text(state.message);
+              }
               return Container();
-            }
-            else if(state is AuthLoading){
-              return CircularProgressIndicator();
-            }else if(state is AuthLoaded){
-              // delay(context);
-              Future.microtask(() => Navigator.pushReplacementNamed(context, HomeScreen.routeName));
-              // return HomeScreen();
-            }else if(state is AuthError){
-              return Text(state.message);
-            }
-            return Container();
-          },),
+            },
+          ),
           SizedBox(
             height: 40.h,
           ),
           GestureDetector(
-              onTap: () =>
-                  Navigator.pushNamed(
-                      context, ForgotPasswordScreen.routeName),
-              child: Text(
-                "Forgot your password?",
-                style: TextStyle(
-                    fontFamily: "Avenir-Book",
-                    fontSize: 17.sp),
-              )),
+            onTap: () =>
+                Navigator.pushNamed(context, ForgotPasswordScreen.routeName),
+            child: Text(
+              "Forgot your password?",
+              style: TextStyle(fontFamily: "Avenir-Book", fontSize: 17.sp),
+            ),
+          ),
           SizedBox(
             height: 60.h,
           ),
@@ -89,9 +89,7 @@ class SignInForm extends ConsumerWidget {
               child: Text(
                 "LOGIN WITH FACEBOOK",
                 style: TextStyle(
-                    fontFamily: "Avenir",
-                    fontSize: 15.sp,
-                    color: Colors.blue),
+                    fontFamily: "Avenir", fontSize: 15.sp, color: Colors.blue),
               ),
               onPressed: () {},
             ),
@@ -104,17 +102,16 @@ class SignInForm extends ConsumerWidget {
             children: [
               Text(
                 "Don't have an account?",
-                style: TextStyle(
-                    fontSize: 17.sp,
-                    fontFamily: "Avenir-Book"),
+                style: TextStyle(fontSize: 17.sp, fontFamily: "Avenir-Book"),
               ),
               GestureDetector(
-                child: Text(" Sign Up",
-                  style: TextStyle(fontFamily: "Avenir-Medium",
-                      fontSize: 17.sp),),
+                child: Text(
+                  " Sign Up",
+                  style:
+                      TextStyle(fontFamily: "Avenir-Medium", fontSize: 17.sp),
+                ),
                 onTap: () =>
-                    Navigator.pushNamed(
-                        context, SignUpScreen.routeName),
+                    Navigator.pushNamed(context, SignUpScreen.routeName),
               ),
             ],
           ),

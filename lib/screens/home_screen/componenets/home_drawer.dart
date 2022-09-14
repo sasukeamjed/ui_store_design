@@ -10,34 +10,49 @@ class HomeDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      child: ListView(
-        children: [
-          Card(
-            child: Consumer(
-                builder: (context, ref, _) {
-                  final state = ref.watch(authProvider);
-                  if(state is AuthLoaded){
-                    return ListTile(
-                      title: Text(state.userModel.email ?? "default name"),
-                      leading: Icon(Icons.person),
-                      onTap: (){
-                        Navigator.of(context).pop();
-                        Navigator.pushNamed(context, LoginScreen.routeName);
-                      },
-                    );
-                  }
-                  return ListTile(
-                    title: Text("Log In"),
-                    leading: Icon(Icons.person),
-                    onTap: (){
-                      Navigator.of(context).pop();
-                      Navigator.pushNamed(context, LoginScreen.routeName);
-                    },
-                  );
-                }
-            ),
-          ),
-        ],
+      //The consumer is the top level widget, and it is the one which
+      //decides which ListView returns User Logged In ListView or User not logged In ListView
+      child: Consumer(
+        builder: (context, ref, child) {
+          final state = ref.watch(authProvider);
+          return state is AuthLoaded ? ListView(
+            children: [
+              Card(
+                child: ListTile(
+                  title: Text(state.userModel.email ?? "default name"),
+                  leading: Icon(Icons.person),
+                  onTap: (){
+                    Navigator.of(context).pop();
+                    Navigator.pushNamed(context, LoginScreen.routeName);
+                  },
+                ),
+              ),
+              Card(
+                child: ListTile(
+                  title: Text("Log Out"),
+                  leading: Icon(Icons.logout_rounded),
+                  onTap: (){
+                    ref.read(authProvider.notifier).login();
+                  },
+                ),
+              ),
+            ],
+          ):ListView(
+            children: [
+              Card(
+                child: ListTile(
+                  title: Text("Log In"),
+                  leading: Icon(Icons.login),
+                  onTap: (){
+                    ref.read(authProvider.notifier).login();
+                    Navigator.of(context).pop();
+                    Navigator.pushNamed(context, LoginScreen.routeName);
+                  },
+                ),
+              ),
+            ],
+          );
+        }
       ),
     );
   }
