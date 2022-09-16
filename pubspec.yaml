@@ -77,6 +77,7 @@ flutter:
     - assets/images/details2_products/
     - assets/images/details2_products/details_2_similar_items/
     - assets/images/cart_items/
+    - assets/images/splash_screen/logo-small.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

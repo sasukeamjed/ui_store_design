@@ -5,6 +5,7 @@ import 'package:ui_store_design/components/build_btn.dart';
 import 'package:ui_store_design/components/build_text_form_field.dart';
 import 'package:ui_store_design/screens/forgot_password_screen/forgot_password.dart';
 import 'package:ui_store_design/screens/home_screen/home_screen.dart';
+import 'package:ui_store_design/screens/home_screen_v2/home_screen_v2.dart';
 import 'package:ui_store_design/screens/signup_screen/signup.dart';
 import 'package:ui_store_design/services/auth/auth.dart';
 import 'package:ui_store_design/services/auth/states/auth_state.dart';
@@ -34,11 +35,12 @@ class SignInForm extends ConsumerWidget {
 
           BuildButton(
             press: () async {
+
               ref.read(authProvider.notifier).login();
 
               // print("response from login page : $res");
               // Response response = await data.fetchUser();
-              // Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+              // Navigator.pushReplacementNamed(context, HomeScreenV2.routeName);
             },
             text: "LOGIN",
           ),

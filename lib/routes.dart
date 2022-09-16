@@ -4,6 +4,7 @@ import 'package:ui_store_design/screens/details_screen/details.dart';
 import 'package:ui_store_design/screens/details_screen_2/details_screen_2.dart';
 import 'package:ui_store_design/screens/forgot_password_screen/forgot_password.dart';
 import 'package:ui_store_design/screens/home_screen/home_screen.dart';
+import 'package:ui_store_design/screens/home_screen_v2/home_screen_v2.dart';
 import 'package:ui_store_design/screens/login_screen/login.dart';
 import 'package:ui_store_design/screens/shopping_cart_screen/shopping_cart.dart';
 import 'package:ui_store_design/screens/signup_screen/signup.dart';
@@ -19,4 +20,5 @@ Map<String, WidgetBuilder> routes = {
   DetailsScreen2.routeName : (context)=>DetailsScreen2(),
   ShoppingCart.routeName : (context)=>ShoppingCart(),
   Checkout.routeName : (context)=>Checkout(),
+  HomeScreenV2.routeName : (context)=>HomeScreenV2(),
 };
