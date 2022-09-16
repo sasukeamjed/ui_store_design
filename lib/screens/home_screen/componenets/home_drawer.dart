@@ -32,7 +32,7 @@ class HomeDrawer extends StatelessWidget {
                   title: Text("Log Out"),
                   leading: Icon(Icons.logout_rounded),
                   onTap: (){
-                    ref.read(authProvider.notifier).login();
+                    ref.read(authProvider.notifier).logOut();
                   },
                 ),
               ),
@@ -44,7 +44,6 @@ class HomeDrawer extends StatelessWidget {
                   title: Text("Log In"),
                   leading: Icon(Icons.login),
                   onTap: (){
-                    ref.read(authProvider.notifier).login();
                     Navigator.of(context).pop();
                     Navigator.pushNamed(context, LoginScreen.routeName);
                   },
