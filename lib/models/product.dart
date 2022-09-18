@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 
 class Product {
+  //ToDo: we need to add filter for fetching products, we should not fetch products wich has not price and no publish status
   final int id;
   final String title;
+  final String postAuthor;
+  final String dateCreated;
+  final String status;
+  final bool featured;
+  final String description;
+  final String shortDescription;
+  final String sku;
   final double price;
   final String img;
   bool isFavorited;
