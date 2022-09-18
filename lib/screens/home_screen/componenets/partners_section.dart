@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ui_store_design/screens/home_screen/componenets/vendor_item.dart';
 
 class PartnersSection extends StatelessWidget {
   const PartnersSection({Key? key}) : super(key: key);
@@ -23,18 +24,10 @@ class PartnersSection extends StatelessWidget {
           SizedBox(
             height: 10.h,
           ),
-          Container(
-            height: 120.h,
-            width: 150.w,
-            color: Color(0xfff5f5f5),
-            child: Image.asset(
-              "assets/images/splash_screen/logo-small.png",
-              height: 80,
-              width: 80,
-            ),
-          ),
+          VendorItem(),
         ],
       ),
     );
   }
 }
+

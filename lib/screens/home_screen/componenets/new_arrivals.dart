@@ -29,9 +29,7 @@ class NewArrivalsSection extends StatelessWidget {
               Spacer(),
               Text(
                 "Show all",
-                style: TextStyle(
-                    fontFamily: "Avenir-Book",
-                    fontSize: 15.sp),
+                style: TextStyle(fontFamily: "Avenir-Book", fontSize: 15.sp),
               ),
               Icon(Icons.arrow_right),
             ],
@@ -45,8 +43,12 @@ class NewArrivalsSection extends StatelessWidget {
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemCount: products.length,
-              itemBuilder: (context, index){
-                return GestureDetector(child: NewArrivalItem(product: products[index]), onTap: ()=> Navigator.of(context).pushNamed(DetailsScreen2.routeName),);
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  child: NewArrivalItem(product: products[index]),
+                  onTap: () =>
+                      Navigator.of(context).pushNamed(DetailsScreen2.routeName),
+                );
               },
             ),
           ),
@@ -58,7 +60,8 @@ class NewArrivalsSection extends StatelessWidget {
 
 class NewArrivalItem extends StatefulWidget {
   const NewArrivalItem({
-    Key? key, required this.product,
+    Key? key,
+    required this.product,
   }) : super(key: key);
 
   final Product product;
@@ -78,26 +81,43 @@ class _NewArrivalItemState extends State<NewArrivalItem> {
           Stack(
             children: [
               Image.asset(
-                  widget.product.img, width: 140.w, height: 140.h, fit: BoxFit.cover,),
+                widget.product.img,
+                width: 140.w,
+                height: 140.h,
+                fit: BoxFit.cover,
+              ),
               Positioned(
                 right: 1,
                 child: GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     setState(() {
                       widget.product.isFavorited = !widget.product.isFavorited;
                     });
                   },
                   child: Padding(
                     padding: EdgeInsets.all(10.w),
-                    child: widget.product.isFavorited ? Icon(Icons.favorite) : Icon(Icons.favorite_border),
+                    child: widget.product.isFavorited
+                        ? Icon(Icons.favorite)
+                        : Icon(Icons.favorite_border),
                   ),
                 ),
               ),
             ],
           ),
-          SizedBox(height: 10.h,),
-          Text(widget.product.title, style: TextStyle(fontFamily: "Avenir", fontSize: 17.sp),),
-          Text("\$${widget.product.price}", style: TextStyle(fontFamily: "Avenir-Book", fontSize: 15.sp, color: Colors.black.withOpacity(0.4)),),
+          SizedBox(
+            height: 10.h,
+          ),
+          Text(
+            widget.product.title,
+            style: TextStyle(fontFamily: "Avenir", fontSize: 17.sp),
+          ),
+          Text(
+            "\$${widget.product.price}",
+            style: TextStyle(
+                fontFamily: "Avenir-Book",
+                fontSize: 15.sp,
+                color: Colors.black.withOpacity(0.4)),
+          ),
         ],
       ),
     );
