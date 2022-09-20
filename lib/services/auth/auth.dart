@@ -138,6 +138,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
         Response? fetchedUser = await _fetchUser(parsedJwt['data']['user']['id']);
         state = AuthLoaded(UserModel.fromJson(fetchedUser?.data));
       }
+      print("token is verified");
       return response.data;
     }catch(e){
       return {

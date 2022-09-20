@@ -32,32 +32,32 @@ class CartItems extends StatelessWidget {
               child: Container(
                 // color: Colors.blue,
                 child: ListView.builder(
-                  itemCount: shoppingCartProducts.length,
+                  // itemCount: shoppingCartProducts.length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: EdgeInsets.only(bottom: 15.0.h),
-                      child: Dismissible(
-                        //ToDo: add id key for dismissible widget
-                        key: Key(shoppingCartProducts[index].title),
-                        direction: DismissDirection.endToStart,
-                        background: Align(
-                          alignment: Alignment.centerRight,
-                          child: Container(
-                            margin: EdgeInsets.only(right: 15.w),
-                            height: 62.w,
-                            width: 62.w,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xFFFF2D55),
-                            ),
-                            child: Icon(Icons.delete, color: Colors.white),
-                          ),
-                        ),
-                        child: CartItem(
-                          itemsCount: 2,
-                          product: shoppingCartProducts[index],
-                        ),
-                      ),
+                      // child: Dismissible(
+                      //   //ToDo: add id key for dismissible widget
+                      //   // key: Key(shoppingCartProducts[index].title),
+                      //   direction: DismissDirection.endToStart,
+                      //   background: Align(
+                      //     alignment: Alignment.centerRight,
+                      //     child: Container(
+                      //       margin: EdgeInsets.only(right: 15.w),
+                      //       height: 62.w,
+                      //       width: 62.w,
+                      //       decoration: BoxDecoration(
+                      //         shape: BoxShape.circle,
+                      //         color: Color(0xFFFF2D55),
+                      //       ),
+                      //       child: Icon(Icons.delete, color: Colors.white),
+                      //     ),
+                      //   ),
+                      //   child: CartItem(
+                      //     itemsCount: 2,
+                      //     product: shoppingCartProducts[index],
+                      //   ),
+                      // ),
                     );
                   },
                 ),

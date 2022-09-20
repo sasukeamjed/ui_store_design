@@ -5,6 +5,7 @@ import 'package:ui_store_design/screens/home_screen/home_screen.dart';
 import 'package:ui_store_design/screens/welcome_screen/components/body.dart';
 import 'package:ui_store_design/secure_storage/secure_and_store_user_data.dart';
 import 'package:ui_store_design/services/auth/auth.dart';
+import 'package:ui_store_design/services/data/data.dart';
 import 'package:ui_store_design/size_config.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
@@ -35,7 +36,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
     print('user data is ready: $token');
     //ToDo: modifi parameter
     Map<String, dynamic> response = await ref.read(authProvider.notifier).tokenVerification(token!);
-
+    // await ref.read(dataProvider.notifier).dataInit();
     if(token != "" && response['data']['status'] == 200){
       setState(() {
         _mainBody = HomeScreen();

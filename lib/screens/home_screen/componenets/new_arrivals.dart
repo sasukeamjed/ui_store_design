@@ -42,13 +42,14 @@ class NewArrivalsSection extends StatelessWidget {
             child: ListView.builder(
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
-              itemCount: products.length,
+              // itemCount: products.length,
               itemBuilder: (context, index) {
-                return GestureDetector(
-                  child: NewArrivalItem(product: products[index]),
-                  onTap: () =>
-                      Navigator.of(context).pushNamed(DetailsScreen2.routeName),
-                );
+                return Container();
+                // return GestureDetector(
+                //   child: NewArrivalItem(product: products[index]),
+                //   onTap: () =>
+                //       Navigator.of(context).pushNamed(DetailsScreen2.routeName),
+                // );
               },
             ),
           ),

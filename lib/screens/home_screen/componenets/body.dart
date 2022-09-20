@@ -92,9 +92,10 @@ class _BodyState extends State<Body> {
               ListView.builder(
                 padding: EdgeInsets.only(top: 10.h, bottom: 10.h, left: 20.w,),
                 shrinkWrap: true,
-                itemCount: bestSellersProducts.length,
+                // itemCount: bestSellersProducts.length,
                 itemBuilder: (context, index) {
-                  return GestureDetector(child: BestSellerItem(product: bestSellersProducts[index]), onTap: ()=> Navigator.of(context).pushNamed(DetailsScreen.routeName),);
+                  return Container();
+                  // return GestureDetector(child: BestSellerItem(product: bestSellersProducts[index]), onTap: ()=> Navigator.of(context).pushNamed(DetailsScreen.routeName),);
                 },
               ),
             ],
