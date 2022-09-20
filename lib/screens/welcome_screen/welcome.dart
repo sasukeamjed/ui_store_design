@@ -19,6 +19,7 @@ class WelcomeScreen extends ConsumerStatefulWidget {
 
 class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
   late Widget _mainBody;
+  late int _status;
   @override
   void initState() {
     super.initState();
@@ -28,24 +29,27 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
 
   void initialization() async {
     // This is where you can initialize the resources needed by your app while
-    // the splash screen is displayed.  Remove the following example because
-    // delaying the user experience is a bad design practice!
-    // ignore_for_file: avoid_print
+    // the splash screen is displayed.
     print('getting user data');
     String? token = await UserDataSecureStorage.getUserToken();
     print('user data is ready: $token');
-    //ToDo: modifi parameter
-    Map<String, dynamic> response = await ref.read(authProvider.notifier).tokenVerification(token!);
+
     // await ref.read(dataProvider.notifier).dataInit();
-    if(token != "" && response['data']['status'] == 200){
-      setState(() {
+    if(token != ""){
+      // setState(() {
+      //   _mainBody = HomeScreen();
+      //   print("set state has been called");
+      // });
+      Map<String, dynamic> response = await ref.read(authProvider.notifier).tokenVerification(token!);
+      if(response['data']['status'] == 200){
+        _status = 200;
         _mainBody = HomeScreen();
-      });
+      }
     }
+
     FlutterNativeSplash.remove();
     print('go!');
   }
-  //This function returns a widget according to the status code returned from authrizing header
 
 
 
