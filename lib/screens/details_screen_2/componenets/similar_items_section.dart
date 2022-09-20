@@ -19,15 +19,15 @@ class SimilarItemsSection extends StatelessWidget {
         children: [
           SizedBox(
             height: 280.h,
-            child: ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              // itemCount: products.length,
-              itemBuilder: (context, index){
-                return Container();
-                // return GestureDetector(child: SimilarItem(product: products[index]), onTap: ()=> Navigator.of(context).pushNamed(DetailsScreen2.routeName),);
-              },
-            ),
+            // child: ListView.builder(
+            //   shrinkWrap: true,
+            //   scrollDirection: Axis.horizontal,
+            //   // itemCount: products.length,
+            //   itemBuilder: (context, index){
+            //     return Container();
+            //     // return GestureDetector(child: SimilarItem(product: products[index]), onTap: ()=> Navigator.of(context).pushNamed(DetailsScreen2.routeName),);
+            //   },
+            // ),
           ),
         ],
       ),

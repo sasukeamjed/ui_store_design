@@ -102,9 +102,9 @@ class FetchingData extends StateNotifier<DataState> {
 
     vendors.forEach((vendor) {
       products.forEach((product) {
-        if (vendor.vendorId == int.parse(product.postAuthor)) {
-          vendor.vendorProducts.add(product);
-        }
+        // if (vendor.vendorId == int.parse(product.postAuthor)) {
+        //   vendor.vendorProducts.add(product);
+        // }
       });
       vendorsWithListedProducts.add(vendor);
     });
@@ -125,21 +125,21 @@ class FetchingData extends StateNotifier<DataState> {
       print("Before Listing +++++++++++++++++++++++++++++++++++++");
       List<dynamic> products = response.data;
 
-      print(products
-          .map((product) => Product.fromJson(product))
-          .toList()
-          .where(
-              (product) => product.price != 0.00 && product.status == "publish")
-          .toList());
+      // print(products
+      //     .map((product) => Product.fromJson(product))
+      //     .toList()
+      //     .where(
+      //         (product) => product.price != 0.00 && product.status == "publish")
+      //     .toList());
       print("After Listing +++++++++++++++++++++++++++++++++++++++++++");
       // state = DataLoaded(products.map((data) => Product.fromJson(data)).toList());
       print("state is loaded --------------------------------------------");
-      return products
-          .map((product) => Product.fromJson(product))
-          .toList()
-          .where(
-              (product) => product.price != 0.00 && product.status == "publish")
-          .toList();
+      // return products
+      //     .map((product) => Product.fromJson(product))
+      //     .toList()
+      //     .where(
+      //         (product) => product.price != 0.00 && product.status == "publish")
+      //     .toList();
 
     } catch (e) {
       print(e);

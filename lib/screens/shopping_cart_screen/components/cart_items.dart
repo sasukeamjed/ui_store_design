@@ -38,7 +38,7 @@ class CartItems extends StatelessWidget {
                       padding: EdgeInsets.only(bottom: 15.0.h),
                       // child: Dismissible(
                       //   //ToDo: add id key for dismissible widget
-                      //   // key: Key(shoppingCartProducts[index].title),
+                      //   key: Key(shoppingCartProducts[index].title),
                       //   direction: DismissDirection.endToStart,
                       //   background: Align(
                       //     alignment: Alignment.centerRight,
