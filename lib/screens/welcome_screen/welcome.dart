@@ -30,20 +30,21 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
   void initialization() async {
     // This is where you can initialize the resources needed by your app while
     // the splash screen is displayed.
+
+    //check if there is token stored or not
     print('getting user data');
     String? token = await UserDataSecureStorage.getUserToken();
     print('user data is ready: $token');
 
-    // await ref.read(dataProvider.notifier).dataInit();
+    //fetching all the products and filtering them to their respective vendors
+    await ref.read(dataProvider.notifier).dataInit();
+
     if(token != ""){
-      // setState(() {
-      //   _mainBody = HomeScreen();
-      //   print("set state has been called");
-      // });
       Map<String, dynamic> response = await ref.read(authProvider.notifier).tokenVerification(token!);
       if(response['data']['status'] == 200){
-        _status = 200;
-        _mainBody = HomeScreen();
+        setState(() {
+          _mainBody = HomeScreen();
+        });
       }
     }
 

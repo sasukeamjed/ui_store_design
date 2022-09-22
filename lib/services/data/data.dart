@@ -15,11 +15,12 @@ import 'package:ui_store_design/models/user_model.dart';
 import 'package:ui_store_design/models/vendor_model.dart';
 import 'package:ui_store_design/services/data/states/data_states.dart';
 
-class FetchingData extends StateNotifier<DataState> {
+class VendorsList extends StateNotifier<List<Vendor>> {
   final baseUrl = "https://4ustore.net/";
+  final List<Vendor>? initialVendors;
   late Dio _dio;
 
-  FetchingData() : super(DataInitial()) {
+  VendorsList(this.initialVendors) : super(initialVendors ?? []) {
     _dio = Dio(BaseOptions(
       baseUrl: baseUrl,
       receiveTimeout: 15000, // 15 seconds
@@ -78,7 +79,7 @@ class FetchingData extends StateNotifier<DataState> {
   }
 
   Future<List<Vendor>> _fetchAllVendors() async {
-    state = DataInitial();
+
     late Response response;
     try {
       print("awaiting");
@@ -92,7 +93,7 @@ class FetchingData extends StateNotifier<DataState> {
       print("state is loaded --------------------------------------------");
     } catch (e) {
       print("This is an error from fetchAllVendors function => $e");
-      state = DataError(e.toString());
+
     }
     return [];
   }
@@ -108,7 +109,7 @@ class FetchingData extends StateNotifier<DataState> {
       });
       vendorsWithListedProducts.add(vendor);
     });
-    state = DataLoaded(vendorsWithListedProducts);
+    state = vendorsWithListedProducts;
   }
 
   Future<List<Product>> _fetchAllProducts() async {
@@ -125,31 +126,31 @@ class FetchingData extends StateNotifier<DataState> {
       print("Before Listing +++++++++++++++++++++++++++++++++++++");
       List<dynamic> products = response.data;
 
-      // print(products
-      //     .map((product) => Product.fromJson(product))
-      //     .toList()
-      //     .where(
-      //         (product) => product.price != 0.00 && product.status == "publish")
-      //     .toList());
+      print(products
+          .map((product) => Product.fromJson(product))
+          .toList()
+          .where(
+              (product) => product.price != 0.00 && product.status == "publish")
+          .toList());
       print("After Listing +++++++++++++++++++++++++++++++++++++++++++");
       // state = DataLoaded(products.map((data) => Product.fromJson(data)).toList());
       print("state is loaded --------------------------------------------");
-      // return products
-      //     .map((product) => Product.fromJson(product))
-      //     .toList()
-      //     .where(
-      //         (product) => product.price != 0.00 && product.status == "publish")
-      //     .toList();
+      return products
+          .map((product) => Product.fromJson(product))
+          .toList()
+          .where(
+              (product) => product.price != 0.00 && product.status == "publish")
+          .toList();
 
     } catch (e) {
       print(e);
-      state = DataError(e.toString());
+
     }
     return [];
   }
 
   Future<void> fetchRecentProducts() async {
-    state = DataInitial();
+
     late Response response;
 
     try {
@@ -169,10 +170,10 @@ class FetchingData extends StateNotifier<DataState> {
       print("state is loaded --------------------------------------------");
     } catch (e) {
       print(e);
-      state = DataError(e.toString());
+
     }
   }
 }
 
 final dataProvider =
-    StateNotifierProvider<FetchingData, DataState>((ref) => FetchingData());
+    StateNotifierProvider<VendorsList, List<Vendor>>((ref) => VendorsList());

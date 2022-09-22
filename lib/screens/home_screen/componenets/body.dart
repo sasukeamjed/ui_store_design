@@ -6,7 +6,7 @@ import 'package:ui_store_design/screens/details_screen/details.dart';
 import 'package:ui_store_design/screens/home_screen/componenets/best_seller_item.dart';
 import 'package:ui_store_design/screens/home_screen/componenets/home_upper_header.dart';
 import 'package:ui_store_design/screens/home_screen/componenets/new_arrivals.dart';
-import 'package:ui_store_design/screens/home_screen/componenets/partners_section.dart';
+import 'package:ui_store_design/screens/home_screen/componenets/vendors_section.dart';
 import 'package:ui_store_design/size_config.dart';
 
 
@@ -57,7 +57,7 @@ class _BodyState extends State<Body> {
               SizedBox(
                 height: 30.h,
               ),
-              PartnersSection(),
+              VendorsSection(),
               SizedBox(
                 height: 20.h,
               ),

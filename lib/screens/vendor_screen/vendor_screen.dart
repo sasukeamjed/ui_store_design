@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class VendorScreen extends StatelessWidget {
   const VendorScreen({Key? key}) : super(key: key);
-  static String routeName = "/home_v2";
+  static String routeName = "/vendor_screen";
 
   @override
   Widget build(BuildContext context) {
@@ -70,12 +70,12 @@ class VendorScreen extends StatelessWidget {
               //IconButton
               actions: <Widget>[
                 IconButton(
-                  icon: Icon(Icons.location_on_outlined),
+                  icon: Icon(Icons.filter_list),
                   tooltip: 'Setting Icon',
                   onPressed: () {},
                 ),
                 IconButton(
-                  icon: Icon(Icons.comment),
+                  icon: Icon(Icons.search),
                   tooltip: 'Comment Icon',
                   onPressed: () {},
                 ),
