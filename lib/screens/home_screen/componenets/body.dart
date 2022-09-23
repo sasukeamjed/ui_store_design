@@ -59,11 +59,11 @@ class _BodyState extends State<Body> {
               ),
               VendorsSection(),
               SizedBox(
-                height: 20.h,
+                height: 30.h,
               ),
               NewArrivalsSection(),
               SizedBox(
-                height: 20.h,
+                height: 30.h,
               ),
               Padding(
                 padding: EdgeInsets.only(

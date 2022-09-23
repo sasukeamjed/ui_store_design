@@ -15,12 +15,11 @@ import 'package:ui_store_design/models/user_model.dart';
 import 'package:ui_store_design/models/vendor_model.dart';
 import 'package:ui_store_design/services/data/states/data_states.dart';
 
-class VendorsList extends StateNotifier<List<Vendor>> {
+class VendorsList extends StateNotifier<List<Vendor>?> {
   final baseUrl = "https://4ustore.net/";
-  final List<Vendor>? initialVendors;
   late Dio _dio;
 
-  VendorsList(this.initialVendors) : super(initialVendors ?? []) {
+  VendorsList() : super([]) {
     _dio = Dio(BaseOptions(
       baseUrl: baseUrl,
       receiveTimeout: 15000, // 15 seconds
@@ -103,9 +102,9 @@ class VendorsList extends StateNotifier<List<Vendor>> {
 
     vendors.forEach((vendor) {
       products.forEach((product) {
-        // if (vendor.vendorId == int.parse(product.postAuthor)) {
-        //   vendor.vendorProducts.add(product);
-        // }
+        if (vendor.vendorId == int.parse(product.postAuthor)) {
+          vendor.vendorProducts.add(product);
+        }
       });
       vendorsWithListedProducts.add(vendor);
     });
@@ -149,31 +148,19 @@ class VendorsList extends StateNotifier<List<Vendor>> {
     return [];
   }
 
-  Future<void> fetchRecentProducts() async {
+  List<Product> sortProductsByDate(){
+    List<Product> allVendorsProducts = [];
 
-    late Response response;
+    state?.forEach((vendor) {
+      allVendorsProducts.addAll(vendor.vendorProducts);
+    });
 
-    try {
-      print("awaiting");
-      response = await _dio.get("wp-json/wc/v3/products", queryParameters: {
-        "consumer_key": "ck_66f5ac06e98a00deed07deb52084af2c8582b1b4",
-        "consumer_secret": "cs_edccfa40d65e6ede5b3ed40126793ef296910c58",
-        "orderby": "date",
-        "per_page": 5,
-      });
-      print("Before Listing +++++++++++++++++++++++++++++++++++++");
-      List<dynamic> products = response.data;
-      print(products[0]);
-      print("After Listing +++++++++++++++++++++++++++++++++++++++++++");
-      // state =
-      //     DataLoaded(products.map((data) => Product.fromJson(data)).toList());
-      print("state is loaded --------------------------------------------");
-    } catch (e) {
-      print(e);
+    allVendorsProducts.sort((product1, product2){
+      return product1.dateCreated!.compareTo(product2.dateCreated!);
+    });
 
-    }
+    return allVendorsProducts;
   }
 }
 
-final dataProvider =
-    StateNotifierProvider<VendorsList, List<Vendor>>((ref) => VendorsList());
+final dataProvider = StateNotifierProvider<VendorsList, List<Vendor>?>((ref) => VendorsList());

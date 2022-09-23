@@ -42,7 +42,7 @@ class _HomeScreenState extends ConsumerState <HomeScreen> {
   void initState() {
     _searchController = TextEditingController();
     _isSearching = false;
-    ref.read(dataProvider.notifier).fetchRecentProducts();
+    ref.read(dataProvider.notifier).sortProductsByDate();
     super.initState();
   }
 

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ui_store_design/models/vendor_model.dart';
 
 class VendorScreen extends StatelessWidget {
-  const VendorScreen({Key? key}) : super(key: key);
-  static String routeName = "/vendor_screen";
+  const VendorScreen({Key? key, required this.vendor}) : super(key: key);
+  // static String routeName = "/vendor_screen";
+  final Vendor vendor;
 
   @override
   Widget build(BuildContext context) {
@@ -18,45 +20,62 @@ class VendorScreen extends StatelessWidget {
               flexibleSpace: FlexibleSpaceBar(
                 titlePadding: EdgeInsets.all(0),
                 centerTitle: true,
-                title: Image.asset(
-                  "assets/images/splash_screen/logo-small.png",
-                  height: 80,
-                  width: 80,
-                ), //Text
-                background: Container(
-                  color: Colors.red,
-                  child: Column(
-                    children: [
-                      SizedBox(height: 20.h,),
-                      Text(
-                        "Shop: 4U Store",
-                        style: TextStyle(
-                          color: Colors.white,
+                // title: Image.network(
+                //   vendor.vendorShopLogo,
+                //   height: 80,
+                //   width: 80,
+                // ), //Text
+                background: Column(
+                  children: [
+                    Flexible(
+                      flex: 1,
+                      child: Image.network(vendor.mobileBanner, fit: BoxFit.fitWidth, width: double.infinity,),
+                    ),
+                    Flexible(
+                      flex: 1,
+                      child: Container(
+                        color: Colors.red,
+                        child: Row(
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Shop: ${vendor.vendorShopName}",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                                SizedBox(height: 10.h,),
+                                Text(
+                                  "Location: ${vendor.vendorAddress}",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                SizedBox(height: 10.h,),
+                                Text(
+                                  "Phone Number: ${vendor.vendorPhone}",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                SizedBox(height: 10.h,),
+                                Text(
+                                  "Contact Email: info@4ustore.net",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 20.h,),
+                          ],
                         ),
                       ),
-                      SizedBox(height: 10.h,),
-                      Text(
-                        "Location: Nizwa",
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(height: 10.h,),
-                      Text(
-                        "Phone Number: 95868408",
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                      SizedBox(height: 10.h,),
-                      Text(
-                        "Contact Email: info@4ustore.net",
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ), //Images.network
               ),
               //FlexibleSpaceBar

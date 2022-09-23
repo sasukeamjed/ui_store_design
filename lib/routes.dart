@@ -22,5 +22,5 @@ Map<String, WidgetBuilder> routes = {
   ShoppingCart.routeName : (context)=>ShoppingCart(),
   Checkout.routeName : (context)=>Checkout(),
   HomeScreenV2.routeName : (context)=>HomeScreenV2(),
-  VendorScreen.routeName : (context)=>VendorScreen(),
+  // VendorScreen.routeName : (context)=>VendorScreen(),
 };

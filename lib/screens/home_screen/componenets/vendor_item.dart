@@ -15,7 +15,7 @@ class VendorItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.of(context).pushNamed(VendorScreen.routeName);
+        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>VendorScreen(vendor: vendor)));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 3.w),
@@ -26,9 +26,7 @@ class VendorItem extends StatelessWidget {
           children: [
             Flexible(
               flex: 1,
-              child: Image.asset(
-                "assets/images/splash_screen/logo-small.png",
-              ),
+              child: Image.network(vendor.vendorShopLogo),
             ),
             SizedBox(
               width: 10.w,
@@ -40,7 +38,7 @@ class VendorItem extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "4U STORE",
+                    vendor.vendorShopName,
                     style: TextStyle(
                       fontFamily: "Avenir-Book",
                       fontSize: 17.sp,

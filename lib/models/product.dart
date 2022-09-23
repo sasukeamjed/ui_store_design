@@ -5,7 +5,7 @@ class Product {
   final int id;
   final String title;
   final String postAuthor;
-  final String dateCreated;
+  final DateTime? dateCreated;
   final String status;
   final bool featured;
   final String description;
@@ -24,7 +24,7 @@ class Product {
       id: data["id"],
       title: data["name"],
       postAuthor: data["post_author"],
-      dateCreated: data["date_created"],
+      dateCreated: DateTime.tryParse(data["date_created"]),
       price: double.parse(data["price"] == '' ? "0.00" : data["price"]),
       img: data["images"][0]["src"],
       featured: data["featured"],

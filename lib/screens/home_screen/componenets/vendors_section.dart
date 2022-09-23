@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/screens/home_screen/componenets/vendor_item.dart';
-import 'package:ui_store_design/services/data/states/data_states.dart';
 
 import '../../../services/data/data.dart';
 
@@ -19,27 +18,44 @@ class VendorsSection extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Partner Vendors",
-            style: TextStyle(
-              fontFamily: "Avenir",
-              fontSize: 24.sp,
-            ),
+          Row(
+            children: [
+              Text(
+                "Partner Vendors",
+                style: TextStyle(
+                  fontFamily: "Avenir",
+                  fontSize: 24.sp,
+                ),
+              ),
+              Spacer(),
+              Text(
+                "Show all",
+                style: TextStyle(fontFamily: "Avenir-Book", fontSize: 15.sp),
+              ),
+              Icon(Icons.arrow_right),
+            ],
           ),
           SizedBox(
             height: 10.h,
           ),
-          if (state is DataLoaded)
-            ListView.builder(
-              itemCount: state.vendors.length,
+          SizedBox(
+            height: 140.h,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: state?.length,
               scrollDirection: Axis.horizontal,
-              itemBuilder: (BuildContext context, int index){
-                return VendorItem(vendor: state.vendors[index],);
+              itemBuilder: (BuildContext context, int index) {
+                return Padding(
+                  padding: EdgeInsets.only(right: 20.w),
+                  child: VendorItem(
+                    vendor: state![index],
+                  ),
+                );
               },
             ),
+          ),
         ],
       ),
     );
   }
 }
-
