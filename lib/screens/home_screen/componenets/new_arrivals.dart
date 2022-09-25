@@ -42,18 +42,25 @@ class NewArrivalsSection extends ConsumerWidget {
           ),
           SizedBox(
             height: 260.h,
-            child: ListView.builder(
-              shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  child: NewArrivalItem(product: ref.read(dataProvider.notifier).sortProductsByDate()[index]),
-                  onTap: () =>
-                      Navigator.of(context).pushNamed(DetailsScreen2.routeName),
-                );
-              },
-            ),
+            child: ref.read(dataProvider.notifier).sortProductsByDate().isEmpty
+                ? Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: 5,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        child: NewArrivalItem(
+                            product: ref
+                                .read(dataProvider.notifier)
+                                .sortProductsByDate()[index]),
+                        onTap: () => Navigator.of(context)
+                            .pushNamed(DetailsScreen2.routeName),
+                      );
+                    },
+                  ),
           ),
         ],
       ),
@@ -96,7 +103,8 @@ class _NewArrivalItemState extends State<NewArrivalItem> {
                   child: GestureDetector(
                     onTap: () {
                       setState(() {
-                        widget.product.isFavorited = !widget.product.isFavorited;
+                        widget.product.isFavorited =
+                            !widget.product.isFavorited;
                       });
                     },
                     child: Padding(

@@ -17,20 +17,30 @@ class VendorScreen extends StatelessWidget {
             VendorSliverAppBar(
               vendor: vendor,
             ),
-            GridView.builder(
-              itemCount: vendor.vendorProducts.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+            SliverPadding(
+              padding: EdgeInsets.only(
+                top: 20.h,
+                right: 20.w,
+                left: 20.w,
               ),
-              itemBuilder: (context, index){
-                return Card(
-                  child: Container(
-                    height: 120.h,
-                    width: 80.w,
+              sliver: SliverGrid(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 0.8,
+                ),
+                delegate: SliverChildBuilderDelegate((context, index) {
+                  return Container(
                     color: Colors.blue,
-                  ),
-                );
-              },
+                    child: Container(
+                      color: Colors.green,
+                      height: 100,
+                      width: 100,
+                    ),
+                  );
+                }, childCount: vendor.vendorProducts.length),
+              ),
             ),
           ],
         ),
