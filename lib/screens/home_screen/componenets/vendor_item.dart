@@ -20,7 +20,7 @@ class VendorItem extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 3.w),
         height: 120.h,
-        width: 150.w,
+        width: 160.w,
         color: Color(0xfff5f5f5),
         child: Row(
           children: [

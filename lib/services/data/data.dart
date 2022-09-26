@@ -25,6 +25,7 @@ class VendorsList extends StateNotifier<List<Vendor>?> {
       receiveTimeout: 15000, // 15 seconds
       connectTimeout: 15000,
       sendTimeout: 15000,
+
     ));
 
     _dio.interceptors.add(

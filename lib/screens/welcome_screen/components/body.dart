@@ -6,8 +6,6 @@ import 'package:ui_store_design/screens/signup_screen/signup.dart';
 import 'package:ui_store_design/size_config.dart';
 
 class Body extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +14,8 @@ class Body extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/welcome_screen/welcome_screen_bg.png"),
+            image: AssetImage(
+                "assets/images/welcome_screen/welcome_screen_bg.png"),
             fit: BoxFit.cover,
           ),
         ),
@@ -25,21 +24,40 @@ class Body extends StatelessWidget {
           children: [
             Container(
               width: double.infinity,
+              height: 44.h,
               child: TextButton(
-                child: Text("Sign Up", style: TextStyle(color: Colors.black),),
+                child: Text(
+                  "Sign Up",
+                  style: TextStyle(
+                    fontFamily: "Avenir",
+                    fontSize: 15.sp,
+                    color: Colors.black,
+                  ),
+                ),
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(Colors.white),
                 ),
-                onPressed: (){
+                onPressed: () {
                   Navigator.pushNamed(context, SignUpScreen.routeName);
                 },
               ),
             ),
+            SizedBox(
+              height: 30.h,
+            ),
             Container(
+              height: 44.h,
               width: double.infinity,
               child: TextButton(
-                child: Text("Log In"),
-                onPressed: (){
+                child: Text(
+                  "Log In",
+                  style: TextStyle(
+                    fontFamily: "Avenir",
+                    fontSize: 15.sp,
+                    color: Colors.white,
+                  ),
+                ),
+                onPressed: () {
                   Navigator.pushNamed(context, LoginScreen.routeName);
                 },
               ),

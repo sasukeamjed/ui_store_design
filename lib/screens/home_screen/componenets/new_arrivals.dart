@@ -86,7 +86,7 @@ class _NewArrivalItemState extends State<NewArrivalItem> {
     return Padding(
       padding: EdgeInsets.only(right: 15.w),
       child: SizedBox(
-        width: 140,
+        width: 140.w,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -110,8 +110,8 @@ class _NewArrivalItemState extends State<NewArrivalItem> {
                     child: Padding(
                       padding: EdgeInsets.all(10.w),
                       child: widget.product.isFavorited
-                          ? Icon(Icons.favorite)
-                          : Icon(Icons.favorite_border),
+                          ? Icon(Icons.favorite, size: 24.w,)
+                          : Icon(Icons.favorite_border, size: 24.w,),
                     ),
                   ),
                 ),

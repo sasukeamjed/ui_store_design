@@ -25,8 +25,8 @@ class VendorSliverAppBar extends StatelessWidget {
             //(constraints.biggest.height) it gives you the height of it is child
             title: kToolbarHeight + MediaQuery.of(context).padding.top == constraints.biggest.height? Image.network(
               vendor.vendorShopLogo,
-              height: 80,
-              width: 80,
+              height: 80.w,
+              width: 80.w,
             ) : Container(), //Text
             background: Column(
               children: [
@@ -42,11 +42,11 @@ class VendorSliverAppBar extends StatelessWidget {
                   flex: 1,
                   child: Padding(
                     padding: EdgeInsets.symmetric(
-                        horizontal: 10.0.w, vertical: 15.h),
+                        horizontal: 10.0.w, vertical: 15.h,),
                     child: Row(
                       children: [
                         Flexible(
-                          flex: 2,
+                          flex: 3,
                           child: FittedBox(
                             child: Column(
                               crossAxisAlignment:
@@ -56,6 +56,7 @@ class VendorSliverAppBar extends StatelessWidget {
                                   "Shop: ${vendor.vendorShopName}",
                                   style: TextStyle(
                                     color: Colors.white,
+                                    fontSize: 14.sp,
                                   ),
                                   textAlign: TextAlign.left,
                                 ),
@@ -66,6 +67,7 @@ class VendorSliverAppBar extends StatelessWidget {
                                   "Location: ${vendor.vendorAddress}",
                                   style: TextStyle(
                                     color: Colors.white,
+                                    fontSize: 14.sp,
                                   ),
                                 ),
                                 SizedBox(
@@ -75,6 +77,7 @@ class VendorSliverAppBar extends StatelessWidget {
                                   "Phone Number: ${vendor.vendorPhone}",
                                   style: TextStyle(
                                     color: Colors.white,
+                                    fontSize: 14.sp,
                                   ),
                                 ),
                                 SizedBox(
@@ -84,19 +87,18 @@ class VendorSliverAppBar extends StatelessWidget {
                                   "Contact Email: info@4ustore.net",
                                   style: TextStyle(
                                     color: Colors.white,
+                                    fontSize: 14.sp,
                                   ),
                                 ),
                               ],
                             ),
                           ),
                         ),
-                        SizedBox(
-                          width: 10.w,
-                        ),
+                        Spacer(),
                         Flexible(
                           flex: 1,
                           child: Image.network(
-                              vendor.vendorShopLogo),
+                              vendor.vendorShopLogo, fit: BoxFit.fill,),
                         ),
                       ],
                     ),
@@ -108,10 +110,10 @@ class VendorSliverAppBar extends StatelessWidget {
         },
       ),
       //FlexibleSpaceBar
-      expandedHeight: 230,
+      expandedHeight: 230.h,
       backgroundColor: Colors.grey,
       leading: IconButton(
-        icon: Icon(Icons.arrow_back),
+        icon: Icon(Icons.arrow_back, size: 24.w,),
         tooltip: 'Back',
         onPressed: () {
           Navigator.pop(context);
@@ -119,14 +121,20 @@ class VendorSliverAppBar extends StatelessWidget {
       ),
       actions: <Widget>[
         IconButton(
-          icon: Icon(Icons.filter_list),
+          icon: Icon(Icons.filter_list, size: 24.w,),
           tooltip: 'Setting Icon',
           onPressed: () {},
         ),
+        SizedBox(
+          width: 10.w,
+        ),
         IconButton(
-          icon: Icon(Icons.search),
-          tooltip: 'Comment Icon',
+          icon: Icon(Icons.search, size: 24.w,),
+          tooltip: 'Search Icon',
           onPressed: () {},
+        ),
+        SizedBox(
+          width: 10.w,
         ),
       ],
     );

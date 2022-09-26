@@ -26,21 +26,53 @@ class VendorScreen extends StatelessWidget {
               sliver: SliverGrid(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10.w,
+                  mainAxisSpacing: 30.w,
                   childAspectRatio: 0.8,
                 ),
                 delegate: SliverChildBuilderDelegate((context, index) {
-                  return Container(
-                    color: Colors.blue,
-                    child: Container(
-                      color: Colors.green,
-                      height: 100,
-                      width: 100,
-                    ),
+                  return LayoutBuilder(
+                    builder: (context, constraints) {
+                      return Stack(
+                        clipBehavior: Clip.none,
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          Container(
+                            color: Colors.green,
+                            child: Image.network(vendor.vendorProducts[index].img),
+                          ),
+                          Positioned(
+                            bottom: -20.w,
+                            child: Container(
+                              width: 40.w,
+                              height: 40.w,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                shape: BoxShape.circle,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.5),
+                                    offset: Offset(0.0, 1.0), //(x,y)
+                                    blurRadius: 6.0,
+                                  ),
+                                ],
+                              ),
+                              child: FittedBox(
+                                child: Padding(padding: EdgeInsets.all(10.w),
+                                  child: Icon(Icons.favorite_border),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    }
                   );
                 }, childCount: vendor.vendorProducts.length),
               ),
+            ),
+            SizedBox(
+              height: 20.h,
             ),
           ],
         ),
