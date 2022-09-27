@@ -18,7 +18,6 @@ Map<String, WidgetBuilder> routes = {
   SignUpScreen.routeName : (context)=>SignUpScreen(),
   HomeScreen.routeName : (context)=>HomeScreen(),
   DetailsScreen.routeName : (context)=>DetailsScreen(),
-  DetailsScreen2.routeName : (context)=>DetailsScreen2(),
   ShoppingCart.routeName : (context)=>ShoppingCart(),
   Checkout.routeName : (context)=>Checkout(),
   HomeScreenV2.routeName : (context)=>HomeScreenV2(),

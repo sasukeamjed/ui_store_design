@@ -1,4 +1,8 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:ui_store_design/models/product_category_model.dart';
 
 class Product {
   //ToDo: we need to add filter for fetching products, we should not fetch products wich has not price and no publish status
@@ -12,7 +16,8 @@ class Product {
   final String shortDescription;
   final String sku;
   final double price;
-  final String img;
+  final List<String> images;
+  final List<ProductCategory> categories;
   bool isFavorited;
 
   // final String shortDescription;
@@ -26,12 +31,13 @@ class Product {
       postAuthor: data["post_author"],
       dateCreated: DateTime.tryParse(data["date_created"]),
       price: double.parse(data["price"] == '' ? "0.00" : data["price"]),
-      img: data["images"][0]["src"],
+      img: (data["images"] as List).map<Map<String, dynamic>>((e) => null),
       featured: data["featured"],
       status: data["status"],
       description: data["description"],
       shortDescription: data["short_description"],
       sku: data["sku"],
+      categories: (data["categories"] as List).map<ProductCategory>((json)=> ProductCategory.fromJson(json)).toList(),
       productColors: null,
     );
   }
@@ -48,6 +54,7 @@ class Product {
     required this.title,
     required this.price,
     required this.img,
+    required this.categories,
     this.isFavorited = false,
     required this.productColors,
   });

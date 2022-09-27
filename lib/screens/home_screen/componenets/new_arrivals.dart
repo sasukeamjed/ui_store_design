@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/models/product.dart';
 import 'package:ui_store_design/screens/details_screen_2/details_screen_2.dart';
+import 'package:ui_store_design/screens/home_screen/componenets/product_item.dart';
 import 'package:ui_store_design/services/data/data.dart';
 
 class NewArrivalsSection extends ConsumerWidget {
@@ -52,12 +53,8 @@ class NewArrivalsSection extends ConsumerWidget {
                     itemCount: 5,
                     itemBuilder: (context, index) {
                       return GestureDetector(
-                        child: NewArrivalItem(
-                            product: ref
-                                .read(dataProvider.notifier)
-                                .sortProductsByDate()[index]),
-                        onTap: () => Navigator.of(context)
-                            .pushNamed(DetailsScreen2.routeName),
+                        child: ProductItem(product: ref.read(dataProvider.notifier).sortProductsByDate()[index]),
+                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> DetailsScreen2(product: ref.read(dataProvider.notifier).sortProductsByDate()[index],))),
                       );
                     },
                   ),
@@ -68,73 +65,3 @@ class NewArrivalsSection extends ConsumerWidget {
   }
 }
 
-class NewArrivalItem extends StatefulWidget {
-  const NewArrivalItem({
-    Key? key,
-    required this.product,
-  }) : super(key: key);
-
-  final Product product;
-
-  @override
-  State<NewArrivalItem> createState() => _NewArrivalItemState();
-}
-
-class _NewArrivalItemState extends State<NewArrivalItem> {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(right: 15.w),
-      child: SizedBox(
-        width: 140.w,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
-              children: [
-                Image.network(
-                  widget.product.img,
-                  width: 140.w,
-                  height: 140.h,
-                  fit: BoxFit.fill,
-                ),
-                Positioned(
-                  right: 1,
-                  child: GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        widget.product.isFavorited =
-                            !widget.product.isFavorited;
-                      });
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.all(10.w),
-                      child: widget.product.isFavorited
-                          ? Icon(Icons.favorite, size: 24.w,)
-                          : Icon(Icons.favorite_border, size: 24.w,),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            AutoSizeText(
-              widget.product.title,
-              style: TextStyle(fontFamily: "Avenir", fontSize: 17.sp),
-              maxLines: 2,
-            ),
-            Text(
-              "\$${widget.product.price}",
-              style: TextStyle(
-                  fontFamily: "Avenir-Book",
-                  fontSize: 15.sp,
-                  color: Colors.black.withOpacity(0.4)),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

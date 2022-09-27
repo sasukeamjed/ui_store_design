@@ -4,17 +4,18 @@ import 'package:ui_store_design/size_config.dart';
 
 class ProductImagesSlider extends StatefulWidget {
   ProductImagesSlider({
-    Key? key,
+    Key? key, required this.images,
   }) : super(key: key);
+
+  final List<String> images;
 
   @override
   State<ProductImagesSlider> createState() => _ProductImagesSliderState();
 }
 
 class _ProductImagesSliderState extends State<ProductImagesSlider> {
-  int currentImage = 0;
+  int _currentImage = 0;
 
-  List<String> images = ["assets/images/dummy_product_images/light_1.jpg", "assets/images/dummy_product_images/light_2.jpg", "assets/images/dummy_product_images/light_3.jpg", "assets/images/dummy_product_images/light_4.jpg", "assets/images/dummy_product_images/light_5.jpg"];
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +25,15 @@ class _ProductImagesSliderState extends State<ProductImagesSlider> {
       child: Stack(
         children: [
           PageView.builder(
-              itemCount: images.length,
+              itemCount: widget.images.length,
               onPageChanged: (value){
                 setState(() {
-                  currentImage = value;
+                  _currentImage = value;
                 });
               },
               itemBuilder: (context, index) {
-                return Image.asset(
-                  images[index],
+                return Image.network(
+                  widget.images[index],
                   fit: BoxFit.fitWidth,
                   width: double.infinity,
                   height: 250.h,
@@ -66,7 +67,7 @@ class _ProductImagesSliderState extends State<ProductImagesSlider> {
           width: 10.w,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: currentImage == index ? Colors.black : Colors.grey,
+            color: _currentImage == index ? Colors.black : Colors.grey,
           ),
         ),
       ),

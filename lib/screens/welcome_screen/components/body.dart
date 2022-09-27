@@ -24,7 +24,7 @@ class Body extends StatelessWidget {
           children: [
             Container(
               width: double.infinity,
-              height: 44.h,
+              height: 50.h,
               child: TextButton(
                 child: Text(
                   "Sign Up",
@@ -46,7 +46,7 @@ class Body extends StatelessWidget {
               height: 30.h,
             ),
             Container(
-              height: 44.h,
+              height: 50.h,
               width: double.infinity,
               child: TextButton(
                 child: Text(
