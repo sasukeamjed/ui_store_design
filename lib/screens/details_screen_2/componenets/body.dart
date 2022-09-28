@@ -27,11 +27,11 @@ class Body extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ProductImagesSlider(images: product.img,),
+          ProductImagesSlider(images: product.images,),
           SizedBox(
             height: 30.h,
           ),
-          TitlePriceRatting(),
+          TitlePriceRatting(title: product.title, price: product.price.toString(),),
           Divider(
             height: 30.h,
             color: Colors.black12,

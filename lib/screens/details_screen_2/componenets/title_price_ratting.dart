@@ -3,7 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/screens/details_screen/components/is_favorite_star.dart';
 
 class TitlePriceRatting extends StatelessWidget {
-  const TitlePriceRatting({Key? key}) : super(key: key);
+  const TitlePriceRatting({Key? key, required this.title, required this.price}) : super(key: key);
+
+  final String title;
+  final String price;
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +20,7 @@ class TitlePriceRatting extends StatelessWidget {
               Expanded(
                 flex: 5,
                 child: Text(
-                  "Olivia Shayn Military TV Cabinet",
+                  title,
                   style: TextStyle(
                     fontSize: 28.sp,
                     fontFamily: "Avenir",
@@ -40,7 +43,7 @@ class TitlePriceRatting extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  "\$1,499.00",
+                  price,
                   style: TextStyle(
                     fontSize: 24.sp,
                     fontFamily: "Avenir-Book",
@@ -48,12 +51,12 @@ class TitlePriceRatting extends StatelessWidget {
                   ),
                 ),
               ),
-              ...List.generate(
-                5,
-                    (index) => IsFavoriteStar(
-                  isFavorite: true,
-                ),
-              ),
+              // ...List.generate(
+              //   5,
+              //       (index) => IsFavoriteStar(
+              //     isFavorite: true,
+              //   ),
+              // ),
             ],
           ),
         ),

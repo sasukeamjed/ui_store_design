@@ -31,7 +31,7 @@ class Product {
       postAuthor: data["post_author"],
       dateCreated: DateTime.tryParse(data["date_created"]),
       price: double.parse(data["price"] == '' ? "0.00" : data["price"]),
-      img: (data["images"] as List).map<Map<String, dynamic>>((e) => null),
+      images: (data["images"] as List).map<String>((json) => json["src"]).toList(),
       featured: data["featured"],
       status: data["status"],
       description: data["description"],
@@ -53,7 +53,7 @@ class Product {
     required this.id,
     required this.title,
     required this.price,
-    required this.img,
+    required this.images,
     required this.categories,
     this.isFavorited = false,
     required this.productColors,
@@ -61,7 +61,7 @@ class Product {
 
   @override
   String toString() {
-    return "postAuthor: ${this.postAuthor}, dataCreated: ${this.dateCreated}, status: ${this.status}, featured: ${this.featured}, description: ${this.description}, shortDescription: ${this.shortDescription}, sku: ${this.sku}, id: ${this.id}, title: ${this.title}, price: ${this.price}, img: ${this.img}, isFavorited: ${this.isFavorited}";
+    return "postAuthor: ${this.postAuthor}, dataCreated: ${this.dateCreated}, status: ${this.status}, featured: ${this.featured}, description: ${this.description}, shortDescription: ${this.shortDescription}, sku: ${this.sku}, id: ${this.id}, title: ${this.title}, price: ${this.price}, img: ${this.images}, isFavorited: ${this.isFavorited}";
   }
 }
 

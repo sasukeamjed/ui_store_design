@@ -19,7 +19,7 @@ class BestSellerItem extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.asset(product.img, height: 88.h, width: 88.w),
+          Image.asset(product.images[0], height: 88.h, width: 88.w),
           SizedBox(
             width: 15.w,
           ),

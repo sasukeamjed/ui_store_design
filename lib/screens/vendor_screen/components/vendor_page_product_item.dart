@@ -26,8 +26,9 @@ class VendorPageProductItem extends StatelessWidget {
             Container(
               color: Colors.green,
               child: Image.network(
-                  vendor.vendorProducts[index].img),
+                  vendor.vendorProducts[index].images[0]),
             ),
+            //Here the categories which is a list of Category object and map it to get a list of strings names only
             ...vendor.vendorProducts[index].categories
                 .map((categoryName) => Text(
               categoryName.categoryName,

@@ -34,7 +34,7 @@ class _ProductImagesSliderState extends State<ProductImagesSlider> {
               itemBuilder: (context, index) {
                 return Image.network(
                   widget.images[index],
-                  fit: BoxFit.fitWidth,
+                  fit: BoxFit.contain,
                   width: double.infinity,
                   height: 250.h,
                 );
@@ -47,7 +47,7 @@ class _ProductImagesSliderState extends State<ProductImagesSlider> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  ...List.generate(4, (index) => buildImageCircle(index: index))
+                  ...List.generate(widget.images.length, (index) => buildImageCircle(index: index))
                 ],
               ),
             ),

@@ -40,7 +40,7 @@ class DetailsScreen2 extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: Body(),
+      body: Body(product: product,),
     );
   }
 }
