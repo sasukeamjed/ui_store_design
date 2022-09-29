@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ui_store_design/models/product.dart';
 
 class YouMayAlsoLikeSection extends StatelessWidget {
+
+  final List<Product> similarProducts;
 
 
   List<String> images = [
@@ -10,6 +13,8 @@ class YouMayAlsoLikeSection extends StatelessWidget {
     "assets/images/details2_products/item_3.jpg",
     "assets/images/details2_products/item_4.jpg"
   ];
+
+  YouMayAlsoLikeSection({Key? key, required this.similarProducts});
 
 
   @override
@@ -42,8 +47,8 @@ class YouMayAlsoLikeSection extends StatelessWidget {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: List.generate(images.length,
-                    (index) => buildPossiblyLikedProducts(images[index])),
+            children: List.generate(similarProducts.length,
+                    (index) => buildPossiblyLikedProducts(similarProducts[index].images[0])),
           ),
         ),
       ],
@@ -55,7 +60,7 @@ class YouMayAlsoLikeSection extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 15.w),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
-        child: Image.asset(
+        child: Image.network(
           image,
           height: 88.w,
           width: 88.w,

@@ -11,6 +11,7 @@ import 'package:ui_store_design/errors/not_found_exception.dart';
 import 'package:ui_store_design/errors/unauthorized_exception.dart';
 import 'package:ui_store_design/models/auth_error_model.dart';
 import 'package:ui_store_design/models/product.dart';
+import 'package:ui_store_design/models/product_category_model.dart';
 import 'package:ui_store_design/models/user_model.dart';
 import 'package:ui_store_design/models/vendor_model.dart';
 import 'package:ui_store_design/services/data/states/data_states.dart';
@@ -110,6 +111,38 @@ class VendorsList extends StateNotifier<List<Vendor>?> {
       vendorsWithListedProducts.add(vendor);
     });
     state = vendorsWithListedProducts;
+  }
+  //This function receives list of categories names and return all the products which has name with that category
+  List<Product> filterProductsByCategory(List<ProductCategory> categoriesParameter) {
+    
+    // List<Product> listOfAllProducts = [];
+
+    List<Product> filteredList = [];
+
+    List<Product> vendorsProducts = [];
+    state?.forEach((vendor) {
+      vendorsProducts.addAll(vendor.vendorProducts);
+    });
+
+    //We shuffle the list because we don't want them in a specific range
+    vendorsProducts.shuffle();
+
+    categoriesParameter.forEach((outerCategory) {
+      vendorsProducts.forEach((product) {
+        product.categories.forEach((insideCategory) {
+          if(insideCategory.categoryId == outerCategory.categoryId){
+              filteredList.add(product);
+          }
+        });
+      });
+    });
+
+
+    //And to remove any product Duplicates we will use set() method which make a list of unique elements
+
+
+    //ToDo: next we want to shuffle the list by using the shuffle method because we don't want it to be organized
+    return filteredList.toSet().toList();
   }
 
   Future<List<Product>> _fetchAllProducts() async {

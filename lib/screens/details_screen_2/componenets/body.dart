@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/components/build_btn.dart';
 import 'package:ui_store_design/components/custom_expansion_tile.dart';
@@ -12,17 +13,26 @@ import 'package:ui_store_design/screens/details_screen_2/componenets/title_price
 import 'package:ui_store_design/screens/details_screen_2/componenets/you_may_also_like_section.dart';
 import 'package:ui_store_design/screens/details_screen_2/details_screen_2.dart';
 import 'package:ui_store_design/screens/shopping_cart_screen/shopping_cart.dart';
+import 'package:ui_store_design/services/data/data.dart';
 
 //Details2_Body
 
-class Body extends StatelessWidget {
+class Body extends ConsumerWidget {
 
   final Product product;
 
   const Body({Key? key, required this.product}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    List<Product> productByCategory = ref.watch(dataProvider.notifier).filterProductsByCategory(product.categories);
+    print("This is the products which are arranged according to category and it length => ${productByCategory.length}");
+
+    print(productByCategory);
+
+    productByCategory.forEach((element) {
+      print(element.id);
+    });
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +51,7 @@ class Body extends StatelessWidget {
             height: 40.h,
             color: Colors.black12,
           ),
-          YouMayAlsoLikeSection(),
+          YouMayAlsoLikeSection(similarProducts: productByCategory,),
           Divider(
             height: 40.h,
             color: Colors.black12,
