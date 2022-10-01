@@ -45,6 +45,7 @@ class VendorsList extends StateNotifier<List<Vendor>?> {
             case DioErrorType.connectTimeout:
             case DioErrorType.sendTimeout:
             case DioErrorType.receiveTimeout:
+              dataInit();
               throw DeadlineExceededException(err.requestOptions);
             case DioErrorType.response:
               switch (err.response?.statusCode) {

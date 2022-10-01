@@ -10,8 +10,8 @@ List<Color> colors = [
   Color(0xFFE5E5EA)
 ];
 
-class ColorsSection extends StatelessWidget {
-  const ColorsSection({
+class VariationsSection extends StatelessWidget {
+  const VariationsSection({
     Key? key,
   }) : super(key: key);
 

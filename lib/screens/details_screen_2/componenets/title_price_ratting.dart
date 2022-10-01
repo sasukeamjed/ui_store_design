@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/screens/details_screen/components/is_favorite_star.dart';
@@ -19,10 +20,12 @@ class TitlePriceRatting extends StatelessWidget {
             children: [
               Expanded(
                 flex: 5,
-                child: Text(
+                child: AutoSizeText(
                   title,
+                  maxLines: 2,
+                  // maxFontSize: 28.sp,
                   style: TextStyle(
-                    fontSize: 28.sp,
+                    fontSize: 24.sp,
                     fontFamily: "Avenir",
                   ),
                 ),
@@ -43,7 +46,7 @@ class TitlePriceRatting extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  price,
+                  "$price OMR",
                   style: TextStyle(
                     fontSize: 24.sp,
                     fontFamily: "Avenir-Book",

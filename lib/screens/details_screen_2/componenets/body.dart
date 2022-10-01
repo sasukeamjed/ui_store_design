@@ -46,7 +46,7 @@ class Body extends ConsumerWidget {
             height: 30.h,
             color: Colors.black12,
           ),
-          ColorsSection(),
+          VariationsSection(),
           Divider(
             height: 40.h,
             color: Colors.black12,

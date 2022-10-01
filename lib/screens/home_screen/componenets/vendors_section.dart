@@ -40,7 +40,7 @@ class VendorsSection extends ConsumerWidget {
           ),
           SizedBox(
             height: 140.h,
-            child: ListView.builder(
+            child: ref.watch(dataProvider)!.isEmpty ? Center(child: CircularProgressIndicator(),):ListView.builder(
               shrinkWrap: true,
               itemCount: state?.length,
               scrollDirection: Axis.horizontal,
