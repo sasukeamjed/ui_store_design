@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:ui_store_design/models/attributes_model.dart';
 import 'package:ui_store_design/models/product_category_model.dart';
+import 'package:ui_store_design/models/product_variation_model.dart';
 
 class Product {
   //ToDo: we need to add filter for fetching products, we should not fetch products wich has not price and no publish status
@@ -18,6 +20,8 @@ class Product {
   final double price;
   final List<String> images;
   final List<ProductCategory> categories;
+  final List<AttributesModel> attributesModel;
+  final List<ProductVariationModel> productVariations;
   bool isFavorited;
 
   // final String shortDescription;
@@ -38,6 +42,8 @@ class Product {
       shortDescription: data["short_description"],
       sku: data["sku"],
       categories: (data["categories"] as List).map<ProductCategory>((json)=> ProductCategory.fromJson(json)).toList(),
+      attributesModel: (data["attributes"] as List).map<AttributesModel>((json)=> AttributesModel.fromJson(json)).toList(),
+      productVariations: (data["variations"] as List).map<ProductVariationModel>((json)=> ProductVariationModel.fromJson(json)).toList(),
       productColors: null,
     );
   }
@@ -55,13 +61,15 @@ class Product {
     required this.price,
     required this.images,
     required this.categories,
+    required this.attributesModel,
+    required this.productVariations,
     this.isFavorited = false,
     required this.productColors,
   });
 
   @override
   String toString() {
-    return "postAuthor: ${this.postAuthor}, dataCreated: ${this.dateCreated}, status: ${this.status}, featured: ${this.featured}, description: ${this.description}, shortDescription: ${this.shortDescription}, sku: ${this.sku}, id: ${this.id}, title: ${this.title}, price: ${this.price}, img: ${this.images}, isFavorited: ${this.isFavorited}";
+    return "postAuthor: ${this.postAuthor}, dataCreated: ${this.dateCreated}, status: ${this.status}, featured: ${this.featured}, description: ${this.description}, shortDescription: ${this.shortDescription}, sku: ${this.sku}, id: ${this.id.toString()}, title: ${this.title}, price: ${this.price.toString()}, img: ${this.images}, isFavorited: ${this.isFavorited}";
   }
 }
 
