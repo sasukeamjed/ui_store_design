@@ -26,7 +26,9 @@ class VendorsList extends StateNotifier<List<Vendor>?> {
       receiveTimeout: 15000, // 15 seconds
       connectTimeout: 15000,
       sendTimeout: 15000,
-
+      //This is should be the solution for DioError [DioErrorType.response]: Http status error [415]
+      // contentType: 'application/x-www-form-urlencoded',
+      // headers: {"accept":"*/*",},
     ));
 
     _dio.interceptors.add(

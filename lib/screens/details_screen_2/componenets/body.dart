@@ -41,7 +41,7 @@ class Body extends ConsumerWidget {
           SizedBox(
             height: 30.h,
           ),
-          TitlePriceRatting(title: product.title, price: product.price.toString(),),
+          TitlePriceRatting(title: product.title, price: product.price.toString(), categories: product.categories.map((e) => e.categoryName).toList(),),
           Divider(
             height: 30.h,
             color: Colors.black12,

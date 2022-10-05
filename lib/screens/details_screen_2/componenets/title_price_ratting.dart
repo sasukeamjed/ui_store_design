@@ -4,18 +4,27 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/screens/details_screen/components/is_favorite_star.dart';
 
 class TitlePriceRatting extends StatelessWidget {
-  const TitlePriceRatting({Key? key, required this.title, required this.price}) : super(key: key);
+  const TitlePriceRatting({Key? key, required this.title, required this.price, required this.categories}) : super(key: key);
 
   final String title;
   final String price;
+  final List<String> categories;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.w),
-          child: Row(
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 15.w),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            categories.join(','),
+            style: TextStyle(
+                fontFamily: "Avenir-Book",
+                fontSize: 15.sp,
+                color: Colors.black.withOpacity(0.4)),
+          ),
+          Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
@@ -30,19 +39,16 @@ class TitlePriceRatting extends StatelessWidget {
                   ),
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: Icon(
-                  Icons.favorite,
-                  size: 32.w,
-                ),
-              )
+              // Expanded(
+              //   flex: 1,
+              //   child: Icon(
+              //     Icons.favorite,
+              //     size: 32.w,
+              //   ),
+              // )
             ],
           ),
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.w),
-          child: Row(
+          Row(
             children: [
               Expanded(
                 child: Text(
@@ -62,8 +68,8 @@ class TitlePriceRatting extends StatelessWidget {
               // ),
             ],
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

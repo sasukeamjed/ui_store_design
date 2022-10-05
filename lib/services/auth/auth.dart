@@ -111,6 +111,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
 
       // final data = jsonDecode(response.data);
 
+
       Map<String, dynamic> parsedJwt = _parseJwt(responseUrl.data["token"]);
       print("this parsed token => $parsedJwt");
       String id = parsedJwt["data"]["user"]["id"];
@@ -118,6 +119,11 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       // await APIClient().saveTokens(response);
       // UserDefaultEntity entity = await ref.watch(userDefaultsProvider(param.sgId).future);
       // response = await _fetchUser(parsedJwt['data']['user']['id'].toString());
+      if(response?.statusCode != 200 || response?.data == null){
+        print("Login Failed");
+        state = AuthError("Login Failed") ;
+        return;
+      }
       print("This is the succesful response data : ${response?.data}");
       UserDataSecureStorage.setUserToken(responseUrl.data["token"]);
       state = AuthLoaded(UserModel.fromJson(response?.data));
@@ -135,12 +141,14 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       //if token is validated and we got 200 response than we want to fetch user by id
       if(response.statusCode == 200){
         Map<String, dynamic> parsedJwt = _parseJwt(token);
+        print("this is the id of the fetched user ${parsedJwt['data']['user']['id']}");
         Response? fetchedUser = await _fetchUser(parsedJwt['data']['user']['id']);
         state = AuthLoaded(UserModel.fromJson(fetchedUser?.data));
       }
       print("token is verified");
       return response.data;
     }catch(e){
+      print("this error is from the token validation method => $e");
       return {
         "code": "jwt_auth_invalid_token",
         "message": e,
@@ -226,6 +234,17 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       return response;
     } catch (e) {
       print("fetchUser error => $e");
+      if (e is DioError) {
+        if (e.response?.data == null) {
+          print("response data is null");
+          // return SignInApiResponse(message: Messages.loginFailed);
+        }
+        print("response data is => ${e.response?.data}");
+        // return SignInApiResponse.fromJson(e.response?.data);
+      } else {
+        print("This is not a DioError => ${e.toString()}");
+        // return SignInApiResponse(message: e.toString());
+      }
     }
 
     return response;
