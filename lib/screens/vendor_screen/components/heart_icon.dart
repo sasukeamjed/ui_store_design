@@ -27,9 +27,9 @@ class _HeartIconState extends State<HeartIcon> {
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withOpacity(0.3),
                 offset: Offset(0.0, 1.0), //(x,y)
-                blurRadius: 6.0,
+                blurRadius: 3.0,
               ),
             ],
           ),

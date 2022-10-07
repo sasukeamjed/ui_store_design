@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/models/product.dart';
+import 'package:ui_store_design/screens/details_screen_2/componenets/add_cart_bar.dart';
 import 'package:ui_store_design/screens/details_screen_2/componenets/body.dart';
 
 class DetailsScreen2 extends StatelessWidget {
@@ -42,56 +43,8 @@ class DetailsScreen2 extends StatelessWidget {
       body: Body(
         product: product,
       ),
-      bottomNavigationBar: Container(
-        color: Colors.green,
-        height: kToolbarHeight,
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-          child: Row(
-            children: [
-              Expanded(
-                child: Container(
-                  height: double.infinity,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black,
-                      style: BorderStyle.solid,
-                      width: 3,
-                    ),
-                    borderRadius: BorderRadius.circular(15.w),
-                  ),
-                  child: FittedBox(
-                    child: Padding(
-                      padding: EdgeInsets.all(5.w),
-                      child: Icon(Icons.favorite_border),
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                width: 15.w,
-              ),
-              Expanded(
-                flex: 4,
-                child: Container(
-                  // width: double.infinity,
-                  height: double.infinity,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.w),
-                  ),
-                  child: TextButton(
-                    child: Text(
-                      "Add To Cart",
-                      style: TextStyle(fontFamily: "Avenir", fontSize: 15.sp),
-                    ),
-                    onPressed: () {},
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: AddToCartBar(),
     );
   }
 }
+

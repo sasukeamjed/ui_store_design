@@ -14,6 +14,7 @@ class NewArrivalsSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
+    final state = ref.watch(dataProvider.notifier);
     return Padding(
       padding: EdgeInsets.only(
         left: 20.w,
@@ -43,7 +44,7 @@ class NewArrivalsSection extends ConsumerWidget {
           ),
           SizedBox(
             height: 260.h,
-            child: ref.read(dataProvider.notifier).sortProductsByDate().isEmpty
+            child: state.sortProductsByDate().isEmpty
                 ? Center(
                     child: CircularProgressIndicator(),
                   )
@@ -53,8 +54,8 @@ class NewArrivalsSection extends ConsumerWidget {
                     itemCount: 5,
                     itemBuilder: (context, index) {
                       return GestureDetector(
-                        child: ProductItem(product: ref.read(dataProvider.notifier).sortProductsByDate()[index]),
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> DetailsScreen2(product: ref.read(dataProvider.notifier).sortProductsByDate()[index],))),
+                        child: ProductItem(product: state.sortProductsByDate()[index]),
+                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> DetailsScreen2(product: state.sortProductsByDate()[index],))),
                       );
                     },
                   ),

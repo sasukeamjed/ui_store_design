@@ -6,7 +6,7 @@ import 'package:ui_store_design/components/custom_expansion_tile.dart';
 import 'package:ui_store_design/models/product.dart';
 import 'package:ui_store_design/screens/details_screen/components/is_favorite_star.dart';
 import 'package:ui_store_design/screens/details_screen/components/product_image_slider.dart';
-import 'package:ui_store_design/screens/details_screen_2/componenets/colors_section.dart';
+import 'package:ui_store_design/screens/details_screen_2/componenets/variations_section.dart';
 import 'package:ui_store_design/screens/details_screen_2/componenets/description_section.dart';
 import 'package:ui_store_design/screens/details_screen_2/componenets/similar_items_section.dart';
 import 'package:ui_store_design/screens/details_screen_2/componenets/title_price_ratting.dart';
@@ -46,7 +46,7 @@ class Body extends ConsumerWidget {
             height: 30.h,
             color: Colors.black12,
           ),
-          VariationsSection(),
+          VariationsSection(attributes: product.attributesModel,),
           Divider(
             height: 40.h,
             color: Colors.black12,

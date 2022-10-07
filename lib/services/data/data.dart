@@ -28,7 +28,7 @@ class VendorsList extends StateNotifier<List<Vendor>?> {
       sendTimeout: 15000,
       //This is should be the solution for DioError [DioErrorType.response]: Http status error [415]
       // contentType: 'application/x-www-form-urlencoded',
-      // headers: {"accept":"*/*",},
+      headers: {"Connection": "Keep-Alive",},
     ));
 
     _dio.interceptors.add(
@@ -76,6 +76,7 @@ class VendorsList extends StateNotifier<List<Vendor>?> {
   }
 
   Future<void> dataInit() async {
+    print("data init function is called fetching all vendors and fetching all products ++++++++");
     List<Vendor> vendors = await _fetchAllVendors();
     List<Product> products = await _fetchAllProducts();
 
@@ -168,9 +169,9 @@ class VendorsList extends StateNotifier<List<Vendor>?> {
           .where(
               (product) => product.price != 0.00 && product.status == "publish")
           .toList());
-      print("After Listing +++++++++++++++++++++++++++++++++++++++++++");
+      print("fetching products has finished");
       // state = DataLoaded(products.map((data) => Product.fromJson(data)).toList());
-      print("state is loaded --------------------------------------------");
+
       return products
           .map((product) => Product.fromJson(product))
           .toList()
