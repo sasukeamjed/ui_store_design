@@ -5,7 +5,7 @@ class AttributesModel {
   final String name;
   final String slug;
   // List<String> options;
-  List<dynamic> options;
+  var options;
 
   AttributesModel(
       {required this.id,
@@ -21,7 +21,7 @@ class AttributesModel {
       // options: (data["options"] as List<dynamic>)
       //     .map((option) => option.toString())
       //     .toList(),
-      options: jsonDecode(data["options"]),
+      options: data["options"],
     );
   }
 

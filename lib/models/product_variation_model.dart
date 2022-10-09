@@ -30,6 +30,14 @@ class ProductVariationModel{
     );
   }
 
+
+
+  // List<Map<String, String>> getVariation(){
+  //   Map<String, String> variation = {
+  //
+  //   };
+  // }
+
   // @override
   // // TODO: implement props
   // List<Object?> get props => [variationId, sku, imgUrl, displayRegularPrice, displayPrice, dimension, attributes];

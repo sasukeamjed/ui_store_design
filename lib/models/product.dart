@@ -20,7 +20,7 @@ class Product{
   final List<String> images;
   final List<ProductCategory> categories;
   final List<AttributesModel> attributesModel;
-  final List<ProductVariationModel?> productVariations;
+  final List<ProductVariationModel> productVariations;
   bool isFavorited;
 
   // final String shortDescription;
@@ -65,6 +65,25 @@ class Product{
     this.isFavorited = false,
     required this.productColors,
   });
+
+  Map<String, List<String>> getOptions(List<ProductVariationModel> variations){
+    /*
+    Note: we need to get the data from the variations only because the attributes gives a false data
+    Map example
+    {
+      "option_name": "List of string of all the options"
+    }
+    *
+    *
+    * */
+
+    if(variations.length != 0){
+      variations.forEach((variation) {
+
+      });
+    }
+
+  }
 
   @override
   String toString() {
