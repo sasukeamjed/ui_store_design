@@ -1,4 +1,5 @@
-class ProductVariationModel {
+
+class ProductVariationModel{
   final Map<String, dynamic> attributes;
   final Map<String, dynamic> dimension;
   final String displayPrice;
@@ -28,4 +29,8 @@ class ProductVariationModel {
         variationId: data['variation_id'],
     );
   }
+
+  // @override
+  // // TODO: implement props
+  // List<Object?> get props => [variationId, sku, imgUrl, displayRegularPrice, displayPrice, dimension, attributes];
 }

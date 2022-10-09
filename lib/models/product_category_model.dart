@@ -1,4 +1,6 @@
-class ProductCategory {
+
+
+class ProductCategory{
   final int categoryId;
   final String categoryName;
   final String categorySlugName;
@@ -19,4 +21,8 @@ class ProductCategory {
   String toString() {
     return "ProductCategory Object: categoryId => ${this.categoryId}, categoryName => ${this.categoryName}, categorySlugName => ${this.categorySlugName}";
   }
+
+  // @override
+  // // TODO: implement props
+  // List<Object?> get props => [categoryId, categoryName, categorySlugName];
 }

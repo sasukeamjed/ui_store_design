@@ -1,12 +1,11 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_store_design/models/attributes_model.dart';
 import 'package:ui_store_design/models/product_category_model.dart';
 import 'package:ui_store_design/models/product_variation_model.dart';
 
-class Product {
+class Product{
   //ToDo: we need to add filter for fetching products, we should not fetch products wich has not price and no publish status
   final int id;
   final String title;
@@ -21,7 +20,7 @@ class Product {
   final List<String> images;
   final List<ProductCategory> categories;
   final List<AttributesModel> attributesModel;
-  final List<ProductVariationModel> productVariations;
+  final List<ProductVariationModel?> productVariations;
   bool isFavorited;
 
   // final String shortDescription;
@@ -71,6 +70,10 @@ class Product {
   String toString() {
     return "postAuthor: ${this.postAuthor}, dataCreated: ${this.dateCreated}, status: ${this.status}, featured: ${this.featured}, description: ${this.description}, shortDescription: ${this.shortDescription}, sku: ${this.sku}, id: ${this.id.toString()}, title: ${this.title}, price: ${this.price.toString()}, img: ${this.images}, isFavorited: ${this.isFavorited}";
   }
+
+  // @override
+  // // TODO: implement props
+  // List<Object?> get props => [postAuthor, dateCreated, status, featured, description, shortDescription, sku, id, title, price, images, categories, attributesModel, productVariations];
 }
 
 // List<Product> products = [

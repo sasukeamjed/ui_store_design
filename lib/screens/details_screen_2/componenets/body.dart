@@ -27,12 +27,13 @@ class Body extends ConsumerWidget {
   Widget build(BuildContext context, ref) {
     List<Product> productByCategory = ref.watch(dataProvider.notifier).filterProductsByCategory(product.categories);
     print("This is the products which are arranged according to category and it length => ${productByCategory.length}");
+    print("This is the product attributes => ${product.attributesModel}");
+    print("This is the runtime type of options => ${product.attributesModel[0].options.runtimeType}");
+    // print(productByCategory);
 
-    print(productByCategory);
-
-    productByCategory.forEach((element) {
-      print(element.id);
-    });
+    // productByCategory.forEach((element) {
+    //   print(element.id);
+    // });
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +47,7 @@ class Body extends ConsumerWidget {
             height: 30.h,
             color: Colors.black12,
           ),
-          VariationsSection(attributes: product.attributesModel,),
+          VariationsSection(attributes: product.attributesModel),
           Divider(
             height: 40.h,
             color: Colors.black12,
