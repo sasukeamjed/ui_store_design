@@ -66,7 +66,8 @@ class Product{
     required this.productColors,
   });
 
-  Map<String, List<String>> getOptions(List<ProductVariationModel> variations){
+
+  Map<String, List<String>> getOptions(List<ProductVariationModel> variationObject, List<AttributesModel> attributes){
     /*
     Note: we need to get the data from the variations only because the attributes gives a false data
     Map example
@@ -77,11 +78,28 @@ class Product{
     *
     * */
 
-    if(variations.length != 0){
-      variations.forEach((variation) {
+    Map<String, List<String>> newVariation = {};
 
-      });
-    }
+    List<String> variationsList = [];
+
+    attributes.forEach((attribute) {
+      if(variationObject.length != 0){
+
+        variationObject.forEach((variation){
+
+          if(variation.attributes.containsKey("attribute_" + attribute.slug)){
+            variationsList.add(variation.attributes["attribute_" + attribute.slug]);
+          }
+
+        });
+
+        newVariation[attribute.slug] = variationsList.toSet().toList();
+
+      }
+    });
+
+
+    return newVariation;
 
   }
 

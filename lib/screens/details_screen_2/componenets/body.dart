@@ -29,6 +29,7 @@ class Body extends ConsumerWidget {
     print("This is the products which are arranged according to category and it length => ${productByCategory.length}");
     print("This is the product attributes => ${product.attributesModel}");
     print("This is the runtime type of options => ${product.attributesModel[0].options.runtimeType}");
+    print("This is the new variations => ${product.getOptions(product.productVariations, product.attributesModel)}");
     // print(productByCategory);
 
     // productByCategory.forEach((element) {
