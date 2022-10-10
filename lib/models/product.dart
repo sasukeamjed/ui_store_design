@@ -67,7 +67,7 @@ class Product{
   });
 
 
-  Map<String, List<String>> getOptions(List<ProductVariationModel> variationObject, List<AttributesModel> attributes){
+  Map<String, List<String>> getOptions(){
     /*
     Note: we need to get the data from the variations only because the attributes gives a false data
     Map example
@@ -80,12 +80,12 @@ class Product{
 
     Map<String, List<String>> newVariation = {};
 
-    List<String> variationsList = [];
 
-    attributes.forEach((attribute) {
-      if(variationObject.length != 0){
 
-        variationObject.forEach((variation){
+    this.attributesModel.forEach((attribute) {
+      if(this.productVariations.length != 0){
+        List<String> variationsList = [];
+        this.productVariations.forEach((variation){
 
           if(variation.attributes.containsKey("attribute_" + attribute.slug)){
             variationsList.add(variation.attributes["attribute_" + attribute.slug]);

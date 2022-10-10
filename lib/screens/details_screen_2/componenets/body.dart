@@ -29,7 +29,7 @@ class Body extends ConsumerWidget {
     print("This is the products which are arranged according to category and it length => ${productByCategory.length}");
     print("This is the product attributes => ${product.attributesModel}");
     print("This is the runtime type of options => ${product.attributesModel[0].options.runtimeType}");
-    print("This is the new variations => ${product.getOptions(product.productVariations, product.attributesModel)}");
+    print("This is the new variations => ${product.getOptions()}");
     // print(productByCategory);
 
     // productByCategory.forEach((element) {
@@ -44,11 +44,13 @@ class Body extends ConsumerWidget {
             height: 30.h,
           ),
           TitlePriceRatting(title: product.title, price: product.price.toString(), categories: product.categories.map((e) => e.categoryName).toList(),),
-          Divider(
-            height: 30.h,
-            color: Colors.black12,
-          ),
-          VariationsSection(attributes: product.attributesModel),
+          if(product.getOptions().isNotEmpty)
+            Divider(
+              height: 30.h,
+              color: Colors.black12,
+            ),
+          if(product.getOptions().isNotEmpty)
+            VariationsSection(variations: product.getOptions(),),
           Divider(
             height: 40.h,
             color: Colors.black12,
