@@ -17,34 +17,27 @@ class VariationsSection extends StatefulWidget {
 class _VariationsSectionState extends State<VariationsSection> {
   @override
   void initState() {
-    // if(widget.attributes.length != 0){
-    //   if(widget.attributes[0].options is Map<String, dynamic>){
-    //     print("Maaaaaaaaaaaaaaaaaaaaaaaaaaaaap <String, dynamic>");
-    //   }else if(widget.attributes[0].options is List<String>){
-    //     print("Liiiiiiiiiiiiiiiiiiiiiiiiiiiist <String>");
-    //   }else{
-    //     print("This condiiiiiiiiiiiiiiiiiiiiiiiiiiition did not work");
-    //   }
-    //
-    // }
-    // print("variations_section.dart ${}");
 
     super.initState();
   }
 
   List<Expanded> dropDownButtonsGenerator() {
+    //How to make a dynamic dropdowns buttons with values
+    //https://stackoverflow.com/questions/61061194/flutter-generating-multiple-dropdown-in-for-loop-based-on-list-length
     List<String> attributes;
 
     attributes = widget.variations.keys.toList();
 
     return attributes.map((attribute) {
       String? value = widget.variations[attribute]![0];
+      
+      List.generate(attributes.length, (index) => null)
       return Expanded(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.w),
           child: DropdownButton(
             isExpanded: true,
-            hint: Text(attribute),
+            hint: Text(attribute.replaceAll("pa_", "")),
               items: widget.variations[attribute]?.map((option) => DropdownMenuItem<String>(
                         child: Text(option), value: value,)).toList(),
               onChanged: (String? newValue) {
