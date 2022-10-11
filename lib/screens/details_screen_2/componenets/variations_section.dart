@@ -15,10 +15,23 @@ class VariationsSection extends StatefulWidget {
 }
 
 class _VariationsSectionState extends State<VariationsSection> {
+
+  List<int> dropdownValues = [];
+
   @override
   void initState() {
-
+    dropdownValues = List.generate(widget.variations.length, (index) => 1);
+    // widget.variations.forEach((key, List<String> values) {
+    //   dropdownValues.add(values);
+    // });
     super.initState();
+  }
+
+  void onDropDownChange(dropDownIndex, value){
+    setState(() {
+      dropdownValues[dropDownIndex] = value;
+    });
+    print('onDropDownChange: $dropDownIndex -> $value');
   }
 
   List<Expanded> dropDownButtonsGenerator() {
@@ -28,26 +41,39 @@ class _VariationsSectionState extends State<VariationsSection> {
 
     attributes = widget.variations.keys.toList();
 
-    return attributes.map((attribute) {
-      String? value = widget.variations[attribute]![0];
+    // return attributes.map((attribute) {
+    //   String? value = widget.variations[attribute]![0];
       
-      List.generate(attributes.length, (index) => null)
-      return Expanded(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 15.w),
-          child: DropdownButton(
-            isExpanded: true,
-            hint: Text(attribute.replaceAll("pa_", "")),
-              items: widget.variations[attribute]?.map((option) => DropdownMenuItem<String>(
-                        child: Text(option), value: value,)).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  value = newValue;
-                });
-              }),
-        ),
-      );
-    }).toList();
+      List.generate(widget.variations.length, (index) {
+        return Expanded(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15.w),
+            child: DropdownButton(
+                isExpanded: true,
+                hint: Text(attribute.replaceAll("pa_", "")),
+                items: widget.variations[attribute]?.map((option) => DropdownMenuItem<String>(
+                  child: Text(option), value: value,)).toList(),
+                onChanged: (value) => onDropDownChange(index, value),
+          ),
+        );
+      });
+    //   return Expanded(
+    //     child: Padding(
+    //       padding: EdgeInsets.symmetric(horizontal: 15.w),
+    //       child: DropdownButton(
+    //         isExpanded: true,
+    //         value: ,
+    //         hint: Text(attribute.replaceAll("pa_", "")),
+    //           items: widget.variations[attribute]?.map((option) => DropdownMenuItem<String>(
+    //                     child: Text(option), value: value,)).toList(),
+    //           onChanged: (String? newValue) {
+    //             setState(() {
+    //               value = newValue;
+    //             });
+    //           }),
+    //     ),
+    //   );
+    // }).toList();
   }
 
   @override
