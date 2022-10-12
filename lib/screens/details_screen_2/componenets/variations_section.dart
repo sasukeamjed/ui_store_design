@@ -16,23 +16,17 @@ class VariationsSection extends StatefulWidget {
 
 class _VariationsSectionState extends State<VariationsSection> {
 
-  List<int> dropdownValues = [];
+  List<List<String>> dropdownValues = [];
+  var newIndex = 0;
 
   @override
   void initState() {
-    dropdownValues = List.generate(widget.variations.length, (index) => 1);
-    // widget.variations.forEach((key, List<String> values) {
-    //   dropdownValues.add(values);
-    // });
+    widget.variations.forEach((key, List<String> values) {
+      dropdownValues.add(values);
+    });
     super.initState();
   }
 
-  void onDropDownChange(dropDownIndex, value){
-    setState(() {
-      dropdownValues[dropDownIndex] = value;
-    });
-    print('onDropDownChange: $dropDownIndex -> $value');
-  }
 
   List<Expanded> dropDownButtonsGenerator() {
     //How to make a dynamic dropdowns buttons with values
@@ -44,18 +38,25 @@ class _VariationsSectionState extends State<VariationsSection> {
     // return attributes.map((attribute) {
     //   String? value = widget.variations[attribute]![0];
       
-      List.generate(widget.variations.length, (index) {
-        return Expanded(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15.w),
-            child: DropdownButton(
-                isExpanded: true,
-                hint: Text(attribute.replaceAll("pa_", "")),
-                items: widget.variations[attribute]?.map((option) => DropdownMenuItem<String>(
-                  child: Text(option), value: value,)).toList(),
-                onChanged: (value) => onDropDownChange(index, value),
+    return List.generate(dropdownValues.length, (index) {
+      return Expanded(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 15.w),
+          child: DropdownButton<String>(
+            value: dropdownValues[index][newIndex],
+            isExpanded: true,
+            hint: Text(attributes[index].replaceAll("pa_", "")),
+            items: List.generate(dropdownValues[index].length, (insideIndex) {
+              return DropdownMenuItem<String>(child: Text(dropdownValues[index][insideIndex]), value: dropdownValues[index][insideIndex],);
+            }),
+            onChanged: (newValue){
+              setState(() {
+                newIndex = dropdownValues[index].indexOf(newValue!);
+              });
+            },
           ),
-        );
+        ),
+      );
       });
     //   return Expanded(
     //     child: Padding(
