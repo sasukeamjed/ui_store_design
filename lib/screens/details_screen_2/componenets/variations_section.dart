@@ -17,10 +17,11 @@ class VariationsSection extends StatefulWidget {
 class _VariationsSectionState extends State<VariationsSection> {
 
   List<List<String>> dropdownValues = [];
-  var newIndex = 0;
+  List<int> newIndexes = [];
 
   @override
   void initState() {
+    newIndexes = List.generate(widget.variations.length, (index) => 0);
     widget.variations.forEach((key, List<String> values) {
       dropdownValues.add(values);
     });
@@ -29,52 +30,44 @@ class _VariationsSectionState extends State<VariationsSection> {
 
 
   List<Expanded> dropDownButtonsGenerator() {
-    //How to make a dynamic dropdowns buttons with values
-    //https://stackoverflow.com/questions/61061194/flutter-generating-multiple-dropdown-in-for-loop-based-on-list-length
+
     List<String> attributes;
 
     attributes = widget.variations.keys.toList();
 
-    // return attributes.map((attribute) {
-    //   String? value = widget.variations[attribute]![0];
       
     return List.generate(dropdownValues.length, (index) {
       return Expanded(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.w),
-          child: DropdownButton<String>(
-            value: dropdownValues[index][newIndex],
-            isExpanded: true,
-            hint: Text(attributes[index].replaceAll("pa_", "")),
-            items: List.generate(dropdownValues[index].length, (insideIndex) {
-              return DropdownMenuItem<String>(child: Text(dropdownValues[index][insideIndex]), value: dropdownValues[index][insideIndex],);
-            }),
-            onChanged: (newValue){
-              setState(() {
-                newIndex = dropdownValues[index].indexOf(newValue!);
-              });
-            },
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(15),
+            ),
+            child: DropdownButton<String>(
+              focusColor: Colors.green,
+              underline: DropdownButtonHideUnderline(child: Container(),),
+              value: dropdownValues[index][newIndexes[index]],
+              isExpanded: true,
+              hint: Text(attributes[index].replaceAll("pa_", "")),
+              items: List.generate(dropdownValues[index].length, (insideIndex) {
+                return DropdownMenuItem<String>(child: Padding(
+                  padding: EdgeInsets.only(left: 10.w),
+                  child: Text(dropdownValues[index][insideIndex]),
+                ), value: dropdownValues[index][insideIndex],);
+              }),
+              onChanged: (newValue){
+                setState(() {
+                  var newIndex = dropdownValues[index].indexOf(newValue!);
+                  newIndexes[index] = newIndex;
+                });
+              },
+            ),
           ),
         ),
       );
       });
-    //   return Expanded(
-    //     child: Padding(
-    //       padding: EdgeInsets.symmetric(horizontal: 15.w),
-    //       child: DropdownButton(
-    //         isExpanded: true,
-    //         value: ,
-    //         hint: Text(attribute.replaceAll("pa_", "")),
-    //           items: widget.variations[attribute]?.map((option) => DropdownMenuItem<String>(
-    //                     child: Text(option), value: value,)).toList(),
-    //           onChanged: (String? newValue) {
-    //             setState(() {
-    //               value = newValue;
-    //             });
-    //           }),
-    //     ),
-    //   );
-    // }).toList();
   }
 
   @override
