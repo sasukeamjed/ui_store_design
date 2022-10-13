@@ -17,12 +17,15 @@ class VariationsSection extends StatefulWidget {
 class _VariationsSectionState extends State<VariationsSection> {
 
   List<List<String>> dropdownValues = [];
-  List<int> newIndexes = [];
+  List<dynamic> newIndexes = [];
 
   @override
   void initState() {
-    newIndexes = List.generate(widget.variations.length, (index) => 0);
+    //we have to keep track of the index of the value of every dropdown button
+    //we get the index of the value from onChange method in DropDownButton
+    newIndexes = List.generate(widget.variations.length, (index) => null);
     widget.variations.forEach((key, List<String> values) {
+      //Adding each list in the map to the List<List<String>> dropdownValues
       dropdownValues.add(values);
     });
     super.initState();
@@ -48,13 +51,16 @@ class _VariationsSectionState extends State<VariationsSection> {
             child: DropdownButton<String>(
               focusColor: Colors.green,
               underline: DropdownButtonHideUnderline(child: Container(),),
-              value: dropdownValues[index][newIndexes[index]],
+              value:  newIndexes[index] == null ? null : dropdownValues[index][newIndexes[index]],
               isExpanded: true,
-              hint: Text(attributes[index].replaceAll("pa_", "")),
+              hint: Padding(
+                padding: EdgeInsets.only(left: 10.w),
+                child: Text(attributes[index].replaceAll("pa_", "")),
+              ),
               items: List.generate(dropdownValues[index].length, (insideIndex) {
                 return DropdownMenuItem<String>(child: Padding(
                   padding: EdgeInsets.only(left: 10.w),
-                  child: Text(dropdownValues[index][insideIndex]),
+                  child: Text(dropdownValues[index][insideIndex].capitalize()),
                 ), value: dropdownValues[index][insideIndex],);
               }),
               onChanged: (newValue){
@@ -72,6 +78,7 @@ class _VariationsSectionState extends State<VariationsSection> {
 
   @override
   Widget build(BuildContext context) {
+    //ToDo: add DropdownButtonFormField for product validation
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -93,5 +100,13 @@ class _VariationsSectionState extends State<VariationsSection> {
         ),
       ],
     );
+  }
+}
+
+//This extension which add an additional functionality to the type of variable you want
+//for example we are adding a function to capitalize the first letter
+extension MyExtension on String{
+  String capitalize(){
+    return "${this[0].toUpperCase()}${this.substring(1).toLowerCase()}";
   }
 }
