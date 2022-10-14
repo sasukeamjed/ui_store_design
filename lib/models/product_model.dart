@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:ui_store_design/models/attributes_model.dart';
+import 'package:ui_store_design/models/dimensions_model.dart';
 import 'package:ui_store_design/models/product_category_model.dart';
 import 'package:ui_store_design/models/product_variation_model.dart';
 
@@ -17,6 +18,8 @@ class Product{
   final String shortDescription;
   final String sku;
   final double price;
+  final int totalSales;
+  final DimensionsModel dimensions;
   final List<String> images;
   final List<ProductCategory> categories;
   final List<AttributesModel> attributesModel;
@@ -34,6 +37,8 @@ class Product{
       postAuthor: data["post_author"],
       dateCreated: DateTime.tryParse(data["date_created"]),
       price: double.parse(data["price"] == '' ? "0.00" : data["price"]),
+      totalSales: data["total_sales"],
+      dimensions: DimensionsModel.fromJson(data["dimensions"]),
       images: (data["images"] as List).map<String>((json) => json["src"]).toList(),
       featured: data["featured"],
       status: data["status"],
@@ -58,8 +63,10 @@ class Product{
     required this.id,
     required this.title,
     required this.price,
+    required this.totalSales,
     required this.images,
     required this.categories,
+    required this.dimensions,
     required this.attributesModel,
     required this.productVariations,
     this.isFavorited = false,

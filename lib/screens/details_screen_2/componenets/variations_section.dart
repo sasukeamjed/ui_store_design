@@ -18,6 +18,8 @@ class _VariationsSectionState extends State<VariationsSection> {
 
   List<List<String>> dropdownValues = [];
   List<dynamic> newIndexes = [];
+  int _selectedIndex = 0;
+  late FocusNode dropDownFocus;
 
   @override
   void initState() {
@@ -28,6 +30,7 @@ class _VariationsSectionState extends State<VariationsSection> {
       //Adding each list in the map to the List<List<String>> dropdownValues
       dropdownValues.add(values);
     });
+    dropDownFocus = FocusNode();
     super.initState();
   }
 
@@ -45,11 +48,10 @@ class _VariationsSectionState extends State<VariationsSection> {
           padding: EdgeInsets.symmetric(horizontal: 15.w),
           child: DecoratedBox(
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey),
+              border: Border.all(color: _selectedIndex == index ? Colors.green : Colors.grey),
               borderRadius: BorderRadius.circular(15),
             ),
             child: DropdownButton<String>(
-              focusColor: Colors.green,
               underline: DropdownButtonHideUnderline(child: Container(),),
               value:  newIndexes[index] == null ? null : dropdownValues[index][newIndexes[index]],
               isExpanded: true,
@@ -64,9 +66,15 @@ class _VariationsSectionState extends State<VariationsSection> {
                 ), value: dropdownValues[index][insideIndex],);
               }),
               onChanged: (newValue){
+                // FocusScope.of(context).requestFocus(dropDownFocus);
                 setState(() {
                   var newIndex = dropdownValues[index].indexOf(newValue!);
                   newIndexes[index] = newIndex;
+                });
+              },
+              onTap: (){
+                setState(() {
+                  _selectedIndex = index;
                 });
               },
             ),

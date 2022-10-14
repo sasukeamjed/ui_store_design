@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/components/build_btn.dart';
 import 'package:ui_store_design/components/custom_expansion_tile.dart';
-import 'package:ui_store_design/models/product.dart';
+import 'package:ui_store_design/models/product_model.dart';
 import 'package:ui_store_design/screens/details_screen/components/is_favorite_star.dart';
 import 'package:ui_store_design/screens/details_screen/components/product_image_slider.dart';
 import 'package:ui_store_design/screens/details_screen_2/componenets/variations_section.dart';
@@ -60,39 +60,39 @@ class Body extends ConsumerWidget {
             height: 40.h,
             color: Colors.black12,
           ),
-          DescriptionSection(),
-          CustomExpansionTile(
-            leading: Icon(Icons.arrow_right),
-            title: Text("COMPOSITION AND CARE"),
-            children: [
-              Text("this is the children of the expansion tile widget"),
-            ],
-          ),
-          CustomExpansionTile(
-            leading: Icon(Icons.arrow_right),
-            title: Text("SHIPPING AND RETURNS"),
-            children: [
-              Text("this is the children of the expansion tile widget"),
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.only(left:15.w),
-            child: Text("Similar Items",style: TextStyle(fontSize: 20.sp, fontFamily: "Avenir"),),
-          ),
-          SizedBox(
-            height: 10.h,
-          ),
-          SimilarItemsSection(),
-          SizedBox(
-            height: 25.h,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15.w),
-            child: BuildButton(press: ()=>Navigator.of(context).pushNamed(ShoppingCart.routeName), text: "ADD TO CART"),
-          ),
+          DescriptionSection(product: product,),
+          // CustomExpansionTile(
+          //   leading: Icon(Icons.arrow_right),
+          //   title: Text("COMPOSITION AND CARE"),
+          //   children: [
+          //     Text("this is the children of the expansion tile widget"),
+          //   ],
+          // ),
+          // CustomExpansionTile(
+          //   leading: Icon(Icons.arrow_right),
+          //   title: Text("SHIPPING AND RETURNS"),
+          //   children: [
+          //     Text("this is the children of the expansion tile widget"),
+          //   ],
+          // ),
+          // Padding(
+          //   padding: EdgeInsets.only(left:15.w),
+          //   child: Text("Similar Items",style: TextStyle(fontSize: 20.sp, fontFamily: "Avenir"),),
+          // ),
+          // SizedBox(
+          //   height: 10.h,
+          // ),
+          // SimilarItemsSection(),
           SizedBox(
             height: 25.h,
           ),
+          // Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: 15.w),
+          //   child: BuildButton(press: ()=>Navigator.of(context).pushNamed(ShoppingCart.routeName), text: "ADD TO CART"),
+          // ),
+          // SizedBox(
+          //   height: 25.h,
+          // ),
         ],
       ),
     );

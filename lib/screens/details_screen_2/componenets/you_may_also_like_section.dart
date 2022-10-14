@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ui_store_design/models/product.dart';
+import 'package:ui_store_design/models/product_model.dart';
+import 'package:ui_store_design/screens/details_screen_2/details_screen_2.dart';
 
 class YouMayAlsoLikeSection extends StatelessWidget {
 
   final List<Product> similarProducts;
-
-
-  List<String> images = [
-    "assets/images/details2_products/item_1.jpg",
-    "assets/images/details2_products/item_2.jpg",
-    "assets/images/details2_products/item_3.jpg",
-    "assets/images/details2_products/item_4.jpg"
-  ];
 
   YouMayAlsoLikeSection({Key? key, required this.similarProducts});
 
@@ -48,23 +41,28 @@ class YouMayAlsoLikeSection extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: List.generate(similarProducts.length,
-                    (index) => buildPossiblyLikedProducts(similarProducts[index].images[0])),
+                    (index) => buildPossiblyLikedProducts(similarProducts[index].images[0], context, similarProducts[index])),
           ),
         ),
       ],
     );
   }
 
-  buildPossiblyLikedProducts(String image) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15.w),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: Image.network(
-          image,
-          height: 88.w,
-          width: 88.w,
-          fit: BoxFit.cover,
+  buildPossiblyLikedProducts(String image, BuildContext context, Product product) {
+    return GestureDetector(
+      onTap: (){
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> DetailsScreen2(product: product)));
+      },
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 15.w),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Image.network(
+            image,
+            height: 88.w,
+            width: 88.w,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );

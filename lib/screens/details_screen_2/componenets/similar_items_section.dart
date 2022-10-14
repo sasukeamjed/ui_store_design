@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ui_store_design/models/product.dart';
+import 'package:ui_store_design/models/product_model.dart';
 import 'package:ui_store_design/screens/details_screen_2/details_screen_2.dart';
 
 class SimilarItemsSection extends StatelessWidget {

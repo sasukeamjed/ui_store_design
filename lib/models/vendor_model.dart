@@ -1,4 +1,4 @@
-import 'package:ui_store_design/models/product.dart';
+import 'package:ui_store_design/models/product_model.dart';
 
 class Vendor {
   final int vendorId;

@@ -10,7 +10,7 @@ import 'package:ui_store_design/errors/no_internet_connection_exception.dart';
 import 'package:ui_store_design/errors/not_found_exception.dart';
 import 'package:ui_store_design/errors/unauthorized_exception.dart';
 import 'package:ui_store_design/models/auth_error_model.dart';
-import 'package:ui_store_design/models/product.dart';
+import 'package:ui_store_design/models/product_model.dart';
 import 'package:ui_store_design/models/product_category_model.dart';
 import 'package:ui_store_design/models/user_model.dart';
 import 'package:ui_store_design/models/vendor_model.dart';
@@ -195,6 +195,20 @@ class VendorsList extends StateNotifier<List<Vendor>?> {
 
     allVendorsProducts.sort((product1, product2){
       return product1.dateCreated!.compareTo(product2.dateCreated!);
+    });
+
+    return allVendorsProducts;
+  }
+
+  List<Product> sortProductsByTotalSales(){
+    List<Product> allVendorsProducts = [];
+
+    state?.forEach((vendor) {
+      allVendorsProducts.addAll(vendor.vendorProducts);
+    });
+
+    allVendorsProducts.sort((product1, product2){
+      return product2.totalSales!.compareTo(product1.totalSales!);
     });
 
     return allVendorsProducts;
