@@ -22,7 +22,14 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState <HomeScreen> {
   late TextEditingController _searchController;
   late bool _isSearching;
+  late String _searchValue;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+
+  _getSearchValue(String search){
+    setState(() {
+      _searchValue = search;
+    });
+  }
 
   _stopSearching() {
     if (_searchController.text.isEmpty) {
@@ -41,6 +48,7 @@ class _HomeScreenState extends ConsumerState <HomeScreen> {
   @override
   void initState() {
     _searchController = TextEditingController();
+    _searchValue = "";
     _isSearching = false;
     ref.read(dataProvider.notifier).sortProductsByDate();
     super.initState();
@@ -70,9 +78,10 @@ class _HomeScreenState extends ConsumerState <HomeScreen> {
       child: Scaffold(
         key: _scaffoldKey,
         backgroundColor: Colors.white,
-        appBar: AnimatedAppBar(
+        appBar: ChangableAppBar(
           stopSearchCallBack: _stopSearching,
           startSearchCallBack: _startSearching,
+          searchFunction: _getSearchValue,
           searchController: _searchController,
           isSearching: _isSearching,
           scaffoldKey: _scaffoldKey,
@@ -80,7 +89,7 @@ class _HomeScreenState extends ConsumerState <HomeScreen> {
         drawer: HomeDrawer(),
         //Here we check for _isSearching if it is true we will return The Search page which
         //it is just a Container and if it is False we will return the body.
-        body: _isSearching ?  SearchingPage(): Body(
+        body: _isSearching ?  SearchingPage(_searchValue): Body(
           stopSearchCallBack: _stopSearching,
         ),
       ),

@@ -103,6 +103,8 @@ class VendorsList extends StateNotifier<List<Vendor>?> {
     return [];
   }
 
+
+  //This function pass each product to it is own shop and updates the state
   void _filteringProducts(List<Vendor> vendors, List<Product> products) {
     List<Vendor> vendorsWithListedProducts = [];
 

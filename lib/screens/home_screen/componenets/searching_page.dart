@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SearchingPage extends StatelessWidget {
-  const SearchingPage({Key? key}) : super(key: key);
+  const SearchingPage(this._searchValue);
+
+  final String _searchValue;
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +13,14 @@ class SearchingPage extends StatelessWidget {
       height: double.infinity,
       width: double.infinity,
       child: Center(
-        child: Text("Search for your shop name or your product..."),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Search for your shop name or your product..."),
+            SizedBox(height: 10.h,),
+            Text("Search value results => $_searchValue"),
+          ],
+        ),
       ),
     );
   }
