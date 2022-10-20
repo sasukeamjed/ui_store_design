@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/models/product_model.dart';
+import 'package:ui_store_design/providers/data_providers.dart';
 import 'package:ui_store_design/screens/details_screen_2/details_screen_2.dart';
 import 'package:ui_store_design/screens/home_screen/componenets/product_item.dart';
 import 'package:ui_store_design/services/data/data.dart';

@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ui_store_design/providers/data_providers.dart';
 import 'package:ui_store_design/screens/home_screen/componenets/appbar.dart';
 import 'package:ui_store_design/screens/home_screen/componenets/home_drawer.dart';
 import 'package:ui_store_design/screens/home_screen/componenets/searching_page.dart';
-import 'package:ui_store_design/screens/login_screen/login.dart';
-import 'package:ui_store_design/services/auth/auth.dart';
-import 'package:ui_store_design/services/auth/states/auth_state.dart';
+import 'package:ui_store_design/screens/home_screen/componenets/searching_page2.dart';
 import 'package:ui_store_design/services/data/data.dart';
-import 'package:ui_store_design/services/data/states/data_states.dart';
+
 
 import 'componenets/body.dart';
 
@@ -22,14 +21,14 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenState extends ConsumerState <HomeScreen> {
   late TextEditingController _searchController;
   late bool _isSearching;
-  late String _searchValue;
+  // late String _searchValue;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
-  _getSearchValue(String search){
-    setState(() {
-      _searchValue = search;
-    });
-  }
+  // _getSearchValue(String search){
+  //   setState(() {
+  //     _searchValue = search;
+  //   });
+  // }
 
   _stopSearching() {
     if (_searchController.text.isEmpty) {
@@ -48,7 +47,7 @@ class _HomeScreenState extends ConsumerState <HomeScreen> {
   @override
   void initState() {
     _searchController = TextEditingController();
-    _searchValue = "";
+    // _searchValue = "";
     _isSearching = false;
     ref.read(dataProvider.notifier).sortProductsByDate();
     super.initState();
@@ -81,7 +80,7 @@ class _HomeScreenState extends ConsumerState <HomeScreen> {
         appBar: ChangableAppBar(
           stopSearchCallBack: _stopSearching,
           startSearchCallBack: _startSearching,
-          searchFunction: _getSearchValue,
+          // searchFunction: _getSearchValue,
           searchController: _searchController,
           isSearching: _isSearching,
           scaffoldKey: _scaffoldKey,
@@ -89,9 +88,10 @@ class _HomeScreenState extends ConsumerState <HomeScreen> {
         drawer: HomeDrawer(),
         //Here we check for _isSearching if it is true we will return The Search page which
         //it is just a Container and if it is False we will return the body.
-        body: _isSearching ?  SearchingPage(_searchValue): Body(
-          stopSearchCallBack: _stopSearching,
-        ),
+        // body: _isSearching ?  SearchPage(): Body(
+        //   stopSearchCallBack: _stopSearching,
+        // ),
+        body: Body(stopSearchCallBack: _stopSearching,),
       ),
     );
   }

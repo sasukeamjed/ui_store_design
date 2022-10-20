@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/components/build_btn.dart';
 import 'package:ui_store_design/components/custom_expansion_tile.dart';
 import 'package:ui_store_design/models/product_model.dart';
+import 'package:ui_store_design/providers/data_providers.dart';
 import 'package:ui_store_design/screens/details_screen/components/is_favorite_star.dart';
 import 'package:ui_store_design/screens/details_screen/components/product_image_slider.dart';
 import 'package:ui_store_design/screens/details_screen_2/componenets/variations_section.dart';

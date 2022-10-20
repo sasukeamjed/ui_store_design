@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ui_store_design/extensions.dart';
 import 'package:ui_store_design/models/product_model.dart';
 
 class DescriptionSection extends StatelessWidget {
@@ -7,12 +8,7 @@ class DescriptionSection extends StatelessWidget {
 
   final Product product;
 
-  String removeHTMLTags(String text){
-    RegExp exp = RegExp(r"<[^>]*>",multiLine: true,caseSensitive: true);
-    String parsedString = text.replaceAll(exp, '');
 
-    return parsedString;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +27,7 @@ class DescriptionSection extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.w),
-          child: Text(removeHTMLTags(product.description),
+          child: Text(product.description,
             style: TextStyle(fontSize: 17.sp, fontFamily: "Avenir-Book"),
           ),
         ),

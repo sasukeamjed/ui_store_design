@@ -37,4 +37,9 @@ class Vendor {
       vendorProducts: [],
     );
   }
+
+  @override
+  String toString() {
+    return "vendorId: ${this.vendorId}, vendorShopName: ${this.vendorShopName}, vendorEmail: ${this.vendorEmail}, vendorPhone: ${this.vendorPhone}, vendorAddress: ${this.vendorAddress}, vendorDescription: ${this.vendorDescription}";
+  }
 }

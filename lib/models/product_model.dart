@@ -5,6 +5,8 @@ import 'package:ui_store_design/models/attributes_model.dart';
 import 'package:ui_store_design/models/dimensions_model.dart';
 import 'package:ui_store_design/models/product_category_model.dart';
 import 'package:ui_store_design/models/product_variation_model.dart';
+import 'package:ui_store_design/extensions.dart';
+
 
 class Product{
   //ToDo: we need to add filter for fetching products, we should not fetch products wich has not price and no publish status
@@ -31,6 +33,7 @@ class Product{
   final List<Color>? productColors;
 
   factory Product.fromJson(Map<String, dynamic> data) {
+
     return Product(
       id: data["id"],
       title: data["name"],
@@ -42,8 +45,8 @@ class Product{
       images: (data["images"] as List).map<String>((json) => json["src"]).toList(),
       featured: data["featured"],
       status: data["status"],
-      description: data["description"],
-      shortDescription: data["short_description"],
+      description: data["description"].toString().removeHTMLTags(),
+      shortDescription: data["short_description"].toString().removeHTMLTags(),
       sku: data["sku"],
       categories: (data["categories"] as List).map<ProductCategory>((json)=> ProductCategory.fromJson(json)).toList(),
       attributesModel: (data["attributes"] as List).map<AttributesModel>((json)=> AttributesModel.fromJson(json)).toList(),
@@ -72,6 +75,13 @@ class Product{
     this.isFavorited = false,
     required this.productColors,
   });
+
+  String removeHTMLTags(String text){
+    RegExp exp = RegExp(r"<[^>]*>",multiLine: true,caseSensitive: true);
+    String parsedString = text.replaceAll(exp, '');
+
+    return parsedString;
+  }
 
 
   Map<String, List<String>> getOptions(){

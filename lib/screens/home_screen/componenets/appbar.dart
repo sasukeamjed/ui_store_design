@@ -2,7 +2,12 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ui_store_design/providers/data_providers.dart';
+import 'package:ui_store_design/providers/search_providers.dart';
+import 'package:ui_store_design/screens/home_screen/componenets/searching_page2.dart';
+import 'package:ui_store_design/services/data/data.dart';
 
 class ChangableAppBar extends StatefulWidget implements PreferredSizeWidget {
   final TextEditingController searchController;
@@ -10,7 +15,7 @@ class ChangableAppBar extends StatefulWidget implements PreferredSizeWidget {
   bool isSearching;
   final Function stopSearchCallBack;
   final Function startSearchCallBack;
-  final Function searchFunction;
+  // final Function searchFunction;
 
   ChangableAppBar(
       {Key? key,
@@ -18,7 +23,9 @@ class ChangableAppBar extends StatefulWidget implements PreferredSizeWidget {
         required this.isSearching,
         required this.scaffoldKey,
         required this.stopSearchCallBack,
-        required this.startSearchCallBack, required this.searchFunction,})
+        required this.startSearchCallBack,
+        // required this.searchFunction,
+      })
       : super(key: key);
 
   @override
@@ -39,22 +46,44 @@ class _ChangableAppBarState extends State<ChangableAppBar> {
         color: Color(0xFFededed),
         height: AppBar().preferredSize.height,
         child: widget.isSearching
-            ? CupertinoSearchTextField(
-          onSuffixTap: () {
-            widget.searchController.clear();
-            widget.stopSearchCallBack();
-            // setState(() {
-            //   widget.searchController.clear();
-            //   widget.isSearching = false;
-            // });
-          },
-          onChanged: (String searchValue)=> widget.searchFunction,
-          autofocus: true,
-          controller: widget.searchController,
-          decoration: BoxDecoration(
-            color: Color(0xFFededed),
-          ),
-        )
+            ? Consumer(
+              builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                return CupertinoSearchTextField(
+                  //onSuffixTap here you write what should happens when you click at the (x) icon
+                  //which shows up after writing on the textfield
+                  onSuffixTap: () {
+                    widget.searchController.clear();
+                    widget.stopSearchCallBack();
+                    // setState(() {
+                    //   widget.searchController.clear();
+                    //   widget.isSearching = false;
+                    // });
+                  },
+                  onChanged: (String searchValue)=> ref.watch(searchQueryProvider.state).state = searchValue,
+                  autofocus: true,
+                  controller: widget.searchController,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFededed),
+                  ),
+                );
+              },
+        //       child: CupertinoSearchTextField(
+        //   onSuffixTap: () {
+        //       widget.searchController.clear();
+        //       widget.stopSearchCallBack();
+        //       // setState(() {
+        //       //   widget.searchController.clear();
+        //       //   widget.isSearching = false;
+        //       // });
+        //   },
+        //   onChanged: (String searchValue)=> widget.searchFunction,
+        //   autofocus: true,
+        //   controller: widget.searchController,
+        //   decoration: BoxDecoration(
+        //       color: Color(0xFFededed),
+        //   ),
+        // ),
+            )
             : Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Row(
@@ -75,6 +104,7 @@ class _ChangableAppBarState extends State<ChangableAppBar> {
                 onTap: () {
                   setState(() {
                     widget.startSearchCallBack();
+                    Navigator.pushNamed(context, SearchPage.routeName);
                     // widget.isSearching = true;
                   });
                 },

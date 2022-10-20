@@ -25,7 +25,7 @@ class DetailsScreen2 extends StatelessWidget {
           SizedBox(
             width: 10.w,
           ),
-          Icon(Icons.favorite),
+          Icon(Icons.shopping_cart),
           SizedBox(
             width: 20.w,
           ),

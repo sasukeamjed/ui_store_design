@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ui_store_design/providers/data_providers.dart';
 import 'package:ui_store_design/screens/home_screen/home_screen.dart';
 import 'package:ui_store_design/screens/welcome_screen/components/body.dart';
 import 'package:ui_store_design/secure_storage/secure_and_store_user_data.dart';
@@ -48,7 +49,11 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
       }
     }
 
-    FlutterNativeSplash.remove();
+    if(ref.watch(dataProvider) != null && ref.watch(dataProvider)!.isNotEmpty){
+      FlutterNativeSplash.remove();
+    }
+
+
     print('go!');
   }
 

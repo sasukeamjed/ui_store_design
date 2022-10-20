@@ -210,11 +210,27 @@ class VendorsList extends StateNotifier<List<Vendor>?> {
     });
 
     allVendorsProducts.sort((product1, product2){
-      return product2.totalSales!.compareTo(product1.totalSales!);
+      return product2.totalSales.compareTo(product1.totalSales);
     });
 
     return allVendorsProducts;
   }
 }
 
-final dataProvider = StateNotifierProvider<VendorsList, List<Vendor>?>((ref) => VendorsList());
+
+
+// final searchDataResultProvider = StateProvider.family<List<Product>, String>((ref, String searchQuery){
+//   final String searchQueryToLoweCase = searchQuery.toLowerCase();
+//   final List<Vendor>? listOfVendors = ref.watch(dataProvider);
+//
+//   List<Product> allProducts = [];
+//
+//   listOfVendors?.forEach((vendor) {
+//     allProducts.addAll(vendor.vendorProducts);
+//   });
+//
+//   return allProducts.where((product){
+//     return product.title.contains(searchQuery);
+//   }).toList();
+//
+// });
