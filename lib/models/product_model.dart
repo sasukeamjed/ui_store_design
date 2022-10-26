@@ -9,6 +9,27 @@ import 'package:ui_store_design/extensions.dart';
 
 
 class Product{
+  Product({
+    required this.postAuthor,
+    required this.dateCreated,
+    required this.status,
+    required this.featured,
+    required this.description,
+    required this.shortDescription,
+    required this.sku,
+    required this.id,
+    required this.title,
+    required this.price,
+    required this.totalSales,
+    required this.thumbnailImages,
+    required this.singleImages,
+    required this.categories,
+    required this.dimensions,
+    required this.attributesModel,
+    required this.productVariations,
+    this.isFavorited = false,
+    required this.productColors,
+  });
   //ToDo: we need to add filter for fetching products, we should not fetch products wich has not price and no publish status
   final int id;
   final String title;
@@ -22,11 +43,14 @@ class Product{
   final double price;
   final int totalSales;
   final DimensionsModel dimensions;
-  final List<String> images;
+  final List<String> thumbnailImages;
+  final List<String> singleImages;
   final List<ProductCategory> categories;
   final List<AttributesModel> attributesModel;
   final List<ProductVariationModel> productVariations;
   bool isFavorited;
+
+
 
   // final String shortDescription;
   // final String description;
@@ -42,7 +66,8 @@ class Product{
       price: double.parse(data["price"] == '' ? "0.00" : data["price"]),
       totalSales: data["total_sales"],
       dimensions: DimensionsModel.fromJson(data["dimensions"]),
-      images: (data["images"] as List).map<String>((json) => json["src"]).toList(),
+      thumbnailImages: (data["images"] as List).map<String>((json) => json["woocommerce_thumbnail"]).toList(),
+      singleImages:(data["images"] as List).map<String>((json) => json["woocommerce_single"]).toList(),
       featured: data["featured"],
       status: data["status"],
       description: data["description"].toString().removeHTMLTags(),
@@ -55,26 +80,6 @@ class Product{
     );
   }
 
-  Product({
-    required this.postAuthor,
-    required this.dateCreated,
-    required this.status,
-    required this.featured,
-    required this.description,
-    required this.shortDescription,
-    required this.sku,
-    required this.id,
-    required this.title,
-    required this.price,
-    required this.totalSales,
-    required this.images,
-    required this.categories,
-    required this.dimensions,
-    required this.attributesModel,
-    required this.productVariations,
-    this.isFavorited = false,
-    required this.productColors,
-  });
 
   String removeHTMLTags(String text){
     RegExp exp = RegExp(r"<[^>]*>",multiLine: true,caseSensitive: true);
@@ -122,7 +127,7 @@ class Product{
 
   @override
   String toString() {
-    return "postAuthor: ${this.postAuthor}, dataCreated: ${this.dateCreated}, status: ${this.status}, featured: ${this.featured}, description: ${this.description}, shortDescription: ${this.shortDescription}, sku: ${this.sku}, id: ${this.id.toString()}, title: ${this.title}, price: ${this.price.toString()}, img: ${this.images}, isFavorited: ${this.isFavorited}";
+    return "postAuthor: ${this.postAuthor}, dataCreated: ${this.dateCreated}, status: ${this.status}, featured: ${this.featured}, description: ${this.description}, shortDescription: ${this.shortDescription}, sku: ${this.sku}, id: ${this.id.toString()}, title: ${this.title}, price: ${this.price.toString()}, img: ${this.thumbnailImages}, isFavorited: ${this.isFavorited}";
   }
 
   // @override

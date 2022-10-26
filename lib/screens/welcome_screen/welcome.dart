@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ui_store_design/providers/data_providers.dart';
+import 'package:ui_store_design/providers/search_providers.dart';
 import 'package:ui_store_design/screens/home_screen/home_screen.dart';
 import 'package:ui_store_design/screens/welcome_screen/components/body.dart';
 import 'package:ui_store_design/secure_storage/secure_and_store_user_data.dart';
@@ -39,7 +40,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
 
     //fetching all the products and filtering them to their respective vendors
     await ref.read(dataProvider.notifier).dataInit();
-
+    await ref.read(searchHistoryProvider.notifier).searchHistory("");
     if(token != ""){
       Map<String, dynamic> response = await ref.read(authProvider.notifier).tokenVerification(token!);
       if(response['data']['status'] == 200){

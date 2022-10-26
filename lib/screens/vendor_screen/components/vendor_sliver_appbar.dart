@@ -1,9 +1,10 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/models/vendor_model.dart';
+import 'package:ui_store_design/screens/search_page/search_page.dart';
 
 class VendorSliverAppBar extends StatelessWidget {
-
   final Vendor vendor;
 
   const VendorSliverAppBar({Key? key, required this.vendor}) : super(key: key);
@@ -13,9 +14,50 @@ class VendorSliverAppBar extends StatelessWidget {
     return SliverAppBar(
       elevation: 4,
       forceElevated: true,
-      snap: true,
+      snap: false,
       pinned: true,
-      floating: true,
+      floating: false,
+      expandedHeight: 250.h,
+      backgroundColor: Colors.white,
+      leading: IconButton(
+        icon: Icon(
+          Icons.arrow_back,
+          size: 24.w,
+        ),
+        tooltip: 'Back',
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+      actions: <Widget>[
+        IconButton(
+          icon: Icon(
+            Icons.filter_list,
+            size: 24.w,
+          ),
+          tooltip: 'Filters Icon',
+          onPressed: () {},
+        ),
+        SizedBox(
+          width: 10.w,
+        ),
+        IconButton(
+          icon: Icon(
+            Icons.search,
+            size: 24.w,
+          ),
+          tooltip: 'Search Icon',
+          onPressed: () {
+            showSearch(
+              context: context,
+              delegate: MySearchDelegate(),
+            );
+          },
+        ),
+        SizedBox(
+          width: 10.w,
+        ),
+      ],
       flexibleSpace: LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
           return FlexibleSpaceBar(
@@ -23,15 +65,19 @@ class VendorSliverAppBar extends StatelessWidget {
             centerTitle: true,
             //(kToolbarHeight + MediaQuery.of(context).padding.top) is the appbar height + the status bar
             //(constraints.biggest.height) it gives you the height of it is child
-            title: kToolbarHeight + MediaQuery.of(context).padding.top == constraints.biggest.height? Image.network(
-              vendor.vendorShopLogo,
-              height: 80.w,
-              width: 80.w,
-            ) : Container(), //Text
+            title: kToolbarHeight + MediaQuery.of(context).padding.top ==
+                    constraints.biggest.height
+                ? Image.network(
+                    vendor.vendorShopLogo,
+                    height: 80.w,
+                    width: 80.w,
+                  )
+                : Container(),
+            //Text
             background: Column(
               children: [
                 Flexible(
-                  flex: 1,
+                  flex: 3,
                   child: Image.network(
                     vendor.mobileBanner,
                     fit: BoxFit.fitWidth,
@@ -39,23 +85,24 @@ class VendorSliverAppBar extends StatelessWidget {
                   ),
                 ),
                 Flexible(
-                  flex: 1,
+                  flex: 3,
                   child: Padding(
                     padding: EdgeInsets.symmetric(
-                        horizontal: 10.0.w, vertical: 15.h,),
+                      horizontal: 10.0.w,
+                      vertical: 15.h,
+                    ),
                     child: Row(
                       children: [
                         Flexible(
                           flex: 3,
                           child: FittedBox(
                             child: Column(
-                              crossAxisAlignment:
-                              CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   "Shop: ${vendor.vendorShopName}",
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black,
                                     fontSize: 14.sp,
                                   ),
                                   textAlign: TextAlign.left,
@@ -66,7 +113,7 @@ class VendorSliverAppBar extends StatelessWidget {
                                 Text(
                                   "Location: ${vendor.vendorAddress}",
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black,
                                     fontSize: 14.sp,
                                   ),
                                 ),
@@ -76,7 +123,7 @@ class VendorSliverAppBar extends StatelessWidget {
                                 Text(
                                   "Phone Number: ${vendor.vendorPhone}",
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black,
                                     fontSize: 14.sp,
                                   ),
                                 ),
@@ -86,7 +133,7 @@ class VendorSliverAppBar extends StatelessWidget {
                                 Text(
                                   "Contact Email: info@4ustore.net",
                                   style: TextStyle(
-                                    color: Colors.white,
+                                    color: Colors.black,
                                     fontSize: 14.sp,
                                   ),
                                 ),
@@ -98,46 +145,54 @@ class VendorSliverAppBar extends StatelessWidget {
                         Flexible(
                           flex: 1,
                           child: Image.network(
-                              vendor.vendorShopLogo, fit: BoxFit.fill,),
+                            vendor.vendorShopLogo,
+                            fit: BoxFit.fill,
+                          ),
                         ),
                       ],
                     ),
                   ),
                 ),
+                Flexible(
+                  flex: 1,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    // shrinkWrap: true,
+                    children: vendor.getCategories().mapIndexed((index,categoryName){
+                      return GestureDetector(
+                        onTap: (){
+
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(
+                            left: 10.w,
+                            right: 5.w,
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 15.w),
+                          decoration: BoxDecoration(
+                            color: Colors.black,
+                            borderRadius: BorderRadius.circular(15.w),
+                          ),
+                          child: Center(
+                            child: Text(
+                              categoryName,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: "Avenir-Book",
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList()
+                  ),
+                ),
+                SizedBox(height: 10,),
               ],
             ),
           );
         },
       ),
-      //FlexibleSpaceBar
-      expandedHeight: 230.h,
-      backgroundColor: Colors.grey,
-      leading: IconButton(
-        icon: Icon(Icons.arrow_back, size: 24.w,),
-        tooltip: 'Back',
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(Icons.filter_list, size: 24.w,),
-          tooltip: 'Setting Icon',
-          onPressed: () {},
-        ),
-        SizedBox(
-          width: 10.w,
-        ),
-        IconButton(
-          icon: Icon(Icons.search, size: 24.w,),
-          tooltip: 'Search Icon',
-          onPressed: () {},
-        ),
-        SizedBox(
-          width: 10.w,
-        ),
-      ],
     );
   }
 }
-

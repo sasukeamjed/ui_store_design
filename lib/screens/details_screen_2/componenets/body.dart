@@ -29,7 +29,7 @@ class Body extends ConsumerWidget {
     List<Product> productByCategory = ref.watch(dataProvider.notifier).filterProductsByCategory(product.categories);
     print("This is the products which are arranged according to category and it length => ${productByCategory.length}");
     print("This is the product attributes => ${product.attributesModel}");
-    print("This is the runtime type of options => ${product.attributesModel[0].options.runtimeType}");
+    // print("This is the runtime type of options => ${product.attributesModel[0].options.runtimeType}");
     print("This is the new variations => ${product.getOptions()}");
     // print(productByCategory);
 
@@ -40,7 +40,7 @@ class Body extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ProductImagesSlider(images: product.images,),
+          ProductImagesSlider(images: product.singleImages,),
           SizedBox(
             height: 30.h,
           ),

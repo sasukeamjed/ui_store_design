@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/extensions.dart';
@@ -127,10 +128,11 @@ class DescriptionSection extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: Text(
-                      "${product.dimensions.length ?? "NA" } x ${product.dimensions.width ?? "NA" } x ${product.dimensions.height ?? "NA" } cm (L x W x H)",
+                    child: AutoSizeText(
+                      "${product.dimensions.length} x ${product.dimensions.width} x ${product.dimensions.height} cm (L x W x H)",
+                      softWrap: true,
                       style: TextStyle(
-                        fontSize: 17.sp,
+                        // fontSize: 14.sp,
                         fontFamily: "Avenir-Book",
                         color: Colors.black,
                       ),

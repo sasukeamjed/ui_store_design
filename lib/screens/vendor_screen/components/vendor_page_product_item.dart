@@ -1,6 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:optimized_cached_image/optimized_cached_image.dart';
 import 'package:ui_store_design/models/vendor_model.dart';
 import 'package:ui_store_design/screens/vendor_screen/components/heart_icon.dart';
 
@@ -24,9 +25,24 @@ class VendorPageProductItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              color: Colors.green,
-              child: Image.network(
-                  vendor.vendorProducts[index].images[0]),
+              child: OptimizedCacheImage(
+                imageUrl: vendor.vendorProducts[index].thumbnailImages[0],
+                placeholder: (context, url) => Container(
+                  color: Colors.black.withOpacity(0.04),
+                  width: 150,
+                  height: 150,
+                ),
+              ),
+              // child: Image.network(vendor.vendorProducts[index].images[0],
+              // loadingBuilder: (context, child, ImageChunkEvent? loadingProgress){
+              //   if (loadingProgress == null) return child;
+              //   return Center(
+              //     child: CircularProgressIndicator(
+              //       value: loadingProgress.expectedTotalBytes != null ? loadingProgress.cumulativeBytesLoaded /
+              //           loadingProgress.expectedTotalBytes! : null,
+              //     ),
+              //   );
+              // },),
             ),
             //Here the categories which is a list of Category object and map it to get a list of strings names only
             ...vendor.vendorProducts[index].categories
@@ -51,6 +67,64 @@ class VendorPageProductItem extends StatelessWidget {
                   fontFamily: "Avenir-Book",
                   fontSize: 15.sp,
                   color: Colors.black.withOpacity(0.4)),
+            ),
+          ],
+        ),
+        HeartIcon(),
+      ],
+    );
+  }
+}
+
+class SkeletonVendorProductItem extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      clipBehavior: Clip.none,
+      alignment: Alignment.bottomRight,
+      children: [
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              color: Colors.black.withOpacity(0.04),
+              width: 150,
+              height: 150,
+              // child: Image.network(vendor.vendorProducts[index].images[0],
+              // loadingBuilder: (context, child, ImageChunkEvent? loadingProgress){
+              //   if (loadingProgress == null) return child;
+              //   return Center(
+              //     child: CircularProgressIndicator(
+              //       value: loadingProgress.expectedTotalBytes != null ? loadingProgress.cumulativeBytesLoaded /
+              //           loadingProgress.expectedTotalBytes! : null,
+              //     ),
+              //   );
+              // },),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Container(
+              height: 15,
+              width: 50,
+              color: Colors.black.withOpacity(0.04),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Container(
+              height: 30,
+              width: double.infinity,
+              color: Colors.black.withOpacity(0.04),
+            ),
+            SizedBox(
+              height: 5,
+            ),
+            Container(
+              height: 25,
+              width: 50,
+              color: Colors.black.withOpacity(0.04),
             ),
           ],
         ),

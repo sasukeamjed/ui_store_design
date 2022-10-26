@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/models/product_model.dart';
 import 'package:ui_store_design/screens/details_screen_2/componenets/add_cart_bar.dart';
 import 'package:ui_store_design/screens/details_screen_2/componenets/body.dart';
+import 'package:ui_store_design/screens/search_page/search_page.dart';
 
 class DetailsScreen2 extends StatelessWidget {
   //ToDo: change the appbar heart icon to cart icon
@@ -11,8 +12,10 @@ class DetailsScreen2 extends StatelessWidget {
   static String routeName = "/details2";
   final Product product;
 
+
   @override
   Widget build(BuildContext context) {
+    print(product.dimensions);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFFFFFFFF),
@@ -21,7 +24,12 @@ class DetailsScreen2 extends StatelessWidget {
             onPressed: () => Navigator.of(context).pop(),
             icon: Icon(Icons.arrow_back)),
         actions: [
-          Icon(Icons.search),
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: (){
+              showSearch(context: context, delegate: MySearchDelegate());
+            },
+          ),
           SizedBox(
             width: 10.w,
           ),

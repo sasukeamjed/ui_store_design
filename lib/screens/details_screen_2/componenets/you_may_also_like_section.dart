@@ -41,7 +41,7 @@ class YouMayAlsoLikeSection extends StatelessWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: List.generate(similarProducts.length,
-                    (index) => buildPossiblyLikedProducts(similarProducts[index].images[0], context, similarProducts[index])),
+                    (index) => buildPossiblyLikedProducts(similarProducts[index].thumbnailImages[0], context, similarProducts[index])),
           ),
         ),
       ],

@@ -57,7 +57,7 @@ class _SimilarItemState extends State<SimilarItem> {
           Stack(
             children: [
               Image.asset(
-                widget.product.images[0], width: 165.w, height: 200.h, fit: BoxFit.cover,),
+                widget.product.thumbnailImages[0], width: 165.w, height: 200.h, fit: BoxFit.cover,),
               Positioned(
                 right: 1,
                 child: GestureDetector(

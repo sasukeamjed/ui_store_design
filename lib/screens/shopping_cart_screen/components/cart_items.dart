@@ -89,7 +89,7 @@ class CartItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         buildCartItemImage(
-          image: product.images[0],
+          image: product.thumbnailImages[0],
           itemsCount: itemsCount,
         ),
         SizedBox(
@@ -217,3 +217,5 @@ class CartItem extends StatelessWidget {
     );
   }
 }
+
+

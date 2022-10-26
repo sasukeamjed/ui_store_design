@@ -1,3 +1,4 @@
+import 'package:ui_store_design/models/product_category_model.dart';
 import 'package:ui_store_design/models/product_model.dart';
 
 class Vendor {
@@ -36,6 +37,16 @@ class Vendor {
       vendorDescription: storeData["vendor_description"],
       vendorProducts: [],
     );
+  }
+
+  List<String> getCategories(){
+    List<ProductCategory> categoriesOfAllProducts = [];
+    this.vendorProducts.forEach((product) {
+      categoriesOfAllProducts.addAll(product.categories);
+    });
+
+    return categoriesOfAllProducts.map((category) => category.categoryName).toSet().toList();
+
   }
 
   @override
