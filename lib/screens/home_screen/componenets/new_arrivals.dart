@@ -27,15 +27,17 @@ class NewArrivalsSection extends ConsumerWidget {
             children: [
               Text(
                 "New Arrivals",
-                style: TextStyle(
-                  fontFamily: "Avenir",
-                  fontSize: 24.sp,
-                ),
+                style: Theme.of(context).textTheme.titleMedium,
+                // style: TextStyle(
+                //   fontFamily: "Avenir",
+                //   fontSize: 24.sp,
+                // ),
               ),
               Spacer(),
               Text(
                 "Show all",
-                style: TextStyle(fontFamily: "Avenir-Book", fontSize: 15.sp),
+                // style: TextStyle(fontFamily: "Avenir-Book", fontSize: 15.sp),
+                style: Theme.of(context).textTheme.labelSmall,
               ),
               Icon(Icons.arrow_right),
             ],

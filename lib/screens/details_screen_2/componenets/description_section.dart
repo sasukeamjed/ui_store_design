@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/extensions.dart';
 import 'package:ui_store_design/models/product_model.dart';
+import 'package:ui_store_design/screens/details_screen_2/componenets/custom_expansion_tile.dart';
 
 class DescriptionSection extends StatelessWidget {
   const DescriptionSection({Key? key, required this.product}) : super(key: key);
@@ -28,8 +29,27 @@ class DescriptionSection extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 15.w),
-          child: Text(product.description,
-            style: TextStyle(fontSize: 17.sp, fontFamily: "Avenir-Book"),
+          child: LayoutBuilder(
+            builder: (context, constraints){
+
+
+              final style = TextStyle(fontSize: 17.sp, fontFamily: "Avenir-Book");
+              final span = TextSpan(text: product.description, style: style);
+              final tp = TextPainter(text: span, textDirection: TextDirection.ltr);
+              tp.layout(maxWidth: constraints.maxWidth);
+              final numLines = tp.computeLineMetrics().length;
+              print("the number or lines => $numLines");
+              if (numLines > 3) {
+                return CustomExpansionTile(
+                  text: product.description,
+                  textStyle: TextStyle(fontSize: 17.sp, fontFamily: "Avenir-Book"),
+                  iconColor: Colors.green,
+                );
+              } else {
+                return Center(child: Text(product.description, style: style));
+              }
+
+            },
           ),
         ),
         SizedBox(

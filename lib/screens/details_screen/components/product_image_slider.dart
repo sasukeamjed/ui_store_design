@@ -20,7 +20,7 @@ class _ProductImagesSliderState extends State<ProductImagesSlider> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 250.h,
+      height: 320.h,
       width: double.infinity,
       child: Stack(
         children: [

@@ -196,7 +196,7 @@ class VendorsList extends StateNotifier<List<Vendor>?> {
     });
 
     allVendorsProducts.sort((product1, product2){
-      return product1.dateCreated!.compareTo(product2.dateCreated!);
+      return product2.dateCreated!.compareTo(product1.dateCreated!);
     });
 
     return allVendorsProducts;

@@ -40,6 +40,17 @@ class MyApp extends StatelessWidget {
                   color: Colors.black
               ),
             ),
+            textTheme: TextTheme(
+              titleMedium: TextStyle(
+                  fontFamily: "Avenir",
+              ),
+              labelMedium: TextStyle(
+                  fontFamily: "Avenir",
+              ),
+              labelSmall: TextStyle(
+                  fontFamily: "Avenir-Book"
+              ),
+            ),
             // iconTheme: IconThemeData(
             //   color: Colors.black,
             // ),

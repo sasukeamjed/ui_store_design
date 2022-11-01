@@ -27,15 +27,17 @@ class BestSellersSection extends ConsumerWidget {
             children: [
               Text(
                 "Best Sellers",
-                style: TextStyle(
-                  fontFamily: "Avenir",
-                  fontSize: 24.sp,
-                ),
+                // style: TextStyle(
+                //   fontFamily: "Avenir",
+                //   fontSize: 24.sp,
+                // ),
+                style: Theme.of(context).textTheme.titleMedium,
               ),
               Spacer(),
               Text(
                 "Show all",
-                style: TextStyle(fontFamily: "Avenir-Book", fontSize: 15.sp),
+                // style: TextStyle(fontFamily: "Avenir-Book", fontSize: 15.sp),
+                style: Theme.of(context).textTheme.labelSmall,
               ),
               Icon(Icons.arrow_right),
             ],
