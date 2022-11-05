@@ -32,13 +32,13 @@ class DescriptionSection extends StatelessWidget {
           child: LayoutBuilder(
             builder: (context, constraints){
 
-
+              print("this is the product description => ${product.description}");
               final style = TextStyle(fontSize: 17.sp, fontFamily: "Avenir-Book");
               final span = TextSpan(text: product.description, style: style);
               final tp = TextPainter(text: span, textDirection: TextDirection.ltr);
               tp.layout(maxWidth: constraints.maxWidth);
               final numLines = tp.computeLineMetrics().length;
-              print("the number or lines => $numLines");
+              print("the number of lines => ${tp.computeLineMetrics()[0]}");
               if (numLines > 3) {
                 return CustomExpansionTile(
                   text: product.description,
@@ -108,32 +108,6 @@ class DescriptionSection extends StatelessWidget {
                   ),
                 ],
               ),
-              // Row(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: [
-              //     Expanded(
-              //       child: Text(
-              //         "Tags:",
-              //         style: TextStyle(
-              //           fontSize: 17.sp,
-              //           fontFamily: "Avenir-Book",
-              //           color: Colors.black.withOpacity(0.4),
-              //         ),
-              //       ),
-              //     ),
-              //     Expanded(
-              //       child: Text(
-              //         "#furniture, #table",
-              //         style: TextStyle(
-              //           fontSize: 17.sp,
-              //           fontFamily: "Avenir-Book",
-              //           color: Colors.black,
-              //         ),
-              //         maxLines: 1,
-              //       ),
-              //     ),
-              //   ],
-              // ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

@@ -114,6 +114,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
   late LineSplitter ls;
   late String title;
   late String content;
+  late TextPainter textPainter;
 
 
   bool _isExpanded = false;
@@ -138,6 +139,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
     List<String> lines = ls.convert(widget.text);
 
     List<String> trimmedLines = lines.map((String line){
+      print("this is one line => $line");
       return line.trim();
     }).toList();
 
@@ -146,6 +148,35 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
     title = trimmedLines.sublist(0,3).join(" ").trim();
     content = trimmedLines.sublist(3).join(" ").trim();
 
+    print("this is the product title => $title");
+    print("this is the product content => $content");
+
+    // textPainter = TextPainter(
+    //     textDirection: TextDirection.ltr,
+    //     textScaleFactor: MediaQuery.textScaleFactorOf(context));
+    //
+    // textPainter.text = TextSpan(
+    //     text: widget.text,
+    //     style: widget.textStyle);
+    //
+    // double lineHeight = textPainter.preferredLineHeight;
+
+
+  }
+
+  TextPainter getTextPainter(tempStr, width){
+
+  }
+
+  List<String> splitText(String content){
+    String tempStr = content;
+
+    List<String> pageConfig = [];
+    if (content.isEmpty) {
+      return pageConfig;
+    }
+
+    TextPainter textPainter = getTextPainter(tempStr, width);
   }
 
   @override
@@ -185,6 +216,23 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
     }
   }
 
+  bool hasTextOverflow(
+      String text,
+      TextStyle style,
+      {double minWidth = 0,
+        double maxWidth = double.infinity,
+        int maxLines = 3
+      }) {
+    final TextPainter textPainter = TextPainter(
+      text: TextSpan(text: text, style: style),
+      maxLines: maxLines,
+      textDirection: TextDirection.ltr,
+    )..layout(minWidth: minWidth, maxWidth: maxWidth);
+
+
+    return textPainter.didExceedMaxLines;
+  }
+
   Widget? _buildIcon(BuildContext context, Color? iconColor) {
     return RotationTransition(
       turns: _iconTurns,
@@ -192,7 +240,11 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
     );
   }
 
-  // Widget? _buildLeadingIcon(BuildContext context) {
+
+
+
+
+// Widget? _buildLeadingIcon(BuildContext context) {
   //   if (_effectiveAffinity(widget.controlAffinity) != ListTileControlAffinity.leading) {
   //     return null;
   //   }
@@ -252,7 +304,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
                         Expanded(
                           child: Container(
                             height: 2,
-                            color: Colors.black,
+                            color: Colors.black.withOpacity(0.2),
                           ),
                         ),
                         Padding(
@@ -263,7 +315,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
                           child: Container(
                             height: 2,
                             width: 20,
-                            color: Colors.black,
+                            color: Colors.black.withOpacity(0.2),
                           ),
                         ),
                       ],
@@ -272,49 +324,13 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
                 ),
               ),
             ),
-            // child: ListTile(
-            //   onTap: _handleTap,
-            //   contentPadding: widget.tilePadding ?? expansionTileTheme.tilePadding,
-            //   // leading: widget.leading ?? _buildLeadingIcon(context),
-            //   title: widget.title,
-            //   subtitle: widget.subtitle,
-            //   // trailing: widget.trailing ?? _buildTrailingIcon(context),
-            // ),
           ),
-          // ListTileTheme.merge(
-          //   iconColor: _iconColor.value ?? expansionTileTheme.iconColor,
-          //   textColor: _headerColor.value,
-          //   child: ListTile(
-          //     onTap: _handleTap,
-          //     contentPadding: widget.tilePadding ?? expansionTileTheme.tilePadding,
-          //     leading: widget.leading ?? _buildLeadingIcon(context),
-          //     title: widget.title,
-          //     subtitle: widget.subtitle,
-          //     trailing: widget.trailing ?? _buildTrailingIcon(context),
-          //   ),
-          // ),
 
         ],
       ),
     );
   }
 
-  //Method to check if text has overflowed or not, if overflowed we want to show
-  //the animation and icon button
-  bool hasTextOverflow(
-      String text,
-      TextStyle style,
-      {double minWidth = 0,
-        double maxWidth = double.infinity,
-        int maxLines = 2
-      }) {
-    final TextPainter textPainter = TextPainter(
-      text: TextSpan(text: text, style: style),
-      maxLines: maxLines,
-      textDirection: TextDirection.ltr,
-    )..layout(minWidth: minWidth, maxWidth: maxWidth);
-    return textPainter.didExceedMaxLines;
-  }
 
   @override
   void didChangeDependencies() {
@@ -346,8 +362,8 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
 
     ls = const LineSplitter();
     List<String> lines = ls.convert(widget.text);
-    print(widget.text);
-    print("this is the number of lines in the product description: ${lines.length}");
+    // print(widget.text);
+    // print("this is the number of lines in the product description: ${lines.length}");
 
     final Widget result = Offstage(
       offstage: closed,

@@ -17,14 +17,14 @@ final productsByVendorNotifier = FutureProvider.family<List<Product>, String>((r
     });
     print("Before Listing +++++++++++++++++++++++++++++++++++++");
     List<dynamic> products = response.data;
-
-    print(products
-        .map((product) => Product.fromJson(product))
-        .toList()
-        .where(
-            (product) => product.price != 0.00 && product.status == "publish")
-        .toList());
-    print("fetching products has finished");
+    print("fetching products has finished 1");
+    // print(products
+    //     .map((product) => Product.fromJson(product))
+    //     .toList()
+    //     .where(
+    //         (product) => product.price != 0.00 && product.status == "publish")
+    //     .toList());
+    print("fetching products has finished 2");
     // state = DataLoaded(products.map((data) => Product.fromJson(data)).toList());
 
     return products

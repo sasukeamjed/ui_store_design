@@ -15,9 +15,9 @@ class AttributesModel {
 
   factory AttributesModel.fromJson(Map<String, dynamic> data) {
     return AttributesModel(
-      id: data["id"],
-      name: data["name"],
-      slug: data["slug"],
+      id: data["id"] ?? 0,
+      name: data["name"] ?? "attribute-name",
+      slug: data["slug"] ?? "slug-name",
       // options: (data["options"] as List<dynamic>)
       //     .map((option) => option.toString())
       //     .toList(),
