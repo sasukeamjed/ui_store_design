@@ -44,6 +44,7 @@ class DescriptionSection extends StatelessWidget {
                   text: product.description,
                   textStyle: TextStyle(fontSize: 17.sp, fontFamily: "Avenir-Book"),
                   iconColor: Colors.green,
+                  width: constraints.maxWidth,
                 );
               } else {
                 return Center(child: Text(product.description, style: style));

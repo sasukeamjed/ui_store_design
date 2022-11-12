@@ -4,10 +4,12 @@ import 'package:ui_store_design/size_config.dart';
 
 class ProductImagesSlider extends StatefulWidget {
   ProductImagesSlider({
-    Key? key, required this.images,
+    Key? key, required this.images, required this.onChangeFunction, required this.pageController,
   }) : super(key: key);
 
   final List<String> images;
+  final PageController pageController;
+  final Function onChangeFunction;
 
   @override
   State<ProductImagesSlider> createState() => _ProductImagesSliderState();
@@ -17,24 +19,35 @@ class _ProductImagesSliderState extends State<ProductImagesSlider> {
   int _currentImage = 0;
 
 
+
+  @override
+  void initState() {
+
+    super.initState();
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 320.h,
+      height: 420.h,
       width: double.infinity,
       child: Stack(
         children: [
           PageView.builder(
+            controller: widget.pageController,
               itemCount: widget.images.length,
-              onPageChanged: (value){
+              onPageChanged: (index){
+                widget.onChangeFunction(index);
                 setState(() {
-                  _currentImage = value;
+                  _currentImage = index;
                 });
               },
               itemBuilder: (context, index) {
                 return Image.network(
                   widget.images[index],
-                  fit: BoxFit.contain,
+                  fit: BoxFit.fill,
                   width: double.infinity,
                   height: 250.h,
                 );

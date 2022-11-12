@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,15 +13,42 @@ import 'package:ui_store_design/screens/details_screen_2/componenets/you_may_als
 
 //Details2_Body
 
-class Body extends ConsumerWidget {
-
+class Body extends ConsumerStatefulWidget {
   final Product product;
 
   const Body({Key? key, required this.product}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ref) {
-    List<Product> productByCategory = ref.watch(dataProvider.notifier).filterProductsByCategory(product.categories);
+  ConsumerState<Body> createState() => _BodyState();
+}
+
+class _BodyState extends ConsumerState<Body> {
+  int _thumbnailImageIndex = 0;
+
+  late final PageController _pageController;
+
+
+  @override
+  void initState() {
+    _pageController  = PageController();
+    super.initState();
+  }
+
+  changeThumbIndex(index){
+    setState(() {
+      _thumbnailImageIndex = index;
+    });
+  }
+
+  _gotToTheIndexedImage(int index){
+    _pageController.animateToPage(index, duration: Duration(milliseconds: 200), curve: Curves.ease);
+    // _pageController.jumpToPage(index);
+    changeThumbIndex(index);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<Product> productByCategory = ref.watch(dataProvider.notifier).filterProductsByCategory(widget.product.categories);
     // print("This is the products which are arranged according to category and it length => ${productByCategory.length}");
     // print("This is the product attributes => ${product.attributesModel}");
     // print("This is the runtime type of options => ${product.attributesModel[0].options.runtimeType}");
@@ -34,7 +62,7 @@ class Body extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ProductImagesSlider(images: product.singleImages,),
+          ProductImagesSlider(images: widget.product.singleImages, onChangeFunction: changeThumbIndex, pageController: _pageController,),
           SizedBox(
             height: 10.h,
           ),
@@ -43,11 +71,19 @@ class Body extends ConsumerWidget {
             child: Wrap(
               spacing: 10.w,
               runSpacing: 10.w,
-              children: product.thumbnailImages.map((thumbnailImage){
-                return Container(
-                  height: 35.h,
-                  width: 25.w,
-                  child: Image.network(thumbnailImage),
+              children: widget.product.thumbnailImages.mapIndexed((index, thumbnailImage){
+                return GestureDetector(
+                  onTap: (){
+                    _gotToTheIndexedImage(index);
+                  },
+                  child: Container(
+                    height: 35.h,
+                    width: 25.w,
+                    decoration: BoxDecoration(
+                      border: _thumbnailImageIndex == index ? Border.all(color: Colors.green.withOpacity(0.6), style: BorderStyle.solid, width: 1.5, strokeAlign: StrokeAlign.outside) : null,
+                    ),
+                    child: Image.network(thumbnailImage),
+                  ),
                 );
               }).toList(),
             ),
@@ -55,14 +91,14 @@ class Body extends ConsumerWidget {
           SizedBox(
             height: 30.h,
           ),
-          TitlePriceRatting(title: product.title, price: product.price.toString(), categories: product.categories.map((e) => e.categoryName).toList(),),
-          if(product.getOptions().isNotEmpty)
+          TitlePriceRatting(title: widget.product.title, price: widget.product.price.toString(), categories: widget.product.categories.map((e) => e.categoryName).toList(),),
+          if(widget.product.getOptions().isNotEmpty)
             Divider(
               height: 30.h,
               color: Colors.black12,
             ),
-          if(product.getOptions().isNotEmpty)
-            VariationsSection(variations: product.getOptions(),),
+          if(widget.product.getOptions().isNotEmpty)
+            VariationsSection(variations: widget.product.getOptions(),),
           Divider(
             height: 40.h,
             color: Colors.black12,
@@ -72,7 +108,7 @@ class Body extends ConsumerWidget {
             height: 40.h,
             color: Colors.black12,
           ),
-          DescriptionSection(product: product,),
+          DescriptionSection(product: widget.product,),
           SizedBox(
             height: 25.h,
           ),
@@ -81,5 +117,6 @@ class Body extends ConsumerWidget {
     );
   }
 }
+
 
 

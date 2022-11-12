@@ -28,7 +28,7 @@ class _BodyState extends State<Body> {
         SizedBox(
           height: 20.h,
         ),
-        ProductImagesSlider(images: [],),
+        // ProductImagesSlider(images: [],),
         SizedBox(
           height: 18.h,
         ),

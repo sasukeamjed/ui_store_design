@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:ui_store_design/components/build_btn.dart';
 import 'package:ui_store_design/screens/details_screen/components/body.dart';
 import 'package:ui_store_design/size_config.dart';

@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 // import 'package:flutter/widgets.dart';
@@ -40,7 +41,7 @@ class CustomExpansionTile extends StatefulWidget {
     this.collapsedTextColor,
     this.iconColor,
     this.collapsedIconColor,
-    this.controlAffinity,
+    this.controlAffinity, required this.width,
   }) : assert(initiallyExpanded != null),
         assert(maintainState != null),
         assert(
@@ -52,6 +53,7 @@ class CustomExpansionTile extends StatefulWidget {
 
   final Widget? leading;
 
+  final double width;
 
   final Widget? subtitle;
 
@@ -135,21 +137,10 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
       _controller.value = 1.0;
     }
 
-    ls = const LineSplitter();
-    List<String> lines = ls.convert(widget.text);
-
-    List<String> trimmedLines = lines.map((String line){
-      print("this is one line => $line");
-      return line.trim();
-    }).toList();
+    getRawText(widget.text, widget.textStyle, widget.width);
 
 
 
-    title = trimmedLines.sublist(0,3).join(" ").trim();
-    content = trimmedLines.sublist(3).join(" ").trim();
-
-    print("this is the product title => $title");
-    print("this is the product content => $content");
 
     // textPainter = TextPainter(
     //     textDirection: TextDirection.ltr,
@@ -164,19 +155,77 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
 
   }
 
-  TextPainter getTextPainter(tempStr, width){
+  List<String> firstTexts = [];
+  List<String> secondTexts = [];
 
-  }
 
-  List<String> splitText(String content){
-    String tempStr = content;
 
-    List<String> pageConfig = [];
-    if (content.isEmpty) {
-      return pageConfig;
+  getRawText(String text, TextStyle textStyle, double width){
+    // The TextPaint has already been laid out
+
+    final textSpan = TextSpan(text: text, style: textStyle);
+
+    final _textPainter = TextPainter(
+      text: textSpan,
+      textDirection: TextDirection.ltr,
+    );
+    _textPainter.layout(
+      minWidth: 0,
+      maxWidth: width,
+    );
+
+    // select everything
+    TextSelection selection = TextSelection(baseOffset: 0, extentOffset: textSpan.text!.length);
+
+    // get a list of TextBoxes (Rects)
+    List<LineMetrics> lineMetrics = _textPainter.computeLineMetrics();
+
+    // Loop through each text box
+    List<String> lineTexts = [];
+
+
+    int start = 0;
+    int end;
+    int index = -1;
+    for (int i = 0; i < lineMetrics.length; i++) {
+      LineMetrics lineMetric = lineMetrics[i];
+      index += 1;
+
+      // Uncomment this if you want to only get the whole line of text
+      // (sometimes a single line may have multiple TextBoxes)
+      // if (box.left != 0.0)
+      //  continue;
+
+      if (index == 0)
+        continue;
+      // Go one logical pixel within the box and get the position
+      // of the character in the string.
+      final top = lineMetric.baseline - lineMetric.ascent;
+      end = _textPainter.getPositionForOffset(Offset(lineMetric.left + 1, top + 1)).offset;
+      // add the substring to the list of lines
+      final line = text.substring(start, end);
+
+      if(i < 4){
+        // print("this is line no: $i, and text line: $line");
+        firstTexts.add(line);
+      }
+
+      if(i > 3){
+        // print("this is line no: $i, and text line: $line");
+        secondTexts.add(line);
+      }
+
+      lineTexts.add(line);
+      start = end;
     }
-
-    TextPainter textPainter = getTextPainter(tempStr, width);
+    // get the last substring
+    final extra = text.substring(start);
+    // print("this is last line: ${text.substring(start)}");
+    secondTexts.add(extra);
+    lineTexts.add(extra);
+    // print("this is the first texts: $firstTexts");
+    // print("this is the second texts: $secondTexts");
+    return lineTexts.join(" ");
   }
 
   @override
@@ -285,7 +334,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(title,style: widget.textStyle, maxLines: 3, overflow: _isExpanded ? null : TextOverflow.fade, textAlign: TextAlign.left,),
+                    Text(firstTexts.join(" "),style: widget.textStyle, maxLines: 3, overflow: _isExpanded ? null : TextOverflow.fade, textAlign: TextAlign.left,),
                     // widget.title,
                     // middleChild ?? Container(),
                     //This is the widget is built in the middle with animation
@@ -360,8 +409,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
     final bool closed = !_isExpanded && _controller.isDismissed;
     final bool shouldRemoveChildren = closed && !widget.maintainState;
 
-    ls = const LineSplitter();
-    List<String> lines = ls.convert(widget.text);
+
     // print(widget.text);
     // print("this is the number of lines in the product description: ${lines.length}");
 
@@ -374,7 +422,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
           child: Column(
             crossAxisAlignment: widget.expandedCrossAxisAlignment ?? CrossAxisAlignment.center,
             children: [
-              Text(content, style: widget.textStyle,),
+              Text(secondTexts.join(""), style: widget.textStyle,),
             ],
           ),
         ),
@@ -382,14 +430,14 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
     );
 
     // return hasTextOverflow(widget.text, widget.textStyle, maxLines: 3) ? AnimatedBuilder(
-    return AnimatedBuilder(
+    return secondTexts.isNotEmpty ? AnimatedBuilder(
       animation: _controller.view,
       builder: (context, child){
         return _buildChildren(context, child);
 
         // return _buildChildren(context, child, result);
       },
-      child: shouldRemoveChildren ? null : result,);
-    // ) : Text(widget.text, style: widget.textStyle,);
+      child: shouldRemoveChildren ? null : result,)
+     : Text(firstTexts.join(""), style: widget.textStyle,);
   }
 }

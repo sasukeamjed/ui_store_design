@@ -60,29 +60,29 @@ class Product{
 
     return Product(
       id: data["id"],
-      //not this one
+
       title: data["name"],
-      //not this one
+
       postAuthor: data["post_author"],
       dateCreated: DateTime.tryParse(data["date_created"]),
       price: double.parse(data["price"] == '' ? "0.00" : data["price"]),
       totalSales: data["total_sales"],
-      //not this one
+
       dimensions: DimensionsModel.fromJson(data["dimensions"]),
-      //not this one
+
       thumbnailImages: (data["images"] as List).map<String>((json) => json["woocommerce_thumbnail"]).toList(),
-      //not this one
+
       singleImages:(data["images"] as List).map<String>((json) => json["woocommerce_single"]).toList(),
       featured: data["featured"],
-      //not this one
+
       status: data["status"],
-      //not this one
+
       description: data["description"].toString().removeHTMLTags(),
-      //not this one
+
       shortDescription: data["short_description"].toString().removeHTMLTags(),
-      //not this one
+
       sku: data["sku"],
-      //not this one
+
       categories: (data["categories"] as List).map<ProductCategory>((json)=> ProductCategory.fromJson(json)).toList(),
       attributesModel: (data["attributes"] as List).map<AttributesModel>((json)=> AttributesModel.fromJson(json)).toList(),
       productVariations: (data["variations"] as List).map<ProductVariationModel>((json)=> ProductVariationModel.fromJson(json)).toList(),
