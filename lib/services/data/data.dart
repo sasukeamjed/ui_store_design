@@ -87,11 +87,11 @@ class VendorsList extends StateNotifier<List<Vendor>?> {
 
     late Response response;
     try {
-      print("awaiting");
+      print("fetching all vendors ++++++");
       response = await _dio.get("wp-json/wcfmmp/v1/store-vendors");
-      print("Before Listing +++++++++++++++++++++++++++++++++++++");
+      print("fetching vendors finished +++++++++++++++++++++++++++++++++++++");
       List<dynamic> vendors = response.data;
-      print(vendors[0]);
+      // print(vendors[0]);
       return vendors.map((vendor) => Vendor.fromJson(vendor)).toList();
       print("After Listing +++++++++++++++++++++++++++++++++++++++++++");
       // state = DataLoaded(vendors.map((data) => Product.fromJson(data)).toList());
@@ -165,12 +165,12 @@ class VendorsList extends StateNotifier<List<Vendor>?> {
       print("Before Listing +++++++++++++++++++++++++++++++++++++");
       List<dynamic> products = response.data;
 
-      print(products
-          .map((product) => Product.fromJson(product))
-          .toList()
-          .where(
-              (product) => product.price != 0.00 && product.status == "publish")
-          .toList());
+      // print(products
+      //     .map((product) => Product.fromJson(product))
+      //     .toList()
+      //     .where(
+      //         (product) => product.price != 0.00 && product.status == "publish")
+      //     .toList());
       print("fetching products has finished");
       // state = DataLoaded(products.map((data) => Product.fromJson(data)).toList());
 

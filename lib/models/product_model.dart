@@ -58,6 +58,12 @@ class Product{
 
   factory Product.fromJson(Map<String, dynamic> data) {
 
+
+    ///tried to add toSet() to remove any duplicates
+    List<String> singleImages = [...(data["images"] as List).map<String>((json) => json["woocommerce_single"]).toList(), ...(data["variations"] as List).map<ProductVariationModel>((json)=> ProductVariationModel.fromJson(json)).toList().map((variation) => variation.singleImage).toList()];
+    List<String> thumbnailImages = [...(data["images"] as List).map<String>((json) => json["woocommerce_thumbnail"]).toList(), ...(data["variations"] as List).map<ProductVariationModel>((json)=> ProductVariationModel.fromJson(json)).toList().map((variation) => variation.thumbnailImage).toList()];
+
+
     return Product(
       id: data["id"],
 
@@ -70,14 +76,14 @@ class Product{
 
       dimensions: DimensionsModel.fromJson(data["dimensions"]),
 
-      thumbnailImages: (data["images"] as List).map<String>((json) => json["woocommerce_thumbnail"]).toList(),
+      thumbnailImages: thumbnailImages,
 
-      singleImages:(data["images"] as List).map<String>((json) => json["woocommerce_single"]).toList(),
+      singleImages:singleImages,
       featured: data["featured"],
 
       status: data["status"],
 
-      description: data["description"].toString().removeHTMLTags(),
+      description: data["description"].toString(),
 
       shortDescription: data["short_description"].toString().removeHTMLTags(),
 
@@ -126,19 +132,19 @@ class Product{
 
         });
 
-        newVariation[attribute.slug ?? ""] = variationsList.toSet().toList();
+        newVariation["attribute_" + attribute.slug ?? ""] = variationsList.toSet().toList();
 
       }
     });
 
-
+    print("get options variations: $newVariation");
     return newVariation;
 
   }
 
   @override
   String toString() {
-    return "postAuthor: ${this.postAuthor}, dataCreated: ${this.dateCreated}, status: ${this.status}, featured: ${this.featured}, description: ${this.description}, shortDescription: ${this.shortDescription}, sku: ${this.sku}, id: ${this.id.toString()}, title: ${this.title}, price: ${this.price.toString()}, img: ${this.thumbnailImages}, isFavorited: ${this.isFavorited}";
+    return "postAuthor: ${this.postAuthor}, dataCreated: ${this.dateCreated}, status: ${this.status}, featured: ${this.featured}, description: ${this.description}, shortDescription: ${this.shortDescription}, sku: ${this.sku}, id: ${this.id.toString()}, title: ${this.title}, price: ${this.price.toString()}, img: ${this.thumbnailImages}, isFavorited: ${this.isFavorited}, product_variations: ${this.productVariations}";
   }
 
   // @override

@@ -6,6 +6,8 @@ import 'dart:convert';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_html/flutter_html.dart';
+import 'package:ui_store_design/extensions.dart';
 // import 'package:flutter/widgets.dart';
 
 // import 'color_scheme.dart';
@@ -334,7 +336,7 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(firstTexts.join(" "),style: widget.textStyle, maxLines: 3, overflow: _isExpanded ? null : TextOverflow.fade, textAlign: TextAlign.left,),
+                    _isExpanded ? Html(data: firstTexts.join("")) : Text(firstTexts.join("").removeHTMLTags(),style: widget.textStyle, maxLines: 3, overflow: _isExpanded ? null : TextOverflow.fade, textAlign: TextAlign.left,),
                     // widget.title,
                     // middleChild ?? Container(),
                     //This is the widget is built in the middle with animation
@@ -422,7 +424,8 @@ class _CustomExpansionTileState extends State<CustomExpansionTile> with SingleTi
           child: Column(
             crossAxisAlignment: widget.expandedCrossAxisAlignment ?? CrossAxisAlignment.center,
             children: [
-              Text(secondTexts.join(""), style: widget.textStyle,),
+              Html(data: secondTexts.join("")),
+              // Text(secondTexts.join(""), style: widget.textStyle,),
             ],
           ),
         ),

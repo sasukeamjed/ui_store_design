@@ -32,13 +32,13 @@ class DescriptionSection extends StatelessWidget {
           child: LayoutBuilder(
             builder: (context, constraints){
 
-              print("this is the product description => ${product.description}");
+              // print("this is the product description => ${product.description}");
               final style = TextStyle(fontSize: 17.sp, fontFamily: "Avenir-Book");
               final span = TextSpan(text: product.description, style: style);
               final tp = TextPainter(text: span, textDirection: TextDirection.ltr);
               tp.layout(maxWidth: constraints.maxWidth);
               final numLines = tp.computeLineMetrics().length;
-              print("the number of lines => ${tp.computeLineMetrics()[0]}");
+              // print("the number of lines => ${tp.computeLineMetrics()[0]}");
               if (numLines > 3) {
                 return CustomExpansionTile(
                   text: product.description,

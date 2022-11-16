@@ -1,8 +1,10 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/models/product_model.dart';
+import 'package:ui_store_design/models/product_variation_model.dart';
 import 'package:ui_store_design/providers/data_providers.dart';
 import 'package:ui_store_design/screens/details_screen/components/product_image_slider.dart';
 import 'package:ui_store_design/screens/details_screen_2/componenets/variations_section.dart';
@@ -25,26 +27,31 @@ class Body extends ConsumerStatefulWidget {
 class _BodyState extends ConsumerState<Body> {
   int _thumbnailImageIndex = 0;
 
-  late final PageController _pageController;
+
+  //this method will get the crossbonding variation from the option which was
+  //choosed by the user dropdowns buttons
+  ProductVariationModel getTheCrossBondingVariation(Map<String, dynamic> choosenOptions){
+    List<ProductVariationModel> variations = widget.product.productVariations;
+
+    return variations.firstWhere((variation){
+
+      print("The Cross Bonding Variation is => ${mapEquals(variation.attributes, choosenOptions)}");
+      return mapEquals(variation.attributes, choosenOptions);
+
+    }, orElse: ()=> widget.product.productVariations[0]);
+  }
+
 
 
   @override
   void initState() {
-    _pageController  = PageController();
+    widget.product.productVariations.forEach((element) {
+      print("product variations in product page => $element");
+    });
+
     super.initState();
   }
 
-  changeThumbIndex(index){
-    setState(() {
-      _thumbnailImageIndex = index;
-    });
-  }
-
-  _gotToTheIndexedImage(int index){
-    _pageController.animateToPage(index, duration: Duration(milliseconds: 200), curve: Curves.ease);
-    // _pageController.jumpToPage(index);
-    changeThumbIndex(index);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,32 +69,7 @@ class _BodyState extends ConsumerState<Body> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ProductImagesSlider(images: widget.product.singleImages, onChangeFunction: changeThumbIndex, pageController: _pageController,),
-          SizedBox(
-            height: 10.h,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15.w),
-            child: Wrap(
-              spacing: 10.w,
-              runSpacing: 10.w,
-              children: widget.product.thumbnailImages.mapIndexed((index, thumbnailImage){
-                return GestureDetector(
-                  onTap: (){
-                    _gotToTheIndexedImage(index);
-                  },
-                  child: Container(
-                    height: 35.h,
-                    width: 25.w,
-                    decoration: BoxDecoration(
-                      border: _thumbnailImageIndex == index ? Border.all(color: Colors.green.withOpacity(0.6), style: BorderStyle.solid, width: 1.5, strokeAlign: StrokeAlign.outside) : null,
-                    ),
-                    child: Image.network(thumbnailImage),
-                  ),
-                );
-              }).toList(),
-            ),
-          ),
+          ProductImagesSlider(images: widget.product.singleImages, thumbnailImages: widget.product.thumbnailImages,),
           SizedBox(
             height: 30.h,
           ),
@@ -98,7 +80,7 @@ class _BodyState extends ConsumerState<Body> {
               color: Colors.black12,
             ),
           if(widget.product.getOptions().isNotEmpty)
-            VariationsSection(variations: widget.product.getOptions(),),
+            VariationsSection(variations: widget.product.getOptions(), getCrossBondingVariation: getTheCrossBondingVariation),
           Divider(
             height: 40.h,
             color: Colors.black12,

@@ -6,7 +6,6 @@ class Vendor {
   final String vendorShopName;
   final String vendorEmail;
   final String vendorPhone;
-  final String vendorAddress;
   final String vendorShopLogo;
 
   //This is the image url for vendor shop banner
@@ -19,7 +18,6 @@ class Vendor {
       required this.vendorShopName,
       required this.vendorEmail,
       required this.vendorPhone,
-      required this.vendorAddress,
       required this.vendorShopLogo,
       required this.mobileBanner,
       required this.vendorDescription,
@@ -31,7 +29,6 @@ class Vendor {
       vendorShopName: storeData["vendor_shop_name"],
       vendorEmail: storeData["vendor_email"],
       vendorPhone: storeData["vendor_phone"],
-      vendorAddress: storeData["vendor_address"],
       vendorShopLogo: storeData["vendor_shop_logo"],
       mobileBanner: storeData["mobile_banner"],
       vendorDescription: storeData["vendor_description"],
@@ -51,6 +48,6 @@ class Vendor {
 
   @override
   String toString() {
-    return "vendorId: ${this.vendorId}, vendorShopName: ${this.vendorShopName}, vendorEmail: ${this.vendorEmail}, vendorPhone: ${this.vendorPhone}, vendorAddress: ${this.vendorAddress}, vendorDescription: ${this.vendorDescription}";
+    return "vendorId: ${this.vendorId}, vendorShopName: ${this.vendorShopName}, vendorEmail: ${this.vendorEmail}, vendorPhone: ${this.vendorPhone}, vendorDescription: ${this.vendorDescription}";
   }
 }
