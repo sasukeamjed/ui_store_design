@@ -111,16 +111,6 @@ class VendorSliverAppBar extends StatelessWidget {
                                   height: 10.h,
                                 ),
                                 Text(
-                                  "Phone Number: ${vendor.vendorPhone}",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14.sp,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10.h,
-                                ),
-                                Text(
                                   "Contact Email: info@4ustore.net",
                                   style: TextStyle(
                                     color: Colors.black,

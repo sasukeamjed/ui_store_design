@@ -26,7 +26,9 @@ class VendorItem extends StatelessWidget {
           children: [
             Flexible(
               flex: 1,
-              child: Image.network(vendor.vendorShopLogo),
+              child: Image.network(vendor.vendorShopLogo, errorBuilder: (context, error, stackTrace){
+                return Image.asset("assets/images/place_holders/logo_placeholder.png");
+              },),
             ),
             SizedBox(
               width: 10.w,

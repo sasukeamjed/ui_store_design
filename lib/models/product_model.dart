@@ -96,6 +96,41 @@ class Product{
     );
   }
 
+  Product productIsChosen(ProductVariationModel productVariation) {
+
+
+    return Product(
+      id: this.id,
+
+      title: this.title,
+
+      postAuthor: this.postAuthor,
+      dateCreated: this.dateCreated,
+      price: this.price,
+      totalSales: this.totalSales,
+
+      dimensions: this.dimensions,
+
+      thumbnailImages: this.thumbnailImages,
+
+      singleImages:this.singleImages,
+      featured: this.featured,
+
+      status: this.status,
+
+      description: this.description,
+
+      shortDescription: this.shortDescription,
+
+      sku: this.sku,
+
+      categories: this.categories,
+      attributesModel: this.attributesModel,
+      productVariations: [productVariation] ?? [],
+      productColors: null,
+    );
+  }
+
 
   String removeHTMLTags(String text){
     RegExp exp = RegExp(r"<[^>]*>",multiLine: true,caseSensitive: true);

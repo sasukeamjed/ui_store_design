@@ -1,38 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/extensions.dart';
 import 'package:ui_store_design/models/attributes_model.dart';
+import 'package:ui_store_design/models/product_model.dart';
+import 'package:ui_store_design/providers/chosen_product_state/chosen_product_notifier.dart';
+import 'package:ui_store_design/providers/image_notifier.dart';
+import 'package:ui_store_design/screens/details_screen_2/helper_methods/helper_methods.dart';
 
-class VariationsSection extends StatefulWidget {
-  const VariationsSection({
-    Key? key,
-    required this.variations, required this.getCrossBondingVariation,
+class VariationsSection extends ConsumerStatefulWidget  {
+  const VariationsSection({required this.product,
+    Key? key
   }) : super(key: key);
 
-  final Map<String, List<String>> variations;
-  final Function getCrossBondingVariation;
+  final Product product;
 
   @override
-  State<VariationsSection> createState() => _VariationsSectionState();
+  ConsumerState<VariationsSection> createState() => _VariationsSectionState();
 }
 
-class _VariationsSectionState extends State<VariationsSection> {
+class _VariationsSectionState extends ConsumerState <VariationsSection> {
 
   List<List<String>> dropdownValues = [];
   List<dynamic> newIndexes = [];
   int _selectedIndex = 0;
   late FocusNode dropDownFocus;
-  late Map<String, dynamic> choosedVariation;
+  late Map<String, dynamic> choosedOptions;
 
 
   @override
   void initState() {
     //we have to keep track of the index of the value of every dropdown button
     //we get the index of the value from onChange method in DropDownButton
-    choosedVariation = Map.fromIterable(widget.variations.keys.toList(), key:(key)=> key, value: (e) => null);
+    choosedOptions = Map.fromIterable(widget.product.getOptions().keys.toList(), key:(key)=> key, value: (e) => null);
 
-    newIndexes = List.generate(widget.variations.length, (index) => null);
-    widget.variations.forEach((key, List<String> values) {
+    newIndexes = List.generate(widget.product.getOptions().length, (index) => null);
+    widget.product.getOptions().forEach((key, List<String> values) {
       //Adding each list in the map to the List<List<String>> dropdownValues
       dropdownValues.add(values);
     });
@@ -40,24 +43,13 @@ class _VariationsSectionState extends State<VariationsSection> {
     super.initState();
   }
 
-  String _removeAttributePa(String attributeName){
-    if(attributeName.contains("pa_")){
-      return attributeName.replaceAll("pa_", "");
-    }else if(attributeName.contains("attribute_pa_")){
-      return attributeName.replaceAll("attribute_pa_", "");
-    }else if(attributeName.contains("attribute_")){
-      return attributeName.replaceAll("attribute_", "");
-    }else{
-      return attributeName;
-    }
-  }
 
 
   List<Expanded> dropDownButtonsGenerator() {
 
     List<String> attributes;
 
-    attributes = widget.variations.keys.toList();
+    attributes = widget.product.getOptions().keys.toList();
 
     //the map should look like this {"attribute_slug": value, "another_attribute_slug" : value}
     //here we will generate a new map according to the variations given
@@ -78,7 +70,7 @@ class _VariationsSectionState extends State<VariationsSection> {
               isExpanded: true,
               hint: Padding(
                 padding: EdgeInsets.only(left: 10.w),
-                child: Text(_removeAttributePa(attributes[index])),
+                child: Text(removeAttributePa(attributes[index])),
               ),
               items: List.generate(dropdownValues[index].length, (insideIndex) {
                 return DropdownMenuItem<String>(child: Padding(
@@ -91,10 +83,11 @@ class _VariationsSectionState extends State<VariationsSection> {
                 setState(() {
                   var newIndex = dropdownValues[index].indexOf(newValue!);
                   newIndexes[index] = newIndex;
-                  choosedVariation[attributes[index]] = newValue;
-                  widget.getCrossBondingVariation(choosedVariation);
-                  print("this is the choosed variation => $choosedVariation");
+                  choosedOptions[attributes[index]] = newValue;
+                  print("this is the choosed variation => $choosedOptions");
                 });
+                ref.read(imageIndexProvider.notifier).state = ;
+                ref.read(productIsChosenNotifier(widget.product).notifier).getTheCrossBondingVariation(choosedOptions);
               },
               onTap: (){
                 setState(() {
@@ -110,7 +103,7 @@ class _VariationsSectionState extends State<VariationsSection> {
 
   @override
   Widget build(BuildContext context) {
-    print("this is in product variations => ${widget.variations}");
+    print("this is in product variations => ${widget.product.getOptions()}");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

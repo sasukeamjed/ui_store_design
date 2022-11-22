@@ -51,7 +51,7 @@ class DetailsScreen2 extends StatelessWidget {
       body: Body(
         product: product,
       ),
-      bottomNavigationBar: AddToCartBar(),
+      bottomNavigationBar: AddToCartBar(product: product,),
     );
   }
 }

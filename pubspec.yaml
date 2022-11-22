@@ -83,6 +83,7 @@ flutter:
     - assets/images/details2_products/details_2_similar_items/
     - assets/images/cart_items/
     - assets/images/splash_screen/logo-small.png
+    - assets/images/place_holders/
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

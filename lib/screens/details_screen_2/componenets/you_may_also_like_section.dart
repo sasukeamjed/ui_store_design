@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/models/product_model.dart';
+import 'package:ui_store_design/providers/data_providers.dart';
 import 'package:ui_store_design/screens/details_screen_2/details_screen_2.dart';
 
-class YouMayAlsoLikeSection extends StatelessWidget {
+class YouMayAlsoLikeSection extends ConsumerWidget {
 
-  final List<Product> similarProducts;
 
-  YouMayAlsoLikeSection({Key? key, required this.similarProducts});
+  final Product product;
+  YouMayAlsoLikeSection({required this.product});
 
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    List<Product> productByCategory = ref.watch(dataProvider.notifier).filterProductsByCategory(product.categories);
     return Column(
       children: [
         Padding(
@@ -40,8 +43,8 @@ class YouMayAlsoLikeSection extends StatelessWidget {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: List.generate(similarProducts.length,
-                    (index) => buildPossiblyLikedProducts(similarProducts[index].thumbnailImages[0], context, similarProducts[index])),
+            children: List.generate(productByCategory.length,
+                    (index) => buildPossiblyLikedProducts(productByCategory[index].thumbnailImages[0], context, productByCategory[index])),
           ),
         ),
       ],
