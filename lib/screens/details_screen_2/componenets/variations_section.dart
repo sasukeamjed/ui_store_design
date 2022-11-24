@@ -1,9 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/extensions.dart';
 import 'package:ui_store_design/models/attributes_model.dart';
 import 'package:ui_store_design/models/product_model.dart';
+import 'package:ui_store_design/models/product_variation_model.dart';
 import 'package:ui_store_design/providers/chosen_product_state/chosen_product_notifier.dart';
 import 'package:ui_store_design/providers/image_notifier.dart';
 import 'package:ui_store_design/screens/details_screen_2/helper_methods/helper_methods.dart';
@@ -86,7 +88,21 @@ class _VariationsSectionState extends ConsumerState <VariationsSection> {
                   choosedOptions[attributes[index]] = newValue;
                   print("this is the choosed variation => $choosedOptions");
                 });
-                ref.read(imageIndexProvider.notifier).state = ;
+                List<ProductVariationModel> variations = widget.product.productVariations;
+                ProductVariationModel variation;
+
+                variation = variations.firstWhere((variation){
+
+                  // print("The Cross Bonding Variation is => ${mapEquals(variation.attributes, choosenOptions)}");
+                  return mapEquals(variation.attributes, choosedOptions);
+
+                });
+
+                String imageVariation = variation.singleImage;
+
+                int currentImageIndex = widget.product.singleImages.indexOf(imageVariation);
+
+                ref.read(imageIndexProvider.notifier).state = currentImageIndex;
                 ref.read(productIsChosenNotifier(widget.product).notifier).getTheCrossBondingVariation(choosedOptions);
               },
               onTap: (){

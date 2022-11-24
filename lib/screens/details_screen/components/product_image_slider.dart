@@ -1,9 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ui_store_design/providers/image_notifier.dart';
 import 'package:ui_store_design/size_config.dart';
 
-class ProductImagesSlider extends StatefulWidget {
+class ProductImagesSlider extends ConsumerStatefulWidget {
   ProductImagesSlider({
     Key? key, required this.images, required this.thumbnailImages,
   }) : super(key: key);
@@ -12,24 +14,26 @@ class ProductImagesSlider extends StatefulWidget {
   final List<String> thumbnailImages;
 
   @override
-  State<ProductImagesSlider> createState() => _ProductImagesSliderState();
+  ConsumerState<ProductImagesSlider> createState() => _ProductImagesSliderState();
 }
 
-class _ProductImagesSliderState extends State<ProductImagesSlider> {
+class _ProductImagesSliderState extends ConsumerState<ProductImagesSlider> {
   int _currentImage = 0;
 
   late final PageController _pageController;
 
   changeThumbIndex(index){
-    setState(() {
-      _currentImage = index;
-    });
+    // setState(() {
+    //   _currentImage = index;
+    // });
+    ref.read(imageIndexProvider.notifier).state = index;
   }
 
   _gotToTheIndexedImage(int index){
-    _pageController.animateToPage(index, duration: Duration(milliseconds: 200), curve: Curves.ease);
+    // _pageController.animateToPage(index, duration: Duration(milliseconds: 200), curve: Curves.ease);
     // _pageController.jumpToPage(index);
-    changeThumbIndex(index);
+    // changeThumbIndex(index);
+    ref.read(imageIndexProvider.notifier).state = index;
   }
 
 
@@ -37,6 +41,8 @@ class _ProductImagesSliderState extends State<ProductImagesSlider> {
   @override
   void initState() {
     _pageController  = PageController();
+
+    _pageController.animateToPage(ref.watch(imageIndexProvider), duration: Duration(milliseconds: 200), curve: Curves.ease);
     super.initState();
   }
 
