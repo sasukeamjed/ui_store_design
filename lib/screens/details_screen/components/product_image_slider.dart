@@ -23,26 +23,24 @@ class _ProductImagesSliderState extends ConsumerState<ProductImagesSlider> {
   late final PageController _pageController;
 
   changeThumbIndex(index){
-    // setState(() {
-    //   _currentImage = index;
-    // });
-    ref.read(imageIndexProvider.notifier).state = index;
+    setState(() {
+      _currentImage = index;
+    });
+    // ref.read(imageIndexProvider).animateToPage(index, duration: Duration(milliseconds: 200), curve: Curves.ease);
   }
 
   _gotToTheIndexedImage(int index){
     // _pageController.animateToPage(index, duration: Duration(milliseconds: 200), curve: Curves.ease);
     // _pageController.jumpToPage(index);
     // changeThumbIndex(index);
-    ref.read(imageIndexProvider.notifier).state = index;
+    ref.read(imageIndexProvider).animateToPage(index, duration: Duration(milliseconds: 200), curve: Curves.ease);
   }
 
 
 
   @override
   void initState() {
-    _pageController  = PageController();
 
-    _pageController.animateToPage(ref.watch(imageIndexProvider), duration: Duration(milliseconds: 200), curve: Curves.ease);
     super.initState();
   }
 
@@ -59,7 +57,7 @@ class _ProductImagesSliderState extends ConsumerState<ProductImagesSlider> {
           child: Stack(
             children: [
               PageView.builder(
-                controller: _pageController,
+                controller: ref.watch(imageIndexProvider),
                   itemCount: widget.images.length,
                   onPageChanged: (index){
                     changeThumbIndex(index);

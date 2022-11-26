@@ -40,7 +40,7 @@ class Product{
   final String description;
   final String shortDescription;
   final String sku;
-  final double price;
+  final double? price;
   final int totalSales;
   final DimensionsModel dimensions;
   final List<String> thumbnailImages;
@@ -185,5 +185,22 @@ class Product{
   // @override
   // // TODO: implement props
   // List<Object?> get props => [postAuthor, dateCreated, status, featured, description, shortDescription, sku, id, title, price, images, categories, attributesModel, productVariations];
+}
+
+class ProductCart{
+
+
+
+  ProductVariationModel? _variation;
+  final double price;
+  final Product product;
+
+  ProductVariationModel? get getVariation => this._variation;
+
+  //1- when creating class, should check if the product has variations or not,
+  // if it dose not have variations then it should make a copy of the current product
+  // else if it has variations
+
+
 }
 

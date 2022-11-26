@@ -91,19 +91,25 @@ class _VariationsSectionState extends ConsumerState <VariationsSection> {
                 List<ProductVariationModel> variations = widget.product.productVariations;
                 ProductVariationModel variation;
 
-                variation = variations.firstWhere((variation){
+                try{
+                  variation = variations.firstWhere((variation){
 
-                  // print("The Cross Bonding Variation is => ${mapEquals(variation.attributes, choosenOptions)}");
-                  return mapEquals(variation.attributes, choosedOptions);
+                    // print("The Cross Bonding Variation is => ${mapEquals(variation.attributes, choosenOptions)}");
+                    return mapEquals(variation.attributes, choosedOptions);
 
-                });
+                  });
 
-                String imageVariation = variation.singleImage;
+                  String imageVariation = variation.singleImage;
 
-                int currentImageIndex = widget.product.singleImages.indexOf(imageVariation);
+                  int currentImageIndex = widget.product.singleImages.indexOf(imageVariation);
 
-                ref.read(imageIndexProvider.notifier).state = currentImageIndex;
-                ref.read(productIsChosenNotifier(widget.product).notifier).getTheCrossBondingVariation(choosedOptions);
+                  ref.read(imageIndexProvider).animateToPage(currentImageIndex, duration: Duration(milliseconds: 200), curve: Curves.ease);
+                  ref.read(productIsChosenNotifier(widget.product).notifier).getTheCrossBondingVariation(choosedOptions);
+
+                }catch(e){
+                  print("variations_section.dart => no variation");
+                }
+
               },
               onTap: (){
                 setState(() {
