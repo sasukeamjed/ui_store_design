@@ -190,18 +190,20 @@ class Product{
 class ProductCart{
   ///Product cart is an item that is added to the cart which contains the product details
   ///and the variation and the price of that variation
-  ProductCart({required this.product}){
-    if(){
-
+  ProductCart({required this.product, required this.variation}){
+    if(this.product.productVariations.isNotEmpty){
+      price = this.variation!.variationPrice;
+    }else{
+      price = product.price!;
     }
   }
 
 
-  ProductVariationModel? _variation;
-  double? price;
+  final ProductVariationModel? variation;
+  double price = 00;
   final Product product;
 
-  ProductVariationModel? get getVariation => this._variation;
+
 
   //1- when creating class, should check if the product has variations or not,
   // if it dose not have variations then it should make a copy of the current product

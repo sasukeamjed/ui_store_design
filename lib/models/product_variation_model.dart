@@ -8,9 +8,11 @@ class ProductVariationModel{
   final String singleImage;
   final String thumbnailImage;
   final String sku;
+  final double variationPrice;
   final int variationId;
+  final bool isInStock;
   //ToDo: filter the products which has 0 priced
-  ProductVariationModel({
+  ProductVariationModel({required this.variationPrice, required this.isInStock,
     required this.thumbnailImage,
     required this.attributes,
     required this.dimension,
@@ -31,6 +33,8 @@ class ProductVariationModel{
         thumbnailImage: data["image"]["thumb_src"],
         sku: data['sku'],
         variationId: data['variation_id'],
+        isInStock: data['is_in_stock'],
+        variationPrice: data['display_price'],
     );
   }
 
