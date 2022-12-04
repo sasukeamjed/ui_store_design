@@ -7,6 +7,10 @@ class CartStateNotifier extends StateNotifier<List<CartItem>>{
 
 
   addCartItem(CartItem cartItem){
+    //Trying to check if the product is already added and if it is added to the qunatity
+    state.where((CartItem item){
+      return
+    });
     state = [...state, cartItem];
     print("cart_state_notifier cart item is added");
     print("cart_state_notifier cart items length => ${state.length}");

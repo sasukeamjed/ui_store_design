@@ -95,10 +95,11 @@ class CartItemWidget extends StatelessWidget {
             itemsCount: 0,
           ),
         ),
-        // SizedBox(
-        //   width: 15.w,
-        // ),
+        SizedBox(
+          width: 15.w,
+        ),
         Expanded(
+          flex: 3,
           child: Container(
             height: 103.h,
             decoration: BoxDecoration(
@@ -190,7 +191,7 @@ class CartItemWidget extends StatelessWidget {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(8),
-          child: Image.asset(
+          child: Image.network(
             image,
             height: 88.w,
             width: 88.w,
