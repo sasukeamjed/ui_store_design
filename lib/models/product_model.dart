@@ -187,29 +187,5 @@ class Product{
   // List<Object?> get props => [postAuthor, dateCreated, status, featured, description, shortDescription, sku, id, title, price, images, categories, attributesModel, productVariations];
 }
 
-class ProductCart{
-  ///Product cart is an item that is added to the cart which contains the product details
-  ///and the variation and the price of that variation
-  ProductCart({required this.product, required this.variation}){
-    if(this.product.productVariations.isNotEmpty){
-      price = this.variation!.variationPrice;
-    }else{
-      price = product.price!;
-    }
-  }
 
-
-  final ProductVariationModel? variation;
-  double price = 00;
-  final Product product;
-
-
-
-  //1- when creating class, should check if the product has variations or not,
-  // if it dose not have variations then it should make a copy of the current product
-  // else if it has variations get the correct variation and store it in variation variable
-  //
-
-
-}
 

@@ -15,7 +15,7 @@ class CartStateNotifier extends StateNotifier<List<CartItem>>{
 
   addQuantity(CartItem item){
     int indexOfCartItem = state.indexOf(item);
-    state[indexOfCartItem] = state[indexOfCartItem].quantity++;
+    state[indexOfCartItem] = state[indexOfCartItem].copyWithAddExtraQuantity();
   }
 
   calculateTotalPrice(){}
@@ -25,5 +25,10 @@ class CartItem{
   final int quantity;
   final ProductIsChosen productIsChosen;
 
+
   CartItem({this.quantity = 1, required this.productIsChosen});
+
+  CartItem copyWithAddExtraQuantity(){
+    return CartItem(productIsChosen: productIsChosen, quantity: this.quantity + 1);
+  }
 }
