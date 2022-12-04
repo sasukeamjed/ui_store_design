@@ -1,15 +1,17 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/models/product_model.dart';
+import 'package:ui_store_design/providers/cart_state_notifier.dart';
 
-class CartItems extends StatelessWidget {
+class CartItems extends ConsumerWidget {
   const CartItems({
     Key? key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
     return Expanded(
       flex: 8,
       child: Padding(
@@ -32,32 +34,31 @@ class CartItems extends StatelessWidget {
               child: Container(
                 // color: Colors.blue,
                 child: ListView.builder(
-                  // itemCount: shoppingCartProducts.length,
+                  itemCount: ref.watch(cartItemNotifier).length,
                   itemBuilder: (context, index) {
                     return Padding(
                       padding: EdgeInsets.only(bottom: 15.0.h),
-                      // child: Dismissible(
-                      //   //ToDo: add id key for dismissible widget
-                      //   key: Key(shoppingCartProducts[index].title),
-                      //   direction: DismissDirection.endToStart,
-                      //   background: Align(
-                      //     alignment: Alignment.centerRight,
-                      //     child: Container(
-                      //       margin: EdgeInsets.only(right: 15.w),
-                      //       height: 62.w,
-                      //       width: 62.w,
-                      //       decoration: BoxDecoration(
-                      //         shape: BoxShape.circle,
-                      //         color: Color(0xFFFF2D55),
-                      //       ),
-                      //       child: Icon(Icons.delete, color: Colors.white),
-                      //     ),
-                      //   ),
-                      //   child: CartItem(
-                      //     itemsCount: 2,
-                      //     product: shoppingCartProducts[index],
-                      //   ),
-                      // ),
+                      child: Dismissible(
+                        //ToDo: add id key for dismissible widget
+                        key: Key(ref.read(cartItemNotifier)[index].cartItemId.toString()),
+                        direction: DismissDirection.endToStart,
+                        background: Align(
+                          alignment: Alignment.centerRight,
+                          child: Container(
+                            margin: EdgeInsets.only(right: 15.w),
+                            height: 62.w,
+                            width: 62.w,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Color(0xFFFF2D55),
+                            ),
+                            child: Icon(Icons.delete, color: Colors.white),
+                          ),
+                        ),
+                        child: CartItemWidget(
+                          cartItem: ref.read(cartItemNotifier)[index],
+                        ),
+                      ),
                     );
                   },
                 ),
@@ -71,16 +72,16 @@ class CartItems extends StatelessWidget {
 }
 
 
-class CartItem extends StatelessWidget {
-  const CartItem(
+class CartItemWidget extends StatelessWidget {
+  const CartItemWidget(
       {Key? key,
-        required this.itemsCount,
-        required this.product})
+        // required this.itemsCount,
+        required this.cartItem})
       : super(key: key);
 
 
-  final int itemsCount;
-  final Product product;
+  // final int itemsCount;
+  final CartItem cartItem;
 
   @override
   Widget build(BuildContext context) {
@@ -88,13 +89,15 @@ class CartItem extends StatelessWidget {
       //ToDo: import product data
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        buildCartItemImage(
-          image: product.thumbnailImages[0],
-          itemsCount: itemsCount,
+        Expanded(
+          child: buildCartItemImage(
+            image: cartItem.productIsChosen.product.thumbnailImages[0],
+            itemsCount: 0,
+          ),
         ),
-        SizedBox(
-          width: 15.w,
-        ),
+        // SizedBox(
+        //   width: 15.w,
+        // ),
         Expanded(
           child: Container(
             height: 103.h,
@@ -109,7 +112,7 @@ class CartItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AutoSizeText(
-                  "Atelier Ottoman Takumi Series",
+                  cartItem.productIsChosen.product.title,
                   maxLines: 2,
                   style: TextStyle(
                     fontSize: 17.sp,
@@ -117,7 +120,7 @@ class CartItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "\$24.00",
+                  "\$${cartItem.productIsChosen.product.price}",
                   style: TextStyle(
                     color: Colors.black.withOpacity(0.4),
                     fontSize: 15.sp,
@@ -204,7 +207,7 @@ class CartItem extends StatelessWidget {
             ),
             child: Center(
                 child: Text(
-                  "$itemsCount",
+                  itemsCount.toString(),
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: "Avenir-Medium",

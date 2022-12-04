@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/extensions.dart';
 import 'package:ui_store_design/models/product_model.dart';
+import 'package:ui_store_design/providers/cart_state_notifier.dart';
 import 'package:ui_store_design/providers/chosen_product_state/chosen_product_notifier.dart';
 import 'package:ui_store_design/providers/chosen_product_state/product_state.dart';
 import 'package:ui_store_design/screens/shopping_cart_screen/shopping_cart.dart';
@@ -69,7 +70,8 @@ class AddToCartBar extends StatelessWidget {
                       onPressed: () {
                         // print("product cart state => ${productState.runtimeType}");
                         if(productState is ProductIsChosen){
-                          Navigator.of(context).pushNamed(ShoppingCart.routeName);
+                          ref.read(cartItemNotifier.notifier).addCartItem(CartItem(productIsChosen: productState));
+                          // Navigator.of(context).pushNamed(ShoppingCart.routeName);
                         }
                         else{
                           final snackBar = SnackBar(

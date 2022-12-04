@@ -27,7 +27,7 @@ class AttributesModel {
 
   @override
   String toString() {
-    return "AttributeModel Object = id => ${this.id}, name => ${this.name}, slug => ${this.slug}, options => ${this.options}";
+    return "AttributeModel Object = id => ${this.id.toString()}, name => ${this.name}, slug => ${this.slug}, options => ${this.options}";
   }
 
 // @override

@@ -34,7 +34,7 @@ class ProductVariationModel{
         sku: data['sku'],
         variationId: data['variation_id'],
         isInStock: data['is_in_stock'],
-        variationPrice: double.parse(data['display_price']),
+        variationPrice: double.parse(data['display_price'].toString()),
     );
   }
 

@@ -43,6 +43,8 @@ dependencies:
   collection: 1.16.0
   optimized_cached_image: ^3.0.1
   flutter_html:
+  uuid: ^3.0.7
+  badges: ^2.0.3
 #  equatable: ^2.0.5
 
 flutter_native_splash:
