@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:ui_store_design/models/attributes_model.dart';
 import 'package:ui_store_design/models/dimensions_model.dart';
@@ -8,7 +9,7 @@ import 'package:ui_store_design/models/product_variation_model.dart';
 import 'package:ui_store_design/extensions.dart';
 
 
-class Product{
+class Product extends Equatable{
   Product({
     required this.postAuthor,
     required this.dateCreated,
@@ -181,6 +182,10 @@ class Product{
   String toString() {
     return "postAuthor: ${this.postAuthor}, dataCreated: ${this.dateCreated}, status: ${this.status}, featured: ${this.featured}, description: ${this.description}, shortDescription: ${this.shortDescription}, sku: ${this.sku}, id: ${this.id.toString()}, title: ${this.title}, price: ${this.price.toString()}, img: ${this.thumbnailImages}, isFavorited: ${this.isFavorited}, product_variations: ${this.productVariations}";
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [id, title, postAuthor, dateCreated, status, featured, description, shortDescription, sku, price, totalSales, dimensions, thumbnailImages, singleImages, categories, attributesModel, productVariations];
 
   // @override
   // // TODO: implement props

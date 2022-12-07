@@ -155,14 +155,14 @@ class VendorsList extends StateNotifier<List<Vendor>?> {
     // state = DataInitial();
     late Response response;
     try {
-      print("awaiting");
+      print("awaiting for products fetching");
       response = await _dio.get("wp-json/wcfmmp/v1/products", queryParameters: {
         "per_page": "100",
         // "consumer_secret" : "cs_edccfa40d65e6ede5b3ed40126793ef296910c58",
         // "orderby" : "date",
         // "per_page" : 5,
       });
-      print("Before Listing +++++++++++++++++++++++++++++++++++++");
+      print("Trying to fetch all products +++++++++++++++++++++++++++++++++++++");
       List<dynamic> products = response.data;
 
       // print(products

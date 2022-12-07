@@ -43,6 +43,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
     await ref.read(searchHistoryProvider.notifier).searchHistory("");
     if(token != ""){
       Map<String, dynamic> response = await ref.read(authProvider.notifier).tokenVerification(token!);
+      print("");
       if(response['data']['status'] == 200){
         setState(() {
           _mainBody = HomeScreen();

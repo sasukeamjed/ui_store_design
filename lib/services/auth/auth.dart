@@ -137,11 +137,20 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   Future<Map<String, dynamic>> tokenVerification(String token)async{
     Response response;
     try{
+      print("Token data => ${_parseJwt(token)}");
+      print("Expiry date is ${DateTime.parse(_parseJwt(token)["exp"].toString())}");
+      print("Expiry date is ${DateTime.fromMillisecondsSinceEpoch(_parseJwt(token)["exp"] * 1000)}");
+      DateTime dateTimeNow = DateTime.now();
+      DateTime tokenExpiryDate = DateTime.fromMillisecondsSinceEpoch(_parseJwt(token)["exp"] * 1000);
+      if(dateTimeNow.isAfter(tokenExpiryDate)){
+        throw(Exception("Token is expired"));
+      }
       response = await _dio
           .post("wp-json/jwt-auth/v1/token/validate",options: Options(headers: <String, String>{'authorization': 'Bearer $token'}));
       //if token is validated and we got 200 response than we want to fetch user by id
       if(response.statusCode == 200){
         Map<String, dynamic> parsedJwt = _parseJwt(token);
+
         print("this is the id of the fetched user ${parsedJwt['data']['user']['id']}");
         Response? fetchedUser = await _fetchUser(parsedJwt['data']['user']['id']);
         state = AuthLoaded(UserModel.fromJson(fetchedUser?.data));
@@ -150,6 +159,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       return response.data;
     }catch(e){
       print("this error is from the token validation method => $e");
+      state = AuthInitial();
       return {
         "code": "jwt_auth_invalid_token",
         "message": e,
