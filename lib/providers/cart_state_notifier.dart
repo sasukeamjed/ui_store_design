@@ -8,16 +8,7 @@ class CartStateNotifier extends StateNotifier<List<CartItem>>{
 
 
   addCartItem(CartItem cartItem){
-    //Trying to check if the product is already added and if it is added to the qunatity
-    if(state.contains(cartItem)){
-      print("cart contains is running");
-    }
-    state.forEach((item){
-      print("cart for each is running");
-      if(cartItem.productIsChosen.product == item.productIsChosen.product){
-        print("item is already added");
-      }
-    });
+
     //Here by using firstWhereOrNull function we can return null if there is value found
     CartItem? existedItem = state.firstWhereOrNull((CartItem item){
       print("cart state is running");
@@ -27,11 +18,17 @@ class CartStateNotifier extends StateNotifier<List<CartItem>>{
       return cartItem.productIsChosen.product == item.productIsChosen.product;
     },);
     //Here we check for condition and update code after
-    if(null == existedItem){
+    if(existedItem == null){
       //ToDo: Add conditional code
+      state = [...state, cartItem];
       print("cart item is not found");
     }
-    state = [...state, cartItem];
+    else{
+      print("cart item is found");
+      print("adding quantity to cart item");
+      addQuantity(existedItem);
+    }
+
     print("cart_state_notifier cart item is added");
     print("cart_state_notifier cart items length => ${state.length}");
   }
@@ -46,6 +43,15 @@ class CartStateNotifier extends StateNotifier<List<CartItem>>{
   addQuantity(CartItem item){
     int indexOfCartItem = state.indexOf(item);
     state[indexOfCartItem] = state[indexOfCartItem].copyWithAddExtraQuantity();
+  }
+
+  decQuantity(CartItem item){
+    int indexOfCartItem = state.indexOf(item);
+    state[indexOfCartItem] = state[indexOfCartItem].copyWithLessQuantity();
+    if(state[indexOfCartItem].quantity == 0){
+      deleteCartItem(state[indexOfCartItem].cartItemId);
+    }
+    //ToDo: if quantity equals 0 removes cart item from a list
   }
 
   calculateTotalPrice(){}
@@ -63,6 +69,10 @@ class CartItem{
 
   CartItem copyWithAddExtraQuantity(){
     return CartItem(productIsChosen: productIsChosen, quantity: this.quantity + 1);
+  }
+
+  CartItem copyWithLessQuantity(){
+    return CartItem(productIsChosen: productIsChosen, quantity: this.quantity - 1);
   }
 }
 
