@@ -68,7 +68,7 @@ class CartStateNotifier extends StateNotifier<List<CartItem>>{
         if (cartItem.cartItemId == cartItemId)
 
           if(cartItem.quantity == 1)
-            deleteCartItem(cartItemId)
+            continue
           else
             cartItem.copyWithLessQuantity()
         else
