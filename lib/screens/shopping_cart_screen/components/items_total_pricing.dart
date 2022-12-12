@@ -37,9 +37,14 @@ class ItemsTotalPricing extends StatelessWidget {
 
                   double cartTotalPrice(){
                     double totalPrice = 0.00;
-                    ref.watch(cartItemNotifier).forEach((cartItem) {
-                      totalPrice = totalPrice + cartItem.productIsChosen.price;
-                    });
+                    if(ref.watch(cartItemNotifier).isNotEmpty){
+                      ref.watch(cartItemNotifier).forEach((cartItem) {
+                        totalPrice = totalPrice + (cartItem.productIsChosen.price * cartItem.quantity);
+                      });
+                      return totalPrice;
+                    }else{
+                      totalPrice = 0.00;
+                    }
                     return totalPrice;
                   }
 

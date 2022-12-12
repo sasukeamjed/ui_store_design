@@ -37,6 +37,7 @@ class CartStateNotifier extends StateNotifier<List<CartItem>>{
   }
 
   deleteCartItem(Uuid cartItemId){
+    print("delete item is active");
     state = [
       for (final cartItem in state)
         if(cartItemId != cartItem.cartItemId) cartItem,
@@ -62,26 +63,17 @@ class CartStateNotifier extends StateNotifier<List<CartItem>>{
 
     state = [
       for (final cartItem in state)
-      // we're marking only the matching todo as completed
+
 
         if (cartItem.cartItemId == cartItemId)
-        // Once more, since our state is immutable, we need to make a copy
-        // of the todo. We're using our `copyWith` method implemented before
-        // to help with that.
+
           if(cartItem.quantity == 1)
             deleteCartItem(cartItemId)
           else
             cartItem.copyWithLessQuantity()
         else
-        // other todos are not modified
           cartItem,
     ];
-    // int indexOfCartItem = state.indexOf(item);
-    // state[indexOfCartItem] = state[indexOfCartItem].copyWithLessQuantity();
-    // if(state[indexOfCartItem].quantity == 0){
-    //   deleteCartItem(state[indexOfCartItem].cartItemId);
-    // }
-    //ToDo: if quantity equals 0 removes cart item from a list
   }
 
   calculateTotalPrice(){}
