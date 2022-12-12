@@ -10,7 +10,7 @@ class ChosenProductNotifier extends StateNotifier<ProductState>{
   ChosenProductNotifier(this._product) : super(ProductInitialState()){
     if(_product.productVariations.isEmpty){
       // print("getTheCrossBondingVariation function, 1st condition => true");
-      state = ProductIsChosen(product: this._product);
+      state = ProductIsChosen(product: this._product, price: this._product.price ?? 0.0);
       return;
     }
   }
@@ -21,7 +21,7 @@ class ChosenProductNotifier extends StateNotifier<ProductState>{
 
     if(_product.productVariations.isEmpty){
       // print("getTheCrossBondingVariation function, 1st condition => true");
-      state = ProductIsChosen(product: this._product);
+      state = ProductIsChosen(product: this._product, price: this._product.price ?? 0.0);
       return;
     }
     List<ProductVariationModel> variations = this._product.productVariations;
@@ -40,7 +40,7 @@ class ChosenProductNotifier extends StateNotifier<ProductState>{
     if(variation == null){
       state = MissingVariationState();
     }else{
-      state = ProductIsChosen(product: _product.productIsChosen(variation));
+      state = ProductIsChosen(product: _product.productIsChosen(variation), price: double.parse(variation.displayPrice));
     }
     // print("The product state is => $state");
   }

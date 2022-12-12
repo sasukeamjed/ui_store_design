@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ui_store_design/providers/cart_state_notifier.dart';
 
 class ItemsTotalPricing extends StatelessWidget {
   const ItemsTotalPricing({
@@ -30,75 +32,88 @@ class ItemsTotalPricing extends StatelessWidget {
               ),
               // color: Colors.green,
               width: double.infinity,
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Consumer(
+                builder: (context, ref, child){
+
+                  double cartTotalPrice(){
+                    double totalPrice = 0.00;
+                    ref.watch(cartItemNotifier).forEach((cartItem) {
+                      totalPrice = totalPrice + cartItem.productIsChosen.price;
+                    });
+                    return totalPrice;
+                  }
+
+                  return Column(
                     children: [
-                      Text(
-                        "Shipping fee:",
-                        style: TextStyle(
-                          fontSize: 17.sp,
-                          fontFamily: "Avenir-Book",
-                          color: Colors.black.withOpacity(0.4),
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Shipping fee:",
+                            style: TextStyle(
+                              fontSize: 17.sp,
+                              fontFamily: "Avenir-Book",
+                              color: Colors.black.withOpacity(0.4),
+                            ),
+                          ),
+                          Text(
+                            "\$6.99",
+                            style: TextStyle(
+                              fontSize: 17.sp,
+                              fontFamily: "Avenir-Book",
+                              color: Colors.black.withOpacity(0.4),
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        "\$6.99",
-                        style: TextStyle(
-                          fontSize: 17.sp,
-                          fontFamily: "Avenir-Book",
-                          color: Colors.black.withOpacity(0.4),
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Sub total:",
+                            style: TextStyle(
+                              fontSize: 17.sp,
+                              fontFamily: "Avenir-Book",
+                              color: Colors.black.withOpacity(0.4),
+                            ),
+                          ),
+                          Text(
+                            "\$79.99",
+                            style: TextStyle(
+                              fontSize: 17.sp,
+                              fontFamily: "Avenir-Book",
+                              color: Colors.black.withOpacity(0.4),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Total:",
+                            style: TextStyle(
+                              fontSize: 17.sp,
+                              fontFamily: "Avenir",
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(
+                            "${cartTotalPrice()} OMR",
+                            style: TextStyle(
+                              fontSize: 17.sp,
+                              fontFamily: "Avenir",
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Sub total:",
-                        style: TextStyle(
-                          fontSize: 17.sp,
-                          fontFamily: "Avenir-Book",
-                          color: Colors.black.withOpacity(0.4),
-                        ),
-                      ),
-                      Text(
-                        "\$79.99",
-                        style: TextStyle(
-                          fontSize: 17.sp,
-                          fontFamily: "Avenir-Book",
-                          color: Colors.black.withOpacity(0.4),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 5.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Total:",
-                        style: TextStyle(
-                          fontSize: 17.sp,
-                          fontFamily: "Avenir",
-                          color: Colors.black,
-                        ),
-                      ),
-                      Text(
-                        "\$86.98",
-                        style: TextStyle(
-                          fontSize: 17.sp,
-                          fontFamily: "Avenir",
-                          color: Colors.black,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+                  );
+                },
               ),
             ),
           ),

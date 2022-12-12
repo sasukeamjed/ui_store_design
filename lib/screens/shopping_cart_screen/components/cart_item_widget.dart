@@ -98,24 +98,29 @@ class CartItemWidget extends StatelessWidget {
                           ),
                         ),
                         onTap: (){
-                          ref.read(cartItemNotifier.notifier).addQuantity(cartItem);
+                          ref.read(cartItemNotifier.notifier).addQuantity(cartItem.cartItemId);
                         },
                       ),
                       Text(cartItem.quantity.toString()),
-                      Container(
-                        child: Icon(Icons.remove, color: Colors.white,),
-                        decoration: BoxDecoration(
-                          color: Color(0xff64A34A),
-                          borderRadius: BorderRadius.circular(5),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey,
-                              offset: Offset(0,2),
-                              blurRadius: 3,
-                              spreadRadius: 0.1,
-                            ),
-                          ],
+                      GestureDetector(
+                        child: Container(
+                          child: Icon(Icons.remove, color: Colors.white,),
+                          decoration: BoxDecoration(
+                            color: Color(0xff64A34A),
+                            borderRadius: BorderRadius.circular(5),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey,
+                                offset: Offset(0,2),
+                                blurRadius: 3,
+                                spreadRadius: 0.1,
+                              ),
+                            ],
+                          ),
                         ),
+                        onTap: (){
+                          ref.read(cartItemNotifier.notifier).decQuantity(cartItem.cartItemId);
+                        },
                       )
                     ],
                   );

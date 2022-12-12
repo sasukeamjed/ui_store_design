@@ -14,6 +14,7 @@ class MissingVariationState extends ProductState{
 
 class ProductIsChosen extends ProductState{
   final Product product;
+  final double price;
 
-  ProductIsChosen({required this.product});
+  ProductIsChosen({required this.product, required this.price});
 }

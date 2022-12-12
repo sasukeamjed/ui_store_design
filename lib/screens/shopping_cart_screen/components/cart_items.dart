@@ -25,7 +25,7 @@ class CartItems extends ConsumerWidget {
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: 10.h),
                 child: Text(
-                  "4 items",
+                  "${ref.watch(cartItemNotifier).length} items",
                   style: TextStyle(fontSize: 20.sp, fontFamily: "Avenir"),
                 ),
               ),

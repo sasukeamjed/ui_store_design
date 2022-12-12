@@ -7,6 +7,7 @@ class CartStateNotifier extends StateNotifier<List<CartItem>>{
   CartStateNotifier() : super([]);
 
 
+
   addCartItem(CartItem cartItem){
 
     //Here by using firstWhereOrNull function we can return null if there is value found
@@ -17,7 +18,9 @@ class CartStateNotifier extends StateNotifier<List<CartItem>>{
       }
       return cartItem.productIsChosen.product == item.productIsChosen.product;
     },);
-    //Here we check for condition and update code after
+    //Here we check if the item is found in the cart or not, because
+    //if it is already added we don't want to add another item to the list
+    //we just want to increase quantity
     if(existedItem == null){
       //ToDo: Add conditional code
       state = [...state, cartItem];
@@ -26,7 +29,7 @@ class CartStateNotifier extends StateNotifier<List<CartItem>>{
     else{
       print("cart item is found");
       print("adding quantity to cart item");
-      addQuantity(existedItem);
+      addQuantity(existedItem.cartItemId);
     }
 
     print("cart_state_notifier cart item is added");
@@ -40,17 +43,44 @@ class CartStateNotifier extends StateNotifier<List<CartItem>>{
     ];
   }
 
-  addQuantity(CartItem item){
-    int indexOfCartItem = state.indexOf(item);
-    state[indexOfCartItem] = state[indexOfCartItem].copyWithAddExtraQuantity();
+  addQuantity(Uuid cartItemId){
+    state = [
+      for (final cartItem in state)
+      // we're marking only the matching todo as completed
+        if (cartItem.cartItemId == cartItemId)
+        // Once more, since our state is immutable, we need to make a copy
+        // of the todo. We're using our `copyWith` method implemented before
+        // to help with that.
+          cartItem.copyWithAddExtraQuantity()
+        else
+        // other todos are not modified
+          cartItem,
+    ];
   }
 
-  decQuantity(CartItem item){
-    int indexOfCartItem = state.indexOf(item);
-    state[indexOfCartItem] = state[indexOfCartItem].copyWithLessQuantity();
-    if(state[indexOfCartItem].quantity == 0){
-      deleteCartItem(state[indexOfCartItem].cartItemId);
-    }
+  decQuantity(Uuid cartItemId){
+
+    state = [
+      for (final cartItem in state)
+      // we're marking only the matching todo as completed
+
+        if (cartItem.cartItemId == cartItemId)
+        // Once more, since our state is immutable, we need to make a copy
+        // of the todo. We're using our `copyWith` method implemented before
+        // to help with that.
+          if(cartItem.quantity == 1)
+            deleteCartItem(cartItemId)
+          else
+            cartItem.copyWithLessQuantity()
+        else
+        // other todos are not modified
+          cartItem,
+    ];
+    // int indexOfCartItem = state.indexOf(item);
+    // state[indexOfCartItem] = state[indexOfCartItem].copyWithLessQuantity();
+    // if(state[indexOfCartItem].quantity == 0){
+    //   deleteCartItem(state[indexOfCartItem].cartItemId);
+    // }
     //ToDo: if quantity equals 0 removes cart item from a list
   }
 

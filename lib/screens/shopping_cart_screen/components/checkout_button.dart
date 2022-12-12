@@ -10,6 +10,7 @@ class CheckoutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //ToDo: checkout button should not work if there are not items in cart
     return Expanded(
       flex: 2,
       child: GestureDetector(
