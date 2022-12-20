@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ui_store_design/screens/login_screen/login.dart';
+import 'package:ui_store_design/screens/profile_screen/profile_screen.dart';
 import 'package:ui_store_design/services/auth/auth.dart';
 import 'package:ui_store_design/services/auth/states/auth_state.dart';
 
@@ -23,7 +24,7 @@ class HomeDrawer extends StatelessWidget {
                   leading: Icon(Icons.person),
                   onTap: (){
                     Navigator.of(context).pop();
-                    Navigator.pushNamed(context, LoginScreen.routeName);
+                    Navigator.pushNamed(context, ProfileScreen.routeName);
                   },
                 ),
               ),

@@ -60,17 +60,17 @@ class CartStateNotifier extends StateNotifier<List<CartItem>>{
   }
 
   decQuantity(Uuid cartItemId){
+    //1- find the crossbonding cart item and get the index
+    //2- if not found and it is a null return same state of items
+    //3- reduce quantity by one
+    //4- if quantitiy became 0 a prompt will show up for comfermation to
+    //remove the cart item
+
 
     state = [
       for (final cartItem in state)
-
-
         if (cartItem.cartItemId == cartItemId)
-
-          if(cartItem.quantity == 1)
-            continue
-          else
-            cartItem.copyWithLessQuantity()
+          cartItem.copyWithLessQuantity()
         else
           cartItem,
     ];

@@ -35,31 +35,51 @@ class _ChangableAppBarState extends State<ChangableAppBar> {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: Row(
+
             children: [
               GestureDetector(
-                child: Icon(Icons.menu),
+                child: Icon(Icons.menu, size: 25.w,),
                 onTap: () {
                   widget.scaffoldKey.currentState!.openDrawer();
                 },
               ),
               Spacer(),
-              IconButton(
-                icon: Icon(Icons.shopping_cart),
-                onPressed: (){
+              GestureDetector(
+                child: Icon(Icons.shopping_cart, size: 25.w,),
+                onTap: () {
                   Navigator.of(context).pushNamed(ShoppingCart.routeName);
                 },
               ),
-              IconButton(
-                padding: EdgeInsets.all(0),
-                alignment: Alignment.centerRight,
-                icon: const Icon(Icons.search),
-                onPressed: () {
-                  showSearch(
-                    context: context,
-                    delegate: MySearchDelegate(),
-                  );
+              // IconButton(
+              //   padding: EdgeInsets.all(0),
+              //   icon: Icon(Icons.shopping_cart, size: 25.w,),
+              //   onPressed: (){
+              //     Navigator.of(context).pushNamed(ShoppingCart.routeName);
+              //   },
+              // ),
+              SizedBox(
+                width: 15.w,
+              ),
+              GestureDetector(
+                child: Icon(Icons.search, size: 25.w,),
+                onTap: () {
+                      showSearch(
+                        context: context,
+                        delegate: MySearchDelegate(),
+                      );
                 },
               ),
+              // IconButton(
+              //   padding: EdgeInsets.all(0),
+              //   alignment: Alignment.centerRight,
+              //   icon: Icon(Icons.search, size: 25.w,),
+              //   onPressed: () {
+              //     showSearch(
+              //       context: context,
+              //       delegate: MySearchDelegate(),
+              //     );
+              //   },
+              // ),
             ],
           ),
         ),
