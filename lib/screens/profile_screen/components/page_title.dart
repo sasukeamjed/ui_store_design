@@ -50,7 +50,7 @@ class PageTitle extends StatelessWidget {
                     style: TextStyle(
                         fontFamily: "Avenir-Book",
                         fontSize: 15.sp,
-                        color: Colors.black.withOpacity(0.4)),
+                        color: Colors.black.withOpacity(0.4),),
                   ),
                 ],
               ),

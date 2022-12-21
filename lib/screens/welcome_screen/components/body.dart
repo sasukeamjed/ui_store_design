@@ -16,7 +16,7 @@ class Body extends StatelessWidget {
           image: DecorationImage(
             image: AssetImage(
                 "assets/images/welcome_screen/welcome_screen_bg.png"),
-            fit: BoxFit.cover,
+            fit: BoxFit.fitWidth,
           ),
         ),
         child: Column(
