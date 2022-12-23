@@ -39,14 +39,20 @@ class _ProductItemState extends State<ProductItem> {
                     onTap: () {
                       setState(() {
                         widget.product.isFavorited =
-                        !widget.product.isFavorited;
+                            !widget.product.isFavorited;
                       });
                     },
                     child: Padding(
                       padding: EdgeInsets.all(10.w),
                       child: widget.product.isFavorited
-                          ? Icon(Icons.favorite, size: 24.w,)
-                          : Icon(Icons.favorite_border, size: 24.w,),
+                          ? Icon(
+                              Icons.favorite,
+                              size: 24.w,
+                            )
+                          : Icon(
+                              Icons.favorite_border,
+                              size: 24.w,
+                            ),
                     ),
                   ),
                 ),
@@ -64,9 +70,10 @@ class _ProductItemState extends State<ProductItem> {
             Text(
               "\$${widget.product.price}",
               style: TextStyle(
-                  fontFamily: "Avenir-Book",
-                  fontSize: 15.sp,
-                  color: Colors.black.withOpacity(0.4)),
+                fontFamily: "Avenir-Book",
+                fontSize: 15.sp,
+                color: Colors.black.withOpacity(0.4),
+              ),
             ),
           ],
         ),
