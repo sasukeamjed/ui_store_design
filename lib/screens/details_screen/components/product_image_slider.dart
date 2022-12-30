@@ -103,7 +103,7 @@ class _ProductImagesSliderState extends ConsumerState<ProductImagesSlider> {
                   height: 35.h,
                   width: 25.w,
                   decoration: BoxDecoration(
-                    border: _currentImage == index ? Border.all(color: Colors.green.withOpacity(0.6), style: BorderStyle.solid, width: 1.5, strokeAlign: StrokeAlign.outside) : null,
+                    border: _currentImage == index ? Border.all(color: Colors.green.withOpacity(0.6), style: BorderStyle.solid, width: 1.5, strokeAlign: BorderSide.strokeAlignOutside) : null,
                   ),
                   child: Image.network(thumbnailImage),
                 ),

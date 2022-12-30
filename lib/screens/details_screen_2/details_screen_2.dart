@@ -1,4 +1,4 @@
-import 'package:badges/badges.dart';
+import 'package:badges/badges.dart' as BadgeMark;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -18,10 +18,11 @@ class DetailsScreen2 extends StatelessWidget {
 
   Widget _shoppingCartBadge() {
     return Consumer(builder: (context, ref, child) {
-      return Badge(
-        position: BadgePosition.topEnd(top: 0, end: 3),
+
+      return BadgeMark.Badge(
+        position: BadgeMark.BadgePosition.topEnd(top: 0, end: 3),
         animationDuration: Duration(milliseconds: 300),
-        animationType: BadgeAnimationType.slide,
+        animationType: BadgeMark.BadgeAnimationType.slide,
         badgeContent: Text(
           ref.watch(cartItemNotifier).length.toString(),
           style: TextStyle(color: Colors.white),
