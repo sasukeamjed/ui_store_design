@@ -32,7 +32,7 @@ class ProfileComponents extends StatelessWidget {
         ),
         ListTile(
           title: Text("Payment Methods", style: TextStyle(fontSize: 14.sp),),
-          subtitle: Text("on delivery", style: TextStyle(fontSize: 12.sp)),
+          subtitle: Text("Visa **34", style: TextStyle(fontSize: 12.sp)),
           trailing: Icon(Icons.arrow_forward_ios),
           dense: true,
         ),
