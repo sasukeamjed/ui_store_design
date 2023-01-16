@@ -120,6 +120,7 @@ class _CartItemsState extends ConsumerState<CartItems> {
                         child: CartItemWidget(
                           cartItem: ref.read(cartItemNotifier)[index],
                         ),
+                        //ToDo: Check on dismissed bug
                         onDismissed: (DismissDirection direction){
                           final cartItemId = ref.read(cartItemNotifier)[index].cartItemId;
                           ref.read(cartItemNotifier.notifier).deleteCartItem(cartItemId);

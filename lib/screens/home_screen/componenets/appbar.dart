@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ui_store_design/components/cart_icon_with_badge.dart';
 import 'package:ui_store_design/screens/search_page/search_page.dart';
 import 'package:ui_store_design/screens/shopping_cart_screen/shopping_cart.dart';
 
@@ -44,12 +45,7 @@ class _ChangableAppBarState extends State<ChangableAppBar> {
                 },
               ),
               Spacer(),
-              GestureDetector(
-                child: Icon(Icons.shopping_cart, size: 25.w,),
-                onTap: () {
-                  Navigator.of(context).pushNamed(ShoppingCart.routeName);
-                },
-              ),
+              CartIconWithBadge(),
               // IconButton(
               //   padding: EdgeInsets.all(0),
               //   icon: Icon(Icons.shopping_cart, size: 25.w,),

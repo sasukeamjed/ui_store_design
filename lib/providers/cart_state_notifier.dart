@@ -34,6 +34,7 @@ class CartStateNotifier extends StateNotifier<List<CartItem>>{
 
     print("cart_state_notifier cart item is added");
     print("cart_state_notifier cart items length => ${state.length}");
+    // cartTotalPrice();
   }
 
   deleteCartItem(Uuid cartItemId){
@@ -42,6 +43,8 @@ class CartStateNotifier extends StateNotifier<List<CartItem>>{
       for (final cartItem in state)
         if(cartItemId != cartItem.cartItemId) cartItem,
     ];
+    // cartTotalPrice();
+
   }
 
   addQuantity(Uuid cartItemId){
@@ -57,14 +60,11 @@ class CartStateNotifier extends StateNotifier<List<CartItem>>{
         // other todos are not modified
           cartItem,
     ];
+    // cartTotalPrice();
+
   }
 
   decQuantity(Uuid cartItemId){
-    //1- find the crossbonding cart item and get the index
-    //2- if not found and it is a null return same state of items
-    //3- reduce quantity by one
-    //4- if quantitiy became 0 a prompt will show up for comfermation to
-    //remove the cart item
 
 
     state = [
@@ -74,9 +74,28 @@ class CartStateNotifier extends StateNotifier<List<CartItem>>{
         else
           cartItem,
     ];
+    // cartTotalPrice();
+
+
   }
 
-  calculateTotalPrice(){}
+  emptyCart(){
+    state = [];
+  }
+
+
+  // double cartTotalPrice(){
+  //   double totalPrice = 0.00;
+  //   if(state.isNotEmpty){
+  //     state.forEach((cartItem) {
+  //       totalPrice = totalPrice + (cartItem.productIsChosen.price * cartItem.quantity);
+  //     });
+  //     return totalPrice;
+  //   }else{
+  //     totalPrice = 0.00;
+  //   }
+  //   return totalPrice;
+  // }
 }
 
 class CartItem{
@@ -96,6 +115,17 @@ class CartItem{
   CartItem copyWithLessQuantity(){
     return CartItem(productIsChosen: productIsChosen, quantity: this.quantity - 1);
   }
+
+  Map toJson(){
+    return {
+      "name": this.productIsChosen.product.title,
+      "quantity" : this.quantity,
+      //per unit price
+      "unit_amount" : this.productIsChosen.price,
+    };
+  }
 }
+
+
 
 final cartItemNotifier = StateNotifierProvider<CartStateNotifier, List<CartItem>>((ref) => CartStateNotifier());

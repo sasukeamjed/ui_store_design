@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ui_store_design/providers/cart_items_total_price.dart';
 import 'package:ui_store_design/providers/cart_state_notifier.dart';
 
 class ItemsTotalPricing extends StatelessWidget {
@@ -35,18 +36,18 @@ class ItemsTotalPricing extends StatelessWidget {
               child: Consumer(
                 builder: (context, ref, child){
 
-                  double cartTotalPrice(){
-                    double totalPrice = 0.00;
-                    if(ref.watch(cartItemNotifier).isNotEmpty){
-                      ref.watch(cartItemNotifier).forEach((cartItem) {
-                        totalPrice = totalPrice + (cartItem.productIsChosen.price * cartItem.quantity);
-                      });
-                      return totalPrice;
-                    }else{
-                      totalPrice = 0.00;
-                    }
-                    return totalPrice;
-                  }
+                  // double cartTotalPrice(){
+                  //   double totalPrice = 0.00;
+                  //   if(ref.watch(cartItemNotifier).isNotEmpty){
+                  //     ref.watch(cartItemNotifier).forEach((cartItem) {
+                  //       totalPrice = totalPrice + (cartItem.productIsChosen.price * cartItem.quantity);
+                  //     });
+                  //     return totalPrice;
+                  //   }else{
+                  //     totalPrice = 0.00;
+                  //   }
+                  //   return totalPrice;
+                  // }
 
                   return Column(
                     children: [
@@ -107,7 +108,7 @@ class ItemsTotalPricing extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "${cartTotalPrice()} OMR",
+                            "${ref.watch(cartItemsTotalPriceProvider)} OMR",
                             style: TextStyle(
                               fontSize: 17.sp,
                               fontFamily: "Avenir",

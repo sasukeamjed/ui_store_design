@@ -20,7 +20,7 @@ class CartItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     print("cart_item_widget this is the product options => ${cartItem.productIsChosen.product.getOptions()}");
     return SizedBox(
-      height: 120.h,
+      height: 130.h,
       child: Row(
         //ToDo: import product data
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,7 +28,7 @@ class CartItemWidget extends StatelessWidget {
           Expanded(
             flex: 2,
             child: _buildCartItemImage(
-              image: cartItem.productIsChosen.product.thumbnailImages[0],
+              image: cartItem.productIsChosen.thumbnailImage,
               itemsCount: 0,
             ),
           ),

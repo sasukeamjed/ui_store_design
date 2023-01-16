@@ -16,6 +16,8 @@ class UserModel {
 
   final String? username;
 
+  final String? phone;
+
   final ShippingModel? shipping;
 
   // final String dateCreated;
@@ -37,6 +39,7 @@ class UserModel {
     required this.lastName,
     required this.username,
     required this.shipping,
+    required this.phone,
   });
 
   // UserModel({
@@ -59,14 +62,16 @@ class UserModel {
       String? firstname,
       String? lastName,
       String? username,
-      ShippingModel? shippingModel}) {
+      ShippingModel? shippingModel,
+      String? phone}) {
     return UserModel(
         id: this.id,
         email: email ?? this.email,
         firstName: firstName ?? this.firstName,
         lastName: lastName ?? this.lastName,
         username: username ?? this.username,
-        shipping: shipping ?? this.shipping);
+        shipping: shipping ?? this.shipping,
+        phone: phone ?? this.phone,);
   }
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>
