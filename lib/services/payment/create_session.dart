@@ -15,9 +15,9 @@ class PaymentSession{
       "products" : [...cartItems.map((cartItem) => cartItem.toJson())],
       "success_url": "https://company.com/success",
       "cancel_url": "https://company.com/cancel",
-      "customer_id": customerId,
+      "customer_id": this.customerId,
       "metadata": {
-        "Customer name": customerName,
+        "Customer name": this.customerName,
         "order id": 0
       }
     };

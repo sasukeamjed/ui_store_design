@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/components/items_total_pricing.dart';
 import 'package:ui_store_design/screens/checkout_screen/components/address_card.dart';
 import 'package:ui_store_design/screens/checkout_screen/components/payments_methods.dart';
+import 'package:ui_store_design/services/payment/create_session.dart';
 
 class Body extends StatelessWidget {
   bool checkAddress = false;
@@ -43,17 +44,11 @@ class Body extends StatelessWidget {
         ),
         Spacer(),
         ItemsTotalPricing(),
-        Expanded(
-          child: Container(
-            width: double.infinity,
-            color: Colors.black,
-            child: Center(
-              child: Text("PAYMENT", style: TextStyle(fontSize: 15.sp, color: Colors.white, fontFamily: "Avenir"),),
-            ),
-          ),
-        ),
+        PaymentButton(),
       ],
     );
   }
 }
+
+
 
