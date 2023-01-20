@@ -121,7 +121,7 @@ class CartItem{
       "name": this.productIsChosen.product.title,
       "quantity" : this.quantity,
       //per unit price
-      "unit_amount" : this.productIsChosen.price,
+      "unit_amount" : this.productIsChosen.price.toInt() * 1000,
     };
   }
 }

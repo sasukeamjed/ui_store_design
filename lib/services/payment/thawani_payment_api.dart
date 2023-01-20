@@ -22,8 +22,12 @@ class PaymentsAPI{
       connectTimeout: 15000,
       sendTimeout: 15000,
       //This is should be the solution for DioError [DioErrorType.response]: Http status error [415]
-      // contentType: 'application/x-www-form-urlencoded',
-      headers: {"Connection": "Keep-Alive",},
+      contentType: 'application/json',
+      headers: {
+        // "Connection": "Keep-Alive",
+        // "Content-Type" : "application/json",
+        "thawani-api-key" : "rRQ26GcsZzoEhbrP2HZvLYDbn9C9et",
+      },
     ));
 
     _dio.interceptors.add(
@@ -38,6 +42,8 @@ class PaymentsAPI{
         },
         onError: (DioError err, ErrorInterceptorHandler handler) {
           print("errors in handlers");
+          print("error response status Code => ${err.response?.statusCode}");
+          print("error response => ${err.response}");
           switch (err.type) {
             case DioErrorType.connectTimeout:
             case DioErrorType.sendTimeout:
@@ -61,6 +67,7 @@ class PaymentsAPI{
             case DioErrorType.cancel:
               break;
             case DioErrorType.other:
+
               throw NoInternetConnectionException(err.requestOptions);
           }
 
@@ -77,19 +84,20 @@ class PaymentsAPI{
 
     try {
       // state = AuthLoading();
-      responseUrl = await _dio.post("checkout/session",
+      print("this is body => $sessionBody");
+      responseUrl = await _dio.post("/checkout/session",
         data: sessionBody,
       );
 
-      // final data = jsonDecode(response.data);
-
 
       if(responseUrl.statusCode != 200 || responseUrl.data == null){
-        print("Login Failed");
+        print("Payment Failed");
         // state = AuthError("Login Failed") ;
         return;
       }
       print("This is the successful payment response data : ${responseUrl.data}");
+
+      return responseUrl.data;
 
       // state = AuthLoaded(UserModel.fromJson(response?.data));
     } catch (e) {

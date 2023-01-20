@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/components/items_total_pricing.dart';
 import 'package:ui_store_design/screens/checkout_screen/components/address_card.dart';
+import 'package:ui_store_design/screens/checkout_screen/components/payment_button.dart';
 import 'package:ui_store_design/screens/checkout_screen/components/payments_methods.dart';
 import 'package:ui_store_design/services/payment/create_session.dart';
 
