@@ -26,10 +26,10 @@ class DeliveryStatusFilter extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 5.w, horizontal: 10.w),
           child: Text(
             "Processing",
-            style: TextStyle(color: Colors.white, fontFamily: "Avenir", fontSize: 14.sp),
+            style: TextStyle(color: Colors.black, fontFamily: "Avenir", fontSize: 14.sp),
           ),
           decoration: BoxDecoration(
-            color: Colors.black,
+            // color: Colors.black,
             borderRadius: BorderRadius.circular(15.w),
           ),
         ),
@@ -37,10 +37,10 @@ class DeliveryStatusFilter extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 5.w, horizontal: 10.w),
           child: Text(
             "Cancelled",
-            style: TextStyle(color: Colors.white, fontFamily: "Avenir", fontSize: 14.sp),
+            style: TextStyle(color: Colors.black, fontFamily: "Avenir", fontSize: 14.sp),
           ),
           decoration: BoxDecoration(
-            color: Colors.black,
+            // color: Colors.black,
             borderRadius: BorderRadius.circular(15.w),
           ),
         ),
@@ -48,14 +48,15 @@ class DeliveryStatusFilter extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 5.w, horizontal: 10.w),
           child: Text(
             "All",
-            style: TextStyle(color: Colors.white, fontFamily: "Avenir", fontSize: 14.sp),
+            style: TextStyle(color: Colors.black, fontFamily: "Avenir", fontSize: 14.sp),
           ),
           decoration: BoxDecoration(
-            color: Colors.black,
+            // color: Colors.black,
             borderRadius: BorderRadius.circular(15.w),
           ),
         ),
       ],
     );
   }
+
 }

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/screens/profile_screen/sub_screens/my_orders_screen/components/delivery_status_filter.dart';
-import 'package:ui_store_design/screens/profile_screen/sub_screens/my_orders_screen/components/order_card.dart';
+import 'package:ui_store_design/screens/profile_screen/sub_screens/my_orders_screen/components/list_of_orders.dart';
 import 'package:ui_store_design/screens/profile_screen/sub_screens/my_orders_screen/components/page_title.dart';
-import 'package:ui_store_design/screens/profile_screen/sub_screens/my_orders_screen/sub_screens/order_details_screen/order_details_screen.dart';
 
 class Body extends StatelessWidget {
   //My Orders Screen Body
@@ -26,7 +25,7 @@ class Body extends StatelessWidget {
                 height: 20.w,
               ),
               Container(
-                height: 570.h,
+                height: 520.h,
                 child: ListOfOrders(),
               ),
             ],
@@ -37,21 +36,7 @@ class Body extends StatelessWidget {
   }
 }
 
-class ListOfOrders extends StatelessWidget {
-  const ListOfOrders({Key? key}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return ListView.builder(
-      physics: AlwaysScrollableScrollPhysics(),
-      shrinkWrap: true,
-      itemCount: 3,
-      itemBuilder: (BuildContext context, int index){
-        return OrderCard();
-      },
-    );
-  }
-}
 
 
 

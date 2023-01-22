@@ -17,8 +17,8 @@ class PaymentSession{
       "cancel_url": "https://company.com/cancel",
       // "customer_id": this._customerId,
       "metadata": {
-        // "Customer name": this._customerName,
-        // "order id": 0
+        "Customer name": this._customerName,
+        "order id": 0
       }
     };
   }
