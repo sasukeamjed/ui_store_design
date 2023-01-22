@@ -40,11 +40,11 @@ class PaymentButton extends ConsumerWidget {
 
             final Uri uri = Uri(scheme: 'https', host: 'uatcheckout.thawani.om', path: 'pay/$session_id', queryParameters: {'key': thawaniPublishableKey});
             print("structured url => $uri");
-
-            if(await canLaunchUrl(uri)){
-              print("url was launched with condition");
-              await launchUrl(uri);
-            }
+            await launchUrl(uri, mode: LaunchMode.inAppWebView);
+            // if(await canLaunchUrl(uri)){
+            //   print("url was launched with condition");
+            //   await launchUrl(uri);
+            // }
           }
           //ToDo: next look how to save payment card
         },
