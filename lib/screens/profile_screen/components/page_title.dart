@@ -1,6 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ui_store_design/services/auth/auth.dart';
+import 'package:ui_store_design/services/auth/states/auth_state.dart';
 
 class PageTitle extends StatelessWidget {
   const PageTitle({
@@ -36,24 +39,29 @@ class PageTitle extends StatelessWidget {
               SizedBox(
                 width: 20.w,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  AutoSizeText(
-                    "My Profile Name",
-                    style: TextStyle(fontFamily: "Avenir", fontSize: 17.sp),
-                    // style: Theme.of(context).textTheme.labelMedium,
-                    maxLines: 1,
-                  ),
-                  Text(
-                    "email@email.com",
-                    style: TextStyle(
+              Consumer(builder: (context, ref, child){
+
+                final state = ref.watch(authProvider) as AuthLoaded;
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    AutoSizeText(
+                      state.userModel.firstName ?? "user",
+                      style: TextStyle(fontFamily: "Avenir", fontSize: 17.sp),
+                      // style: Theme.of(context).textTheme.labelMedium,
+                      maxLines: 1,
+                    ),
+                    Text(
+                      state.userModel.email ?? "user email",
+                      style: TextStyle(
                         fontFamily: "Avenir-Book",
                         fontSize: 15.sp,
                         color: Colors.black.withOpacity(0.4),),
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                );
+              }),
             ],
           )
         ],
