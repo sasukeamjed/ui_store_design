@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/screens/profile_screen/sub_screens/my_orders_screen/my_orders_screen.dart';
+import 'package:ui_store_design/screens/profile_screen/sub_screens/shipping_address_screen/shipping_address_screen.dart';
 
 class ProfileComponents extends StatelessWidget {
   const ProfileComponents({Key? key}) : super(key: key);
@@ -25,6 +26,9 @@ class ProfileComponents extends StatelessWidget {
           title: Text("Shipping Addresses", style: TextStyle(fontSize: 14.sp),),
           subtitle: Text("3 addresses", style: TextStyle(fontSize: 12.sp)),
           trailing: Icon(Icons.arrow_forward_ios),
+          onTap: (){
+            Navigator.of(context).pushNamed(ShippingAddressScreen.routeName);
+          },
           dense: true,
         ),
         Divider(
