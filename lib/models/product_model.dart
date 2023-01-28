@@ -11,7 +11,7 @@ import 'package:ui_store_design/extensions.dart';
 
 class Product extends Equatable{
   Product({
-    required this.postAuthor,
+    // required this.postAuthor,
     required this.dateCreated,
     required this.status,
     required this.featured,
@@ -34,7 +34,7 @@ class Product extends Equatable{
   //ToDo: we need to add filter for fetching products, we should not fetch products wich has not price and no publish status
   final int id;
   final String title;
-  final String postAuthor;
+  // final String postAuthor;
   final DateTime? dateCreated;
   final String status;
   final bool featured;
@@ -70,7 +70,7 @@ class Product extends Equatable{
 
       title: data["name"],
 
-      postAuthor: data["post_author"],
+      // postAuthor: data["post_author"],
       dateCreated: DateTime.tryParse(data["date_created"]),
       price: double.parse(data["price"] == '' ? "0.00" : data["price"]),
       totalSales: data["total_sales"],
@@ -105,7 +105,7 @@ class Product extends Equatable{
 
       title: this.title,
 
-      postAuthor: this.postAuthor,
+      // postAuthor: this.postAuthor,
       dateCreated: this.dateCreated,
       price: this.price,
       totalSales: this.totalSales,
@@ -180,12 +180,12 @@ class Product extends Equatable{
 
   @override
   String toString() {
-    return "postAuthor: ${this.postAuthor}, dataCreated: ${this.dateCreated}, status: ${this.status}, featured: ${this.featured}, description: ${this.description}, shortDescription: ${this.shortDescription}, sku: ${this.sku}, id: ${this.id.toString()}, title: ${this.title}, price: ${this.price.toString()}, img: ${this.thumbnailImages}, isFavorited: ${this.isFavorited}, product_variations: ${this.productVariations}";
+    return "dataCreated: ${this.dateCreated}, status: ${this.status}, featured: ${this.featured}, description: ${this.description}, shortDescription: ${this.shortDescription}, sku: ${this.sku}, id: ${this.id.toString()}, title: ${this.title}, price: ${this.price.toString()}, img: ${this.thumbnailImages}, isFavorited: ${this.isFavorited}, product_variations: ${this.productVariations}";
   }
 
   @override
   // TODO: implement props
-  List<Object?> get props => [id, title, postAuthor, dateCreated, status, featured, description, shortDescription, sku, price, totalSales, dimensions, thumbnailImages, singleImages, categories, attributesModel, productVariations];
+  List<Object?> get props => [id, title, dateCreated, status, featured, description, shortDescription, sku, price, totalSales, dimensions, thumbnailImages, singleImages, categories, attributesModel, productVariations];
 
   // @override
   // // TODO: implement props

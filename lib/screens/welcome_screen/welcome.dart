@@ -39,7 +39,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
     print('user data is ready: $token');
 
     //fetching all the products and filtering them to their respective vendors
-    await ref.read(dataProvider.notifier).dataInit();
+    await ref.read(productsDataProvider.notifier).dataInit();
     await ref.read(searchHistoryProvider.notifier).searchHistory("");
     if(token != ""){
       Map<String, dynamic> response = await ref.read(authProvider.notifier).tokenVerification(token!);
@@ -51,7 +51,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
       }
     }
 
-    if(ref.watch(dataProvider) != null && ref.watch(dataProvider)!.isNotEmpty){
+    if(ref.watch(productsDataProvider) != null && ref.watch(productsDataProvider)!.isNotEmpty){
       FlutterNativeSplash.remove();
     }
 

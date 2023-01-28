@@ -107,7 +107,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     try {
       state = AuthLoading();
       responseUrl = await _dio.post("wp-json/jwt-auth/v1/token",
-        data: {"username": "amjad", "password": "Am95868408"},
+        data: {"username": "amjad", "password": "@mIJAGaJZ&46vgs@*gRgELr6"},
       );
 
       // final data = jsonDecode(response.data);

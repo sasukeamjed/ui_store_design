@@ -16,16 +16,20 @@ import 'package:ui_store_design/models/user_model.dart';
 import 'package:ui_store_design/models/vendor_model.dart';
 import 'package:ui_store_design/services/data/states/data_states.dart';
 
-class VendorsList extends StateNotifier<List<Vendor>?> {
+class ProductsProvider extends StateNotifier<List<Product>?> {
   final baseUrl = "https://4ustore.net/";
   late Dio _dio;
 
-  VendorsList() : super([]) {
+  ProductsProvider() : super([]) {
     _dio = Dio(BaseOptions(
       baseUrl: baseUrl,
       receiveTimeout: 15000, // 15 seconds
       connectTimeout: 15000,
       sendTimeout: 15000,
+      queryParameters: {
+        "consumer_key": "ck_9e32dcae3003edf2db8ec232c0c958ec735210e9",
+        "consumer_secret" : "cs_e0d9e53cff19cff292d0fe5706665fc628d4ebfb",
+      },
       //This is should be the solution for DioError [DioErrorType.response]: Http status error [415]
       // contentType: 'application/x-www-form-urlencoded',
       headers: {"Connection": "Keep-Alive",},
@@ -76,11 +80,11 @@ class VendorsList extends StateNotifier<List<Vendor>?> {
   }
 
   Future<void> dataInit() async {
-    print("data init function is called fetching all vendors and fetching all products ++++++++");
-    List<Vendor> vendors = await _fetchAllVendors();
-    List<Product> products = await _fetchAllProducts();
+    print("data init function is called fetching all products ++++++++");
+    // List<Vendor> vendors = await _fetchAllVendors();
+    await _fetchAllProducts();
 
-    _filteringProducts(vendors, products);
+    // _filteringProducts(vendors, products);
   }
 
   Future<List<Vendor>> _fetchAllVendors() async {
@@ -104,20 +108,6 @@ class VendorsList extends StateNotifier<List<Vendor>?> {
   }
 
 
-  //This function pass each product to it is own shop and updates the state
-  void _filteringProducts(List<Vendor> vendors, List<Product> products) {
-    List<Vendor> vendorsWithListedProducts = [];
-
-    vendors.forEach((vendor) {
-      products.forEach((product) {
-        if (vendor.vendorId == int.parse(product.postAuthor)) {
-          vendor.vendorProducts.add(product);
-        }
-      });
-      vendorsWithListedProducts.add(vendor);
-    });
-    state = vendorsWithListedProducts;
-  }
   //This function receives list of categories names and return all the products which has name with that category
   List<Product> filterProductsByCategory(List<ProductCategory> categoriesParameter) {
     
@@ -125,16 +115,16 @@ class VendorsList extends StateNotifier<List<Vendor>?> {
 
     List<Product> filteredList = [];
 
-    List<Product> vendorsProducts = [];
-    state?.forEach((vendor) {
-      vendorsProducts.addAll(vendor.vendorProducts);
-    });
+    List<Product> allProducts = state ?? [];
+    // state?.forEach((vendor) {
+    //   vendorsProducts.addAll(vendor.vendorProducts);
+    // });
 
     //We shuffle the list because we don't want them in a specific range
-    vendorsProducts.shuffle();
+    // vendorsProducts.shuffle();
 
     categoriesParameter.forEach((outerCategory) {
-      vendorsProducts.forEach((product) {
+      allProducts.forEach((product) {
         product.categories.forEach((insideCategory) {
           if(insideCategory.categoryId == outerCategory.categoryId){
               filteredList.add(product);
@@ -156,7 +146,7 @@ class VendorsList extends StateNotifier<List<Vendor>?> {
     late Response response;
     try {
       print("awaiting for products fetching");
-      response = await _dio.get("wp-json/wcfmmp/v1/products", queryParameters: {
+      response = await _dio.get("wp-json/wc/v3/products", queryParameters: {
         "per_page": "100",
         // "consumer_secret" : "cs_edccfa40d65e6ede5b3ed40126793ef296910c58",
         // "orderby" : "date",
@@ -171,6 +161,7 @@ class VendorsList extends StateNotifier<List<Vendor>?> {
       //     .where(
       //         (product) => product.price != 0.00 && product.status == "publish")
       //     .toList());
+
       print("fetching products has finished");
       // state = DataLoaded(products.map((data) => Product.fromJson(data)).toList());
 
@@ -189,31 +180,25 @@ class VendorsList extends StateNotifier<List<Vendor>?> {
   }
 
   List<Product> sortProductsByDate(){
-    List<Product> allVendorsProducts = [];
+    List<Product> allProducts = state ?? [];
 
-    state?.forEach((vendor) {
-      allVendorsProducts.addAll(vendor.vendorProducts);
-    });
 
-    allVendorsProducts.sort((product1, product2){
+    allProducts.sort((product1, product2){
       return product2.dateCreated!.compareTo(product1.dateCreated!);
     });
 
-    return allVendorsProducts;
+    return allProducts;
   }
 
   List<Product> sortProductsByTotalSales(){
-    List<Product> allVendorsProducts = [];
+    List<Product> allProducts = state ?? [];
 
-    state?.forEach((vendor) {
-      allVendorsProducts.addAll(vendor.vendorProducts);
-    });
 
-    allVendorsProducts.sort((product1, product2){
+    allProducts.sort((product1, product2){
       return product2.totalSales.compareTo(product1.totalSales);
     });
 
-    return allVendorsProducts;
+    return allProducts;
   }
 }
 

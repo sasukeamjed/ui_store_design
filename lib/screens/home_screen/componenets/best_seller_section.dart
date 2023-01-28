@@ -15,7 +15,7 @@ class BestSellersSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final List<Product> products = ref.watch(dataProvider.notifier).sortProductsByTotalSales();
+    final List<Product> products = ref.watch(productsDataProvider.notifier).sortProductsByTotalSales();
     return Padding(
       padding: EdgeInsets.only(
         left: 20.w,

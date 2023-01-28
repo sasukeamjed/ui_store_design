@@ -37,13 +37,8 @@ final searchHistoryProvider = StateNotifierProvider<SearchHistoryNotifier, List<
 final searchProductsProvider = StateProvider.autoDispose.family<List<Product>, String>((ref, query){
   final String searchQuery = query.toLowerCase();
 
-  final List<Vendor>? listOfVendors = ref.watch(dataProvider);
+  final List<Product>? listOfProducts = ref.watch(productsDataProvider);
 
-  List<Product> allProducts = [];
-
-  listOfVendors?.forEach((vendor) {
-    allProducts.addAll(vendor.vendorProducts);
-  });
 
 
 
@@ -51,59 +46,59 @@ final searchProductsProvider = StateProvider.autoDispose.family<List<Product>, S
     return [];
   }
 
-  return allProducts.where((product){
+  return listOfProducts?.where((product){
     return product.title.toLowerCase().contains(searchQuery) || product.description.toLowerCase().contains(searchQuery) || product.shortDescription.toLowerCase().contains(searchQuery);
-  }).toList();
+  }).toList() ?? [];
 });
 
-final searchVendorsProvider = StateProvider.autoDispose.family<List<Vendor>, String>((ref, query){
-  final String searchQuery = query.toLowerCase();
+// final searchVendorsProvider = StateProvider.autoDispose.family<List<Vendor>, String>((ref, query){
+//   final String searchQuery = query.toLowerCase();
+//
+//   final List<Product>? listOfProducts = ref.watch(productsDataProvider);
+//
+//
+//   if(searchQuery.isEmpty){
+//     return [];
+//   }
+//
+//   return listOfProducts!.where((product){
+//     return product.vendorId.toString().contains(searchQuery) || product.vendorShopName.toLowerCase().contains(searchQuery) || product.vendorDescription.toLowerCase().contains(searchQuery);
+//   }).toList() ?? [];
+// });
 
-  final List<Vendor>? listOfVendors = ref.watch(dataProvider);
+// final vendorsSearchDataProvider = StateProvider.autoDispose<List<Vendor>?>((ref){
+//   final String searchQuery = ref.watch(searchQueryProvider).toLowerCase();
+//   final List<Vendor>? listOfVendors = ref.watch(productsDataProvider);
+//
+//
+//   if(searchQuery.isEmpty){
+//     return <Vendor>[];
+//   }
+//
+//   return listOfVendors?.where((vendor){
+//     return vendor.vendorId.toString().contains(searchQuery) || vendor.vendorShopName.toLowerCase().contains(searchQuery) || vendor.vendorDescription.toLowerCase().contains(searchQuery);
+//   }).toList();
+//
+//
+// });
 
-
-  if(searchQuery.isEmpty){
-    return [];
-  }
-
-  return listOfVendors!.where((vendor){
-    return vendor.vendorId.toString().contains(searchQuery) || vendor.vendorShopName.toLowerCase().contains(searchQuery) || vendor.vendorDescription.toLowerCase().contains(searchQuery);
-  }).toList();
-});
-
-final vendorsSearchDataProvider = StateProvider.autoDispose<List<Vendor>?>((ref){
-  final String searchQuery = ref.watch(searchQueryProvider).toLowerCase();
-  final List<Vendor>? listOfVendors = ref.watch(dataProvider);
-
-
-  if(searchQuery.isEmpty){
-    return <Vendor>[];
-  }
-
-  return listOfVendors?.where((vendor){
-    return vendor.vendorId.toString().contains(searchQuery) || vendor.vendorShopName.toLowerCase().contains(searchQuery) || vendor.vendorDescription.toLowerCase().contains(searchQuery);
-  }).toList();
-
-
-});
-
-final productsSearchDataProvider = StateProvider.autoDispose<List<Product>>((ref){
-  final String searchQuery = ref.watch(searchQueryProvider).toLowerCase();
-  final List<Vendor>? listOfVendors = ref.watch(dataProvider);
-
-  List<Product> allProducts = [];
-
-  listOfVendors?.forEach((vendor) {
-    allProducts.addAll(vendor.vendorProducts);
-  });
-
-  if(searchQuery.isEmpty){
-    return <Product>[];
-  }
-
-  return allProducts.where((product){
-    return product.title.toLowerCase().contains(searchQuery) || product.description.toLowerCase().contains(searchQuery) || product.shortDescription.toLowerCase().contains(searchQuery);
-  }).toList();
-
-
-});
+// final productsSearchDataProvider = StateProvider.autoDispose<List<Product>>((ref){
+//   final String searchQuery = ref.watch(searchQueryProvider).toLowerCase();
+//   final List<Vendor>? listOfVendors = ref.watch(productsDataProvider);
+//
+//   List<Product> allProducts = [];
+//
+//   listOfVendors?.forEach((vendor) {
+//     allProducts.addAll(vendor.vendorProducts);
+//   });
+//
+//   if(searchQuery.isEmpty){
+//     return <Product>[];
+//   }
+//
+//   return allProducts.where((product){
+//     return product.title.toLowerCase().contains(searchQuery) || product.description.toLowerCase().contains(searchQuery) || product.shortDescription.toLowerCase().contains(searchQuery);
+//   }).toList();
+//
+//
+// });

@@ -30,7 +30,7 @@ class _BodyState extends State<Body> {
             SizedBox(
               height: 30.h,
             ),
-            VendorsSection(),
+            // VendorsSection(),
             SizedBox(
               height: 30.h,
             ),

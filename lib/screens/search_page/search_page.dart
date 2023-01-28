@@ -68,71 +68,71 @@ class MySearchDelegate extends SearchDelegate {
       builder: (context, ref, child) {
         List<Product>? products =
             ref.watch(searchProductsProvider(query)) ?? [];
-        List<Vendor>? vendors = ref.watch(searchVendorsProvider(query)) ?? [];
+        // List<Vendor>? vendors = ref.watch(searchVendorsProvider(query)) ?? [];
         ref.read(searchHistoryProvider.notifier).searchHistory(query);
         // print("The search query is => ${ref.watch(searchQueryProvider)}");
         print("This is the results of searching functions => ${[
           ...products,
-          ...vendors
+          // ...vendors
         ]}");
 
         if (query.isEmpty) {
           showSuggestions(context);
         }
 
-        return products.isNotEmpty || vendors!.isNotEmpty
+        return products.isNotEmpty
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (vendors!.isNotEmpty)
-                    Flexible(
-                      flex: 1,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 5.w),
-                        child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: vendors.length,
-                            itemBuilder: (context, index) {
-                              print("This list search length is => ${[
-                                ...products,
-                                ...?vendors
-                              ].length}");
-                              return GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) => VendorScreen(
-                                          vendor: vendors[index])));
-                                },
-                                child: Container(
-                                  margin:
-                                      EdgeInsets.symmetric(horizontal: 10.w),
-                                  // height: 120.h,
-                                  width: 80.w,
-                                  // color: Colors.green,
-                                  child: Card(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Flexible(
-                                            child: Image.network(
-                                                vendors[index].vendorShopLogo)),
-                                        Flexible(
-                                            child: AutoSizeText(
-                                          vendors[index].vendorShopName,
-                                          textAlign: TextAlign.center,
-                                        ))
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }),
-                      ),
-                    ),
-                  if (vendors.isNotEmpty) Divider(),
+                  // if (vendors!.isNotEmpty)
+                  //   Flexible(
+                  //     flex: 1,
+                  //     child: Padding(
+                  //       padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  //       child: ListView.builder(
+                  //           scrollDirection: Axis.horizontal,
+                  //           itemCount: vendors.length,
+                  //           itemBuilder: (context, index) {
+                  //             print("This list search length is => ${[
+                  //               ...products,
+                  //               ...?vendors
+                  //             ].length}");
+                  //             return GestureDetector(
+                  //               onTap: () {
+                  //                 Navigator.of(context).push(MaterialPageRoute(
+                  //                     builder: (context) => VendorScreen(
+                  //                         vendor: vendors[index])));
+                  //               },
+                  //               child: Container(
+                  //                 margin:
+                  //                     EdgeInsets.symmetric(horizontal: 10.w),
+                  //                 // height: 120.h,
+                  //                 width: 80.w,
+                  //                 // color: Colors.green,
+                  //                 child: Card(
+                  //                   child: Column(
+                  //                     mainAxisAlignment:
+                  //                         MainAxisAlignment.center,
+                  //                     crossAxisAlignment:
+                  //                         CrossAxisAlignment.center,
+                  //                     children: [
+                  //                       Flexible(
+                  //                           child: Image.network(
+                  //                               vendors[index].vendorShopLogo)),
+                  //                       Flexible(
+                  //                           child: AutoSizeText(
+                  //                         vendors[index].vendorShopName,
+                  //                         textAlign: TextAlign.center,
+                  //                       ))
+                  //                     ],
+                  //                   ),
+                  //                 ),
+                  //               ),
+                  //             );
+                  //           }),
+                  //     ),
+                  //   ),
+                  // if (vendors.isNotEmpty) Divider(),
                   SizedBox(
                     height: 20.h,
                   ),
@@ -172,7 +172,7 @@ class MySearchDelegate extends SearchDelegate {
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if (query.isNotEmpty && (products.isEmpty && vendors.isEmpty))
+                  if (query.isNotEmpty && products.isEmpty)
                     Center(child: Text("No Results Found For This Search...")),
                   if (query.isEmpty)
                     Center(

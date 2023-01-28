@@ -14,7 +14,7 @@ class YouMayAlsoLikeSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    List<Product> productByCategory = ref.watch(dataProvider.notifier).filterProductsByCategory(product.categories);
+    List<Product> productByCategory = ref.watch(productsDataProvider.notifier).filterProductsByCategory(product.categories);
     return Column(
       children: [
         Padding(
