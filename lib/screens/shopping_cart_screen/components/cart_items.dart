@@ -35,7 +35,7 @@ class _CartItemsState extends ConsumerState<CartItems> {
                 SizedBox(
                   height: 10.h,
                 ),
-                Text(cartItem.productIsChosen.product.title),
+                Text(cartItem.productIsChosen.product.name),
               ],
             ),
           ),

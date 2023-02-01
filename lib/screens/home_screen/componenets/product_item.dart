@@ -62,7 +62,7 @@ class _ProductItemState extends State<ProductItem> {
               height: 10.h,
             ),
             AutoSizeText(
-              widget.product.title,
+              widget.product.name,
               style: TextStyle(fontFamily: "Avenir", fontSize: 10.sp),
               // style: Theme.of(context).textTheme.labelMedium,
               maxLines: 2,

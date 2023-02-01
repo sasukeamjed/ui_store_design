@@ -147,7 +147,7 @@ class MySearchDelegate extends SearchDelegate {
                               leading: Image.network(products[index].thumbnailImages[0]),
                               title: Row(
                                 children: [
-                                  Text(products[index].title),
+                                  Text(products[index].name),
                                   Spacer(),
                                   Text(
                                       products[index].price.toString() + " OMR")

@@ -56,7 +56,7 @@ class VendorPageProductItem extends StatelessWidget {
             ))
                 .toList(),
             AutoSizeText(
-              vendor.vendorProducts[index].title,
+              vendor.vendorProducts[index].name,
               style: TextStyle(
                   fontFamily: "Avenir", fontSize: 17.sp),
               maxLines: 2,

@@ -46,7 +46,7 @@ class DetailsScreen2 extends StatelessWidget {
         ],
         title: FittedBox(
           child: Text(
-            product.title,
+            product.name,
             style: TextStyle(
               color: Colors.black,
             ),

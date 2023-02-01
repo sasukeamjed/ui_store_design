@@ -118,7 +118,7 @@ class CartItem{
 
   Map toJson(){
     return {
-      "name": this.productIsChosen.product.title,
+      "name": this.productIsChosen.product.name,
       "quantity" : this.quantity,
       //per unit price
       "unit_amount" : this.productIsChosen.price.toInt() * 1000,

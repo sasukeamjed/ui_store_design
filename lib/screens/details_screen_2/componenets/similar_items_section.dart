@@ -75,7 +75,7 @@ class _SimilarItemState extends State<SimilarItem> {
             ],
           ),
           SizedBox(height: 17.h,),
-          Text(widget.product.title, style: TextStyle(fontFamily: "Avenir", fontSize: 17.sp),),
+          Text(widget.product.name, style: TextStyle(fontFamily: "Avenir", fontSize: 17.sp),),
           Text("\$${widget.product.price}", style: TextStyle(fontFamily: "Avenir-Book", fontSize: 15.sp, color: Colors.black.withOpacity(0.4)),),
         ],
       ),

@@ -47,7 +47,7 @@ final searchProductsProvider = StateProvider.autoDispose.family<List<Product>, S
   }
 
   return listOfProducts?.where((product){
-    return product.title.toLowerCase().contains(searchQuery) || product.description.toLowerCase().contains(searchQuery) || product.shortDescription.toLowerCase().contains(searchQuery);
+    return product.name.toLowerCase().contains(searchQuery) || product.description.toLowerCase().contains(searchQuery) || product.shortDescription.toLowerCase().contains(searchQuery);
   }).toList() ?? [];
 });
 

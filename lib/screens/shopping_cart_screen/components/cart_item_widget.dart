@@ -49,7 +49,7 @@ class CartItemWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AutoSizeText(
-                    cartItem.productIsChosen.product.title,
+                    cartItem.productIsChosen.product.name,
                     maxLines: 2,
                     style: TextStyle(
                       fontSize: 17.sp,
