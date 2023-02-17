@@ -1,25 +1,25 @@
 
+import 'package:json_annotation/json_annotation.dart';
 
+part 'product_category_model.g.dart';
+
+@JsonSerializable()
 class ProductCategory{
-  final int categoryId;
-  final String categoryName;
-  final String categorySlugName;
+  final int id;
+  final String name;
+  final String slug;
 
   ProductCategory(
-      {required this.categoryId,
-      required this.categoryName,
-      required this.categorySlugName});
+      {required this.id,
+      required this.name,
+      required this.slug});
 
-  factory ProductCategory.fromJson(Map<String, dynamic> data) {
-    return ProductCategory(
-        categoryId: data["id"],
-        categoryName: data["name"],
-        categorySlugName: data["slug"]);
-  }
+  factory ProductCategory.fromJson(Map<String, dynamic> json)=> _$ProductCategoryFromJson(json);
+  Map<String, dynamic> toJson() => _$ProductCategoryToJson(this);
 
   @override
   String toString() {
-    return "ProductCategory Object: categoryId => ${this.categoryId}, categoryName => ${this.categoryName}, categorySlugName => ${this.categorySlugName}";
+    return "ProductCategory Object: categoryId => ${this.id}, categoryName => ${this.name}, categorySlugName => ${this.slug}";
   }
 
   // @override

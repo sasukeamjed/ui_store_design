@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ui_store_design/screens/vendor_screen/vendor_screen.dart';
+
 
 import '../../../models/vendor_model.dart';
 
@@ -15,7 +15,7 @@ class VendorItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: (){
-        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>VendorScreen(vendor: vendor)));
+        // Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ShopScreen(vendor: vendor)));
       },
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 3.w),

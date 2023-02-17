@@ -2,16 +2,17 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ui_store_design/models/image_model.dart';
 import 'package:ui_store_design/providers/image_notifier.dart';
 import 'package:ui_store_design/size_config.dart';
 
 class ProductImagesSlider extends ConsumerStatefulWidget {
   ProductImagesSlider({
-    Key? key, required this.images, required this.thumbnailImages,
+    Key? key, required this.images,
   }) : super(key: key);
 
-  final List<String> images;
-  final List<String> thumbnailImages;
+  final List<ImageModel> images;
+
 
   @override
   ConsumerState<ProductImagesSlider> createState() => _ProductImagesSliderState();
@@ -64,7 +65,7 @@ class _ProductImagesSliderState extends ConsumerState<ProductImagesSlider> {
                   },
                   itemBuilder: (context, index) {
                     return Image.network(
-                      widget.images[index],
+                      widget.images[index].src,
                       fit: BoxFit.fill,
                       width: double.infinity,
                       height: 250.h,
@@ -94,7 +95,7 @@ class _ProductImagesSliderState extends ConsumerState<ProductImagesSlider> {
           child: Wrap(
             spacing: 10.w,
             runSpacing: 10.w,
-            children: widget.thumbnailImages.mapIndexed((index, thumbnailImage){
+            children: widget.images.mapIndexed((index, ImageModel image){
               return GestureDetector(
                 onTap: (){
                   _gotToTheIndexedImage(index);
@@ -105,7 +106,7 @@ class _ProductImagesSliderState extends ConsumerState<ProductImagesSlider> {
                   decoration: BoxDecoration(
                     border: _currentImage == index ? Border.all(color: Colors.green.withOpacity(0.6), style: BorderStyle.solid, width: 1.5, strokeAlign: BorderSide.strokeAlignOutside) : null,
                   ),
-                  child: Image.network(thumbnailImage),
+                  child: Image.network(image.src),
                 ),
               );
             }).toList(),

@@ -14,7 +14,7 @@ part 'product_model.g.dart';
 
 @JsonSerializable()
 class Product extends Equatable{
-  Product({
+  Product({required this.type, required this.images,
     // required this.postAuthor,
     required this.dateCreated,
     required this.status,
@@ -26,14 +26,15 @@ class Product extends Equatable{
     required this.name,
     required this.price,
     required this.totalSales,
+    //ToDo: to get thumbnail image url just add -150x150 at the end before the image extension
     // required this.thumbnailImages,
+    //ToDo: to get medium image url just add -300x300 at the end before the image extension
     // required this.singleImages,
     required this.categories,
     required this.dimensions,
-    required this.attributesModel,
+    required this.attributes,
     required this.productVariations,
     this.isFavorited = false,
-    required this.productColors,
   });
   //ToDo: we need to add filter for fetching products, we should not fetch products wich has not price and no publish status
   final int id;
@@ -56,7 +57,8 @@ class Product extends Equatable{
   // final List<String> singleImages;
   final List<ImageModel> images;
   final List<ProductCategory> categories;
-  final List<AttributesModel> attributesModel;
+  final List<AttributesModel> attributes;
+  @JsonKey(name: 'product_variations')
   final List<ProductVariationModel> productVariations;
   @JsonKey(ignore: true)
   bool isFavorited;
@@ -68,7 +70,7 @@ class Product extends Equatable{
 
   // final String shortDescription;
   // final String description;
-  final List<Color>? productColors;
+
 
   // factory Product.fromJson(Map<String, dynamic> data) {
   //
@@ -125,10 +127,7 @@ class Product extends Equatable{
       totalSales: this.totalSales,
 
       dimensions: this.dimensions,
-
-      thumbnailImages: this.thumbnailImages,
-
-      singleImages:this.singleImages,
+      images: this.images,
       featured: this.featured,
 
       status: this.status,
@@ -140,9 +139,8 @@ class Product extends Equatable{
       sku: this.sku,
 
       categories: this.categories,
-      attributesModel: this.attributesModel,
-      productVariations: [productVariation] ?? [],
-      productColors: null,
+      attributes: this.attributes,
+      productVariations: [productVariation] ?? [], type: this.type,
     );
   }
 
@@ -170,19 +168,23 @@ class Product extends Equatable{
 
 
 
-    this.attributesModel.forEach((attribute) {
+    this.attributes.forEach((attribute) {
+
       if(this.productVariations.length != 0){
-        List<String> variationsList = [];
-        this.productVariations.forEach((variation){
 
-          if(variation.attributes.containsKey("attribute_" + attribute.slug)){
+        newVariation[attribute.name.toLowerCase()] = attribute.options;
 
-            variationsList.add(variation.attributes["attribute_" + attribute.slug]);
-          }
+        // List<String> variationsList = [];
+        // this.productVariations.forEach((variation){
+        //
+        //   if(variation.attributes.containsKey("attribute_" + attribute.slug)){
+        //
+        //     variationsList.add(variation.attributes["attribute_" + attribute.slug]);
+        //   }
+        //
+        // });
 
-        });
-
-        newVariation["attribute_" + attribute.slug ?? ""] = variationsList.toSet().toList();
+        // newVariation["attribute_" + attribute.slug ?? ""] = variationsList.toSet().toList();
 
       }
     });
@@ -194,12 +196,12 @@ class Product extends Equatable{
 
   @override
   String toString() {
-    return "dataCreated: ${this.dateCreated}, status: ${this.status}, featured: ${this.featured}, description: ${this.description}, shortDescription: ${this.shortDescription}, sku: ${this.sku}, id: ${this.id.toString()}, title: ${this.name}, price: ${this.price.toString()}, img: ${this.thumbnailImages}, isFavorited: ${this.isFavorited}, product_variations: ${this.productVariations}";
+    return "dataCreated: ${this.dateCreated}, status: ${this.status}, featured: ${this.featured}, description: ${this.description}, shortDescription: ${this.shortDescription}, sku: ${this.sku}, id: ${this.id.toString()}, title: ${this.name}, price: ${this.price.toString()}, img: ${this.images}, isFavorited: ${this.isFavorited}, product_variations: ${this.productVariations}";
   }
 
   @override
   // TODO: implement props
-  List<Object?> get props => [id, name, dateCreated, status, featured, description, shortDescription, sku, price, totalSales, dimensions, thumbnailImages, singleImages, categories, attributesModel, productVariations];
+  List<Object?> get props => [id, name, dateCreated, status, featured, description, shortDescription, sku, price, totalSales, dimensions, images, categories, attributes, productVariations];
 
   // @override
   // // TODO: implement props

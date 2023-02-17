@@ -7,7 +7,7 @@ import 'package:ui_store_design/models/vendor_model.dart';
 import 'package:ui_store_design/providers/data_providers.dart';
 import 'package:ui_store_design/providers/search_providers.dart';
 import 'package:ui_store_design/screens/details_screen_2/details_screen_2.dart';
-import 'package:ui_store_design/screens/vendor_screen/vendor_screen.dart';
+import 'package:ui_store_design/screens/shop_screen/shop_screen.dart';
 
 class MySearchDelegate extends SearchDelegate {
   @override
@@ -144,7 +144,7 @@ class MySearchDelegate extends SearchDelegate {
                         return Column(
                           children: [
                             ListTile(
-                              leading: Image.network(products[index].thumbnailImages[0]),
+                              leading: Image.network(products[index].images[0].getThumbnailImage()),
                               title: Row(
                                 children: [
                                   Text(products[index].name),

@@ -179,8 +179,8 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     //   return;
     // }
 
-    String username = 'ck_7fb1734b3d50ba0e55aedd31753d9450e021f8b7';
-    String password = 'cs_c84a554bf9fbcabceeb864c518f9ae34efe97fe1';
+    String username = 'ck_9e32dcae3003edf2db8ec232c0c958ec735210e9';
+    String password = 'cs_e0d9e53cff19cff292d0fe5706665fc628d4ebfb';
     String basicAuth =
         'Basic ' + base64Encode(utf8.encode('$username:$password'));
 
@@ -234,8 +234,8 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
     Response? response;
 
     //ToDo: we have to make the user object nullable by adding the ? mark like this => User? user
-    String username = 'ck_acbdf21ce866d51e80917a414ee6b5ce43631536';
-    String password = 'cs_4ad9edebd22674617f8e0affba8c5f737a5bd3d5';
+    String username = 'ck_9e32dcae3003edf2db8ec232c0c958ec735210e9';
+    String password = 'cs_e0d9e53cff19cff292d0fe5706665fc628d4ebfb';
     String basicAuth =
         'Basic ' + base64.encode(utf8.encode('$username:$password'));
     try {

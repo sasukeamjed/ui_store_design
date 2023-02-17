@@ -40,11 +40,11 @@ class Body extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ProductImagesSlider(images: product.singleImages, thumbnailImages: product.thumbnailImages,),
+          ProductImagesSlider(images: product.images,),
           SizedBox(
             height: 30.h,
           ),
-          TitlePriceRatting(title: product.name, price: product.price.toString(), categories: product.categories.map((e) => e.categoryName).toList(),),
+          TitlePriceRatting(title: product.name, price: product.price.toString(), categories: product.categories.map((e) => e.name).toList(),),
           if(product.getOptions().isNotEmpty)
             Divider(
               height: 30.h,

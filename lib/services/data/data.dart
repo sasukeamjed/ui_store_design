@@ -16,11 +16,12 @@ import 'package:ui_store_design/models/user_model.dart';
 import 'package:ui_store_design/models/vendor_model.dart';
 import 'package:ui_store_design/services/data/states/data_states.dart';
 
-class ProductsProvider extends StateNotifier<List<Product>?> {
+class ProductsProvider extends StateNotifier<List<Product>> {
   final baseUrl = "https://4ustore.net/";
   late Dio _dio;
 
   ProductsProvider() : super([]) {
+
     _dio = Dio(BaseOptions(
       baseUrl: baseUrl,
       receiveTimeout: 15000, // 15 seconds
@@ -126,7 +127,7 @@ class ProductsProvider extends StateNotifier<List<Product>?> {
     categoriesParameter.forEach((outerCategory) {
       allProducts.forEach((product) {
         product.categories.forEach((insideCategory) {
-          if(insideCategory.categoryId == outerCategory.categoryId){
+          if(insideCategory.id == outerCategory.id){
               filteredList.add(product);
           }
         });
@@ -164,6 +165,11 @@ class ProductsProvider extends StateNotifier<List<Product>?> {
 
       print("fetching products has finished");
       // state = DataLoaded(products.map((data) => Product.fromJson(data)).toList());
+      state = products.map((data) => Product.fromJson(data)).toList();
+
+      // state?.forEach((product) {
+      //   print("all products product name => ${product.name} + Date Created => ${product.dateCreated}");
+      // });
 
       return products
           .map((product) => Product.fromJson(product))
@@ -187,7 +193,8 @@ class ProductsProvider extends StateNotifier<List<Product>?> {
       return product2.dateCreated!.compareTo(product1.dateCreated!);
     });
 
-    return allProducts;
+
+    return allProducts.take(5).toList();
   }
 
   List<Product> sortProductsByTotalSales(){

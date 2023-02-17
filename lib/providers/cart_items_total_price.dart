@@ -7,7 +7,7 @@ final cartItemsTotalPriceProvider = Provider<double>((ref){
   double totalPrice = 0.00;
   if(cartState.isNotEmpty){
     cartState.forEach((cartItem) {
-      totalPrice = totalPrice + (cartItem.productIsChosen.price * cartItem.quantity);
+      totalPrice = totalPrice + (double.parse(cartItem.productIsChosen.price) * cartItem.quantity);
     });
     return totalPrice;
   }else{

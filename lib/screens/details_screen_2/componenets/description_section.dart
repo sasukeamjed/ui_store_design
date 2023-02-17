@@ -99,7 +99,7 @@ class DescriptionSection extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: Text(product.categories.map((category) => category.categoryName).toList().join(","),
+                    child: Text(product.categories.map((category) => category.name).toList().join(","),
                       style: TextStyle(
                         fontSize: 17.sp,
                         fontFamily: "Avenir-Book",

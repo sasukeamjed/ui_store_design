@@ -55,7 +55,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
       FlutterNativeSplash.remove();
     }
 
-
+    FlutterNativeSplash.remove();
     print('go!');
   }
 

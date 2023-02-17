@@ -27,7 +27,7 @@ class _CartItemsState extends ConsumerState<CartItems> {
               // mainAxis: Axis.horizontal,
               children: <Widget>[
                 Image.network(
-                  cartItem.productIsChosen.product.thumbnailImages[0],
+                  cartItem.productIsChosen.product.images[0].getThumbnailImage(),
                   width: 80.w,
                   height: 80.h,
                   fit: BoxFit.fill,

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/extensions.dart';
 import 'package:ui_store_design/models/attributes_model.dart';
+import 'package:ui_store_design/models/image_model.dart';
 import 'package:ui_store_design/models/product_model.dart';
 import 'package:ui_store_design/models/product_variation_model.dart';
 import 'package:ui_store_design/providers/chosen_product_state/chosen_product_notifier.dart';
@@ -97,11 +98,12 @@ class _VariationsSectionState extends ConsumerState <VariationsSection> {
                     // print("The Cross Bonding Variation is => ${mapEquals(variation.attributes, choosenOptions)}");
                     return mapEquals(variation.attributes, choosedOptions);
 
+
                   });
 
-                  String imageVariation = variation.singleImage;
+                  String? imageVariation = variation.image["full_image"];
 
-                  int currentImageIndex = widget.product.singleImages.indexOf(imageVariation);
+                  int currentImageIndex = widget.product.images.indexWhere((ImageModel imageModel) => imageModel.src == imageVariation);
 
                   ref.read(imageIndexProvider).animateToPage(currentImageIndex, duration: Duration(milliseconds: 200), curve: Curves.ease);
                   ref.read(productIsChosenNotifier(widget.product).notifier).getTheCrossBondingVariation(choosedOptions);

@@ -2,18 +2,19 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:optimized_cached_image/optimized_cached_image.dart';
+import 'package:ui_store_design/models/product_model.dart';
 import 'package:ui_store_design/models/vendor_model.dart';
-import 'package:ui_store_design/screens/vendor_screen/components/heart_icon.dart';
+import 'package:ui_store_design/screens/shop_screen/components/heart_icon.dart';
 
-class VendorPageProductItem extends StatelessWidget {
-  const VendorPageProductItem({
+class ShopScreenProductItem extends StatelessWidget {
+  const ShopScreenProductItem({
     Key? key,
-    required this.vendor,
-    required this.index,
+    required this.product,
+
   }) : super(key: key);
 
-  final Vendor vendor;
-  final int index;
+  final Product product;
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class VendorPageProductItem extends StatelessWidget {
           children: [
             Container(
               child: OptimizedCacheImage(
-                imageUrl: vendor.vendorProducts[index].thumbnailImages[0],
+                imageUrl: product.images[0].getThumbnailImage(),
                 placeholder: (context, url) => Container(
                   color: Colors.black.withOpacity(0.04),
                   width: 150,
@@ -45,9 +46,9 @@ class VendorPageProductItem extends StatelessWidget {
               // },),
             ),
             //Here the categories which is a list of Category object and map it to get a list of strings names only
-            ...vendor.vendorProducts[index].categories
+            ...product.categories
                 .map((categoryName) => Text(
-              categoryName.categoryName,
+              categoryName.name,
               style: TextStyle(
                   fontFamily: "Avenir-Book",
                   fontSize: 12.sp,
@@ -56,13 +57,13 @@ class VendorPageProductItem extends StatelessWidget {
             ))
                 .toList(),
             AutoSizeText(
-              vendor.vendorProducts[index].name,
+              product.name,
               style: TextStyle(
                   fontFamily: "Avenir", fontSize: 17.sp),
               maxLines: 2,
             ),
             Text(
-              vendor.vendorProducts[index].price.toString(),
+              product.price.toString(),
               style: TextStyle(
                   fontFamily: "Avenir-Book",
                   fontSize: 15.sp,

@@ -36,7 +36,7 @@ class Vendor {
       categoriesOfAllProducts.addAll(product.categories);
     });
 
-    return categoriesOfAllProducts.map((category) => category.categoryName).toSet().toList();
+    return categoriesOfAllProducts.map((category) => category.name).toSet().toList();
 
   }
 

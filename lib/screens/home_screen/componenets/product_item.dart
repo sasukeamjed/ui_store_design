@@ -28,7 +28,7 @@ class _ProductItemState extends State<ProductItem> {
             Stack(
               children: [
                 Image.network(
-                  widget.product.thumbnailImages[0],
+                  widget.product.images[0].getThumbnailImage(),
                   width: 140.w,
                   height: 140.h,
                   fit: BoxFit.fill,

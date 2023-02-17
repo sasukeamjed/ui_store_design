@@ -16,6 +16,10 @@ class NewArrivalsSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final List<Product> products = ref.watch(productsDataProvider.notifier).sortProductsByDate();
+    // print("NEW ARRIVALS PRODUCTS ++++++++++++++");
+    // print("products 1 => ${products[0].name}");
+    // print("products 2 => ${products[1].name}");
+
     return Padding(
       padding: EdgeInsets.only(
         left: 20.w,
@@ -58,7 +62,11 @@ class NewArrivalsSection extends ConsumerWidget {
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         child: ProductItem(product: products[index]),
-                        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context)=> DetailsScreen2(product: products[index],))),
+                        onTap: () {
+                          // print("product clicked name => ${products[index].name}");
+
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=> DetailsScreen2(product: products[index],)));
+                        },
                       );
                     },
                   ),

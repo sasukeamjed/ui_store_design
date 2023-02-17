@@ -44,7 +44,7 @@ class YouMayAlsoLikeSection extends ConsumerWidget {
           scrollDirection: Axis.horizontal,
           child: Row(
             children: List.generate(productByCategory.length,
-                    (index) => buildPossiblyLikedProducts(productByCategory[index].thumbnailImages[0], context, productByCategory[index])),
+                    (index) => buildPossiblyLikedProducts(productByCategory[index].images[0].getThumbnailImage(), context, productByCategory[index])),
           ),
         ),
       ],
