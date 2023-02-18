@@ -14,16 +14,21 @@ class ShopScreen extends ConsumerWidget {
 
   const ShopScreen({Key? key}) : super(key: key);
 
+  static String routeName = "/shop";
+
   @override
   Widget build(BuildContext context, ref) {
     final List<Product> products = ref.watch(productsDataProvider);
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          title: Text("Shop", style: TextStyle(color: Colors.black,),),
+        ),
         body: CustomScrollView(
           slivers: <Widget>[
-            // VendorSliverAppBar(
-            //   vendor: vendor,
-            // ),
+            ShopSliverAppBar(),
             SliverPadding(
               padding: EdgeInsets.only(
                 top: 20.h,

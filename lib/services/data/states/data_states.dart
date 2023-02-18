@@ -1,3 +1,4 @@
+import 'package:ui_store_design/models/category_model.dart';
 import 'package:ui_store_design/models/product_model.dart';
 import 'package:ui_store_design/models/vendor_model.dart';
 
@@ -14,8 +15,11 @@ class DataLoading extends DataState{
 }
 
 class DataLoaded extends DataState{
-  final List<Product> vendors;
-  const DataLoaded(this.vendors);
+  final List<Product> products;
+  final List<CategoryModel> categories;
+
+  DataLoaded(this.products, this.categories);
+
 }
 
 class DataError extends DataState{

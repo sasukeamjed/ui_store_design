@@ -9,6 +9,7 @@ import 'package:ui_store_design/screens/profile_screen/profile_screen.dart';
 import 'package:ui_store_design/screens/profile_screen/sub_screens/my_orders_screen/my_orders_screen.dart';
 import 'package:ui_store_design/screens/profile_screen/sub_screens/my_orders_screen/sub_screens/order_details_screen/order_details_screen.dart';
 import 'package:ui_store_design/screens/profile_screen/sub_screens/shipping_address_screen/shipping_address_screen.dart';
+import 'package:ui_store_design/screens/shop_screen/shop_screen.dart';
 import 'package:ui_store_design/screens/shopping_cart_screen/shopping_cart.dart';
 import 'package:ui_store_design/screens/signup_screen/signup.dart';
 import 'package:ui_store_design/screens/welcome_screen/welcome.dart';
@@ -27,5 +28,7 @@ Map<String, WidgetBuilder> routes = {
   MyOrders.routeName : (context)=>MyOrders(),
   OrderDetails.routeName : (context)=>OrderDetails(),
   ShippingAddressScreen.routeName : (context)=> ShippingAddressScreen(),
+  ShopScreen.routeName : (context)=> ShopScreen(),
+
   // VendorScreen.routeName : (context)=>VendorScreen(),
 };

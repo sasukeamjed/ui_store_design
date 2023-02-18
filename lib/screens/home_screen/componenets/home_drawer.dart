@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ui_store_design/screens/login_screen/login.dart';
 import 'package:ui_store_design/screens/profile_screen/profile_screen.dart';
+import 'package:ui_store_design/screens/shop_screen/shop_screen.dart';
 import 'package:ui_store_design/services/auth/auth.dart';
 import 'package:ui_store_design/services/auth/states/auth_state.dart';
 
@@ -63,7 +64,7 @@ class HomeDrawer extends StatelessWidget {
               title: Text("Shop"),
               leading: Icon(Icons.logout_rounded),
               onTap: (){
-
+                Navigator.of(context).pushNamed(ShopScreen.routeName);
               },
             ),
           ),

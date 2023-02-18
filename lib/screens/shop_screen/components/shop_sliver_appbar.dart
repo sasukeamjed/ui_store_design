@@ -4,10 +4,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/models/vendor_model.dart';
 import 'package:ui_store_design/screens/search_page/search_page.dart';
 
-class VendorSliverAppBar extends StatelessWidget {
-  final Vendor vendor;
+class ShopSliverAppBar extends StatelessWidget {
 
-  const VendorSliverAppBar({Key? key, required this.vendor}) : super(key: key);
+
+  const ShopSliverAppBar({Key? key,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -78,8 +78,8 @@ class VendorSliverAppBar extends StatelessWidget {
               children: [
                 Flexible(
                   flex: 3,
-                  child: Image.network(
-                    vendor.mobileBanner,
+                  child: Image.asset(
+                    'assets/images/place_holders/logo_placeholder.png',
                     fit: BoxFit.fitWidth,
                     width: double.infinity,
                   ),
@@ -100,7 +100,7 @@ class VendorSliverAppBar extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Shop: ${vendor.vendorShopName}",
+                                  "Shop: This is shop name?",
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 14.sp,
@@ -124,8 +124,8 @@ class VendorSliverAppBar extends StatelessWidget {
                         Spacer(),
                         Flexible(
                           flex: 1,
-                          child: Image.network(
-                            vendor.vendorShopLogo,
+                          child: Image.asset(
+                            'assets/images/place_holders/logo_placeholder.png',
                             fit: BoxFit.fill,
                           ),
                         ),
