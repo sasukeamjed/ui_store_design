@@ -10,17 +10,18 @@ import 'package:ui_store_design/errors/no_internet_connection_exception.dart';
 import 'package:ui_store_design/errors/not_found_exception.dart';
 import 'package:ui_store_design/errors/unauthorized_exception.dart';
 import 'package:ui_store_design/models/auth_error_model.dart';
+import 'package:ui_store_design/models/category_model.dart';
 import 'package:ui_store_design/models/product_model.dart';
 import 'package:ui_store_design/models/product_category_model.dart';
 import 'package:ui_store_design/models/user_model.dart';
 import 'package:ui_store_design/models/vendor_model.dart';
 import 'package:ui_store_design/services/data/states/data_states.dart';
 
-class ProductsProvider extends StateNotifier<List<Product>> {
+class ProductsProvider extends StateNotifier<DataState> {
   final baseUrl = "https://4ustore.net/";
   late Dio _dio;
 
-  ProductsProvider() : super([]) {
+  ProductsProvider() : super(DataInitial()) {
 
     _dio = Dio(BaseOptions(
       baseUrl: baseUrl,
@@ -81,11 +82,16 @@ class ProductsProvider extends StateNotifier<List<Product>> {
   }
 
   Future<void> dataInit() async {
+    state = DataLoading();
     print("data init function is called fetching all products ++++++++");
     // List<Vendor> vendors = await _fetchAllVendors();
-    await _fetchAllProducts();
+    List<Product> products = await _fetchAllProducts();
+    List<CategoryModel> categories = await _fetchAllCategories();
+
+    state = DataLoaded(products, categories);
 
     // _filteringProducts(vendors, products);
+
   }
 
   Future<List<Vendor>> _fetchAllVendors() async {
@@ -110,13 +116,17 @@ class ProductsProvider extends StateNotifier<List<Product>> {
 
 
   //This function receives list of categories names and return all the products which has name with that category
-  List<Product> filterProductsByCategory(List<ProductCategory> categoriesParameter) {
+  List<Product> filterProductsByCategory(int categoryId) {
     
     // List<Product> listOfAllProducts = [];
 
     List<Product> filteredList = [];
 
-    List<Product> allProducts = state ?? [];
+    List<Product> allProducts = (state as DataLoaded).products;
+
+    allProducts.where((product){
+      product.categories
+    });
     // state?.forEach((vendor) {
     //   vendorsProducts.addAll(vendor.vendorProducts);
     // });
@@ -143,7 +153,7 @@ class ProductsProvider extends StateNotifier<List<Product>> {
   }
 
   Future<List<Product>> _fetchAllProducts() async {
-    // state = DataInitial();
+
     late Response response;
     try {
       print("awaiting for products fetching");
@@ -154,7 +164,7 @@ class ProductsProvider extends StateNotifier<List<Product>> {
         // "per_page" : 5,
       });
       print("Trying to fetch all products +++++++++++++++++++++++++++++++++++++");
-      List<dynamic> products = response.data;
+      List<dynamic> productsResponse = response.data;
 
       // print(products
       //     .map((product) => Product.fromJson(product))
@@ -164,16 +174,10 @@ class ProductsProvider extends StateNotifier<List<Product>> {
       //     .toList());
 
       print("fetching products has finished");
-      // state = DataLoaded(products.map((data) => Product.fromJson(data)).toList());
-      state = products.map((data) => Product.fromJson(data)).toList();
+      List<Product> products = productsResponse.map((data) => Product.fromJson(data)).toList();
 
-      // state?.forEach((product) {
-      //   print("all products product name => ${product.name} + Date Created => ${product.dateCreated}");
-      // });
 
       return products
-          .map((product) => Product.fromJson(product))
-          .toList()
           .where(
               (product) => product.price != 0.00 && product.status == "publish")
           .toList();
@@ -184,6 +188,42 @@ class ProductsProvider extends StateNotifier<List<Product>> {
     }
     return [];
   }
+
+  Future<List<CategoryModel>> _fetchAllCategories() async {
+
+    late Response response;
+    try {
+      print("awaiting for products fetching");
+      response = await _dio.get("wp-json/wc/v3/products/categories", queryParameters: {
+        "per_page": "100",
+        // "consumer_secret" : "cs_edccfa40d65e6ede5b3ed40126793ef296910c58",
+        // "orderby" : "date",
+        // "per_page" : 5,
+      });
+      print("Trying to fetch all categories +++++++++++++++++++++++++++++++++++++");
+      List<dynamic> categoriesResponse = response.data;
+
+      // print(products
+      //     .map((product) => Product.fromJson(product))
+      //     .toList()
+      //     .where(
+      //         (product) => product.price != 0.00 && product.status == "publish")
+      //     .toList());
+
+      print("fetching products has finished");
+      // state = DataLoaded(products.map((data) => Product.fromJson(data)).toList());
+      List<CategoryModel> categories = categoriesResponse.map((data) => CategoryModel.fromJson(data)).toList();
+
+
+      return categories;
+
+    } catch (e) {
+      print(e);
+      state = DataError(e.toString());
+    }
+    return [];
+  }
+
 
   List<Product> sortProductsByDate(){
     List<Product> allProducts = state ?? [];
@@ -211,18 +251,4 @@ class ProductsProvider extends StateNotifier<List<Product>> {
 
 
 
-// final searchDataResultProvider = StateProvider.family<List<Product>, String>((ref, String searchQuery){
-//   final String searchQueryToLoweCase = searchQuery.toLowerCase();
-//   final List<Vendor>? listOfVendors = ref.watch(dataProvider);
-//
-//   List<Product> allProducts = [];
-//
-//   listOfVendors?.forEach((vendor) {
-//     allProducts.addAll(vendor.vendorProducts);
-//   });
-//
-//   return allProducts.where((product){
-//     return product.title.contains(searchQuery);
-//   }).toList();
-//
-// });
+
