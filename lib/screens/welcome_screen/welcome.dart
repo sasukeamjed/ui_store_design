@@ -8,6 +8,7 @@ import 'package:ui_store_design/screens/welcome_screen/components/body.dart';
 import 'package:ui_store_design/secure_storage/secure_and_store_user_data.dart';
 import 'package:ui_store_design/services/auth/auth.dart';
 import 'package:ui_store_design/services/data/data.dart';
+import 'package:ui_store_design/services/data/states/data_states.dart';
 import 'package:ui_store_design/size_config.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 
@@ -51,7 +52,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
       }
     }
 
-    if(ref.watch(productsDataProvider) != null && ref.watch(productsDataProvider)!.isNotEmpty){
+    if(ref.watch(productsDataProvider) is DataLoaded){
       FlutterNativeSplash.remove();
     }
 

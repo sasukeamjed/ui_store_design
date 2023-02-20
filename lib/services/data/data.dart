@@ -114,43 +114,59 @@ class ProductsProvider extends StateNotifier<DataState> {
     return [];
   }
 
+  List<Product> getProductsByCategoryId(int categoryId) {
+    List<Product> allProducts = (state as DataLoaded).products;
+    return allProducts.where((product) =>
+        product.categories.any((category) => category.id == categoryId)).toList();
+  }
+
+  List<Product> getRelatedProductsByCategory(Product product) {
+
+    List<Product> filtteredProducts = [];
+    product.categories.forEach((category) {
+      List<Product> products = getProductsByCategoryId(category.id);
+      filtteredProducts.addAll(products);
+    });
+    return filtteredProducts.where((currentProduct) => currentProduct.id != product.id).toList();
+  }
+
 
   //This function receives list of categories names and return all the products which has name with that category
-  List<Product> filterProductsByCategory(int categoryId) {
-    
-    // List<Product> listOfAllProducts = [];
-
-    List<Product> filteredList = [];
-
-    List<Product> allProducts = (state as DataLoaded).products;
-
-    allProducts.where((product){
-      product.categories
-    });
-    // state?.forEach((vendor) {
-    //   vendorsProducts.addAll(vendor.vendorProducts);
-    // });
-
-    //We shuffle the list because we don't want them in a specific range
-    // vendorsProducts.shuffle();
-
-    categoriesParameter.forEach((outerCategory) {
-      allProducts.forEach((product) {
-        product.categories.forEach((insideCategory) {
-          if(insideCategory.id == outerCategory.id){
-              filteredList.add(product);
-          }
-        });
-      });
-    });
-
-
-    //And to remove any product Duplicates we will use set() method which make a list of unique elements
-
-
-    //ToDo: next we want to shuffle the list by using the shuffle method because we don't want it to be organized
-    return filteredList.toSet().toList();
-  }
+  // List<Product> filterProductsByCategory(int categoryId) {
+  //
+  //   // List<Product> listOfAllProducts = [];
+  //
+  //   List<Product> filteredList = [];
+  //
+  //   List<Product> allProducts = (state as DataLoaded).products;
+  //
+  //   allProducts.where((product){
+  //     product.categories
+  //   });
+  //   // state?.forEach((vendor) {
+  //   //   vendorsProducts.addAll(vendor.vendorProducts);
+  //   // });
+  //
+  //   //We shuffle the list because we don't want them in a specific range
+  //   // vendorsProducts.shuffle();
+  //
+  //   categoriesParameter.forEach((outerCategory) {
+  //     allProducts.forEach((product) {
+  //       product.categories.forEach((insideCategory) {
+  //         if(insideCategory.id == outerCategory.id){
+  //             filteredList.add(product);
+  //         }
+  //       });
+  //     });
+  //   });
+  //
+  //
+  //   //And to remove any product Duplicates we will use set() method which make a list of unique elements
+  //
+  //
+  //   //ToDo: next we want to shuffle the list by using the shuffle method because we don't want it to be organized
+  //   return filteredList.toSet().toList();
+  // }
 
   Future<List<Product>> _fetchAllProducts() async {
 
@@ -226,7 +242,7 @@ class ProductsProvider extends StateNotifier<DataState> {
 
 
   List<Product> sortProductsByDate(){
-    List<Product> allProducts = state ?? [];
+    List<Product> allProducts = (state as DataLoaded).products;
 
 
     allProducts.sort((product1, product2){
@@ -238,7 +254,7 @@ class ProductsProvider extends StateNotifier<DataState> {
   }
 
   List<Product> sortProductsByTotalSales(){
-    List<Product> allProducts = state ?? [];
+    List<Product> allProducts = (state as DataLoaded).products;
 
 
     allProducts.sort((product1, product2){

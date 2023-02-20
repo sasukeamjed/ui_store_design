@@ -12,13 +12,13 @@ import 'package:ui_store_design/screens/details_screen_2/componenets/description
 import 'package:ui_store_design/screens/details_screen_2/componenets/title_price_ratting.dart';
 import 'package:ui_store_design/screens/details_screen_2/componenets/you_may_also_like_section.dart';
 import 'package:ui_store_design/providers/chosen_product_state/chosen_product_notifier.dart';
+import 'package:ui_store_design/services/data/states/data_states.dart';
 
 //what do we want next ?
 //we want a provider that checks:
 //1- how many variables in the product
 //2- check if all the variables are filled
 //3- if it is filled we return a product otherwise returns null
-
 
 //Details2_Body
 
@@ -29,7 +29,6 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     // print("This is the products which are arranged according to category and it length => ${productByCategory.length}");
     // print("This is the product attributes => ${product.attributesModel}");
     // print("This is the runtime type of options => ${product.attributesModel[0].options.runtimeType}");
@@ -40,29 +39,42 @@ class Body extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ProductImagesSlider(images: product.images,),
+          ProductImagesSlider(
+            images: product.images,
+          ),
           SizedBox(
             height: 30.h,
           ),
-          TitlePriceRatting(title: product.name, price: product.price.toString(), categories: product.categories.map((e) => e.name).toList(),),
-          if(product.getOptions().isNotEmpty)
+          TitlePriceRatting(
+            title: product.name,
+            price: product.price.toString(),
+            categories: product.categories.map((e) => e.name).toList(),
+          ),
+          if (product.getOptions().isNotEmpty)
             Divider(
               height: 30.h,
               color: Colors.black12,
             ),
-          if(product.getOptions().isNotEmpty)
+          if (product.getOptions().isNotEmpty)
             VariationsSection(product: product),
           Divider(
             height: 40.h,
             color: Colors.black12,
           ),
-          YouMayAlsoLikeSection(product: product,),
+          Consumer(
+            builder: (BuildContext context, WidgetRef ref, Widget? child) {
+              final List<Product> relatedProducts = ref.watch(productsDataProvider.notifier).getRelatedProductsByCategory(product);
+              return relatedProducts.isNotEmpty ? YouMayAlsoLikeSection(product: product,) : SizedBox();
+            },
+          ),
           Divider(
             height: 40.h,
             color: Colors.black12,
           ),
-          if(product.description.isNotEmpty)
-            DescriptionSection(product: product,),
+          if (product.description.isNotEmpty)
+            DescriptionSection(
+              product: product,
+            ),
           SizedBox(
             height: 25.h,
           ),
@@ -71,6 +83,3 @@ class Body extends StatelessWidget {
     );
   }
 }
-
-
-

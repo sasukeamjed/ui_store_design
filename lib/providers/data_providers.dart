@@ -3,8 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ui_store_design/models/product_model.dart';
 import 'package:ui_store_design/models/vendor_model.dart';
 import 'package:ui_store_design/services/data/data.dart';
+import 'package:ui_store_design/services/data/states/data_states.dart';
 
-final productsDataProvider = StateNotifierProvider<ProductsProvider, List<Product>>((ref) => ProductsProvider());
+final productsDataProvider = StateNotifierProvider<ProductsProvider, DataState>((ref) => ProductsProvider());
 final productsByVendorNotifier = FutureProvider.family<List<Product>, String>((ref, vendorId) async{
   late Response response;
   try {

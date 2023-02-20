@@ -4,6 +4,7 @@ import 'package:ui_store_design/models/product_model.dart';
 import 'package:ui_store_design/models/vendor_model.dart';
 import 'package:ui_store_design/providers/data_providers.dart';
 import 'package:ui_store_design/secure_storage/secure_and_store_user_data.dart';
+import 'package:ui_store_design/services/data/states/data_states.dart';
 
 class SearchHistoryNotifier extends StateNotifier<List<String>>{
   SearchHistoryNotifier() : super([]);
@@ -37,7 +38,9 @@ final searchHistoryProvider = StateNotifierProvider<SearchHistoryNotifier, List<
 final searchProductsProvider = StateProvider.autoDispose.family<List<Product>, String>((ref, query){
   final String searchQuery = query.toLowerCase();
 
-  final List<Product>? listOfProducts = ref.watch(productsDataProvider);
+  final DataState listOfProducts = ref.watch(productsDataProvider);
+
+  List<Product> allProducts = (listOfProducts as DataLoaded).products;
 
 
 
@@ -46,7 +49,7 @@ final searchProductsProvider = StateProvider.autoDispose.family<List<Product>, S
     return [];
   }
 
-  return listOfProducts?.where((product){
+  return allProducts?.where((product){
     return product.name.toLowerCase().contains(searchQuery) || product.description.toLowerCase().contains(searchQuery) || product.shortDescription.toLowerCase().contains(searchQuery);
   }).toList() ?? [];
 });
