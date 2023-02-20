@@ -61,6 +61,7 @@ class Body extends StatelessWidget {
             height: 40.h,
             color: Colors.black12,
           ),
+          //You May Also Like Section
           Consumer(
             builder: (BuildContext context, WidgetRef ref, Widget? child) {
               final List<Product> relatedProducts = ref.watch(productsDataProvider.notifier).getRelatedProductsByCategory(product);

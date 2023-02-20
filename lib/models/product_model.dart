@@ -154,15 +154,6 @@ class Product extends Equatable{
 
 
   Map<String, List<String>> getOptions(){
-    /*
-    Note: we need to get the data from the variations only because the attributes gives a false data
-    Map example
-    {
-      "option_name": "List of string of all the options"
-    }
-    *
-    *
-    * */
 
     Map<String, List<String>> newVariation = {};
 
@@ -174,22 +165,10 @@ class Product extends Equatable{
 
         newVariation[attribute.name.toLowerCase()] = attribute.options;
 
-        // List<String> variationsList = [];
-        // this.productVariations.forEach((variation){
-        //
-        //   if(variation.attributes.containsKey("attribute_" + attribute.slug)){
-        //
-        //     variationsList.add(variation.attributes["attribute_" + attribute.slug]);
-        //   }
-        //
-        // });
-
-        // newVariation["attribute_" + attribute.slug ?? ""] = variationsList.toSet().toList();
-
       }
     });
 
-    print("get options variations: $newVariation");
+    // print("get options variations: $newVariation");
     return newVariation;
 
   }
