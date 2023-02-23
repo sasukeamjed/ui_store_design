@@ -40,7 +40,7 @@ class ChosenProductNotifier extends StateNotifier<ProductState>{
     if(variation == null){
       state = MissingVariationState();
     }else{
-      state = ProductIsChosen(product: _product.productIsChosen(variation), price: variation.variationPrice, thumbnailImage: _product.productIsChosen(variation).productVariations[0].image["thumbnail_image"] ?? "");
+      state = ProductIsChosen(product: _product.productIsChosen(variation), price: variation.variationPrice, thumbnailImage: _product.productIsChosen(variation).productVariations[0].image.getThumbnailImage() ?? "");
     }
     // print("The product state is => $state");
   }

@@ -1,6 +1,7 @@
 //plan to pick product variation
 //first try to make and attribute object for each variation
 import 'package:json_annotation/json_annotation.dart';
+import 'package:ui_store_design/models/image_model.dart';
 
 part 'product_variation_model.g.dart';
 
@@ -11,7 +12,7 @@ class ProductVariationModel{
   @JsonKey(name: 'variation_price')
   final String variationPrice;
   // final String displayRegularPrice;
-  final Map<String, String> image;
+  final ImageModel image;
   @JsonKey(name: 'variation_sku')
   final String variationSku;
   @JsonKey(name: 'variation_id')

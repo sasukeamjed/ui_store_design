@@ -101,7 +101,7 @@ class _VariationsSectionState extends ConsumerState <VariationsSection> {
 
                   });
 
-                  String? imageVariation = variation.image["full_image"];
+                  String? imageVariation = variation.image.getMediumImage();
 
                   int currentImageIndex = widget.product.images.indexWhere((ImageModel imageModel) => imageModel.src == imageVariation);
 

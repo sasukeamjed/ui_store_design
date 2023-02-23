@@ -13,7 +13,7 @@ ProductVariationModel _$ProductVariationModelFromJson(
       attributes: json['attributes'] as Map<String, dynamic>,
       dimensions: json['dimensions'] as String,
       variationPrice: json['variation_price'] as String,
-      image: Map<String, String>.from(json['image'] as Map),
+      image: ImageModel.fromJson(json['image'] as Map<String, dynamic>),
       variationSku: json['variation_sku'] as String,
       variationId: json['variation_id'] as int,
     );
