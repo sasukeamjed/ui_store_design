@@ -140,7 +140,8 @@ class Product extends Equatable{
 
       categories: this.categories,
       attributes: this.attributes,
-      productVariations: [productVariation] ?? [], type: this.type,
+      productVariations: [productVariation] ?? [],
+      type: this.type,
     );
   }
 

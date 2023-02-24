@@ -10,6 +10,7 @@ ProductVariationModel _$ProductVariationModelFromJson(
         Map<String, dynamic> json) =>
     ProductVariationModel(
       isInStock: json['is_in_stock'] as bool,
+      id: json['id'] as int,
       attributes: json['attributes'] as Map<String, dynamic>,
       dimensions: json['dimensions'] as String,
       variationPrice: json['variation_price'] as String,
@@ -21,6 +22,7 @@ ProductVariationModel _$ProductVariationModelFromJson(
 Map<String, dynamic> _$ProductVariationModelToJson(
         ProductVariationModel instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'attributes': instance.attributes,
       'dimensions': instance.dimensions,
       'variation_price': instance.variationPrice,

@@ -29,11 +29,7 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // print("This is the products which are arranged according to category and it length => ${productByCategory.length}");
-    // print("This is the product attributes => ${product.attributesModel}");
-    // print("This is the runtime type of options => ${product.attributesModel[0].options.runtimeType}");
-    // print("This is the new variations => ${product.getOptions()}");
-    // print(productByCategory);
+
 
     return SingleChildScrollView(
       child: Column(

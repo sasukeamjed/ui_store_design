@@ -7,6 +7,7 @@ part 'product_variation_model.g.dart';
 
 @JsonSerializable()
 class ProductVariationModel{
+  final int id;
   final Map<String, dynamic> attributes;
   final String dimensions;
   @JsonKey(name: 'variation_price')
@@ -22,7 +23,7 @@ class ProductVariationModel{
   //ToDo: filter the products which has 0 priced
   ProductVariationModel({
     required this.isInStock,
-
+    required this.id,
     required this.attributes,
     required this.dimensions,
     required this.variationPrice,
@@ -32,22 +33,6 @@ class ProductVariationModel{
     required this.variationSku,
     required this.variationId,
   });
-  
-  // factory ProductVariationModel.fromJson(Map<String, dynamic> data){
-  //   return ProductVariationModel(
-  //       attributes: data["attributes"],
-  //       dimension: data["dimensions"],
-  //       // displayPrice: data["display_price"].toString(),
-  //       // displayRegularPrice: data["display_regular_price"].toString(),
-  //       mediumImage: data["image"]["src"],
-  //       thumbnailImage: data["image"]["thumb_src"],
-  //       srcImage: data["image"]["large_image"],
-  //       variationSku: data['sku'],
-  //       variationId: data['variation_id'],
-  //       isInStock: data['is_in_stock'],
-  //       variationPrice: data['display_price'],
-  //   );
-  // }
 
   factory ProductVariationModel.fromJson(Map<String, dynamic> json)=> _$ProductVariationModelFromJson(json);
   Map<String, dynamic> toJson() => _$ProductVariationModelToJson(this);
