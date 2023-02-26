@@ -55,7 +55,7 @@ class Body extends StatelessWidget {
               height: 30.h,
               color: Colors.black12,
             ),
-          if (product.getOptions().isNotEmpty)
+          if (product.productVariations.isNotEmpty)
             VariationsSection(product: product),
           Divider(
             height: 40.h,
