@@ -10,6 +10,7 @@ class CategoryModel{
   final String slug;
   final int parent;
   final String description;
+  @JsonKey(defaultValue: ImageModel(id: 6, src: '', name: '', ))
   final ImageModel image;
   final int count;
 

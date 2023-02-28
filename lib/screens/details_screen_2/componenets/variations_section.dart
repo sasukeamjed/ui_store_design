@@ -87,26 +87,19 @@ class _VariationsSectionState extends ConsumerState <VariationsSection> {
                   var newIndex = dropdownValues[index].indexOf(newValue!);
                   newIndexes[index] = newIndex;
                   choosedOptions[attributes[index]] = newValue;
-                  print("this is the choosed variation => $choosedOptions");
+
                 });
-                List<ProductVariationModel> variations = widget.product.productVariations;
-                ProductVariationModel variation;
+
 
                 try{
-                  variation = variations.firstWhere((variation){
+                  ProductVariationModel? variation = ref.read(productIsChosenNotifier(widget.product).notifier).getTheCrossBondingVariation(choosedOptions);
 
-                    // print("The Cross Bonding Variation is => ${mapEquals(variation.attributes, choosenOptions)}");
-                    return mapEquals(variation.attributes, choosedOptions);
+                  ImageModel? imageVariation = variation?.image;
 
-
-                  });
-
-                  String? imageVariation = variation.image.getMediumImage();
-
-                  int currentImageIndex = widget.product.images.indexWhere((ImageModel imageModel) => imageModel.src == imageVariation);
+                  int currentImageIndex = widget.product.images.indexWhere((ImageModel imageModel) => imageModel.id == imageVariation?.id);
 
                   ref.read(imageIndexProvider).animateToPage(currentImageIndex, duration: Duration(milliseconds: 200), curve: Curves.ease);
-                  ref.read(productIsChosenNotifier(widget.product).notifier).getTheCrossBondingVariation(choosedOptions);
+
 
                 }catch(e){
                   print("variations_section.dart => no variation");
@@ -127,7 +120,7 @@ class _VariationsSectionState extends ConsumerState <VariationsSection> {
 
   @override
   Widget build(BuildContext context) {
-    print("this is in product variations => ${widget.product.getOptions()}");
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

@@ -18,7 +18,6 @@ class CartItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("cart_item_widget this is the product options => ${cartItem.productIsChosen.product.getOptions()}");
     return SizedBox(
       height: 130.h,
       child: Row(
@@ -139,7 +138,8 @@ class CartItemWidget extends StatelessWidget {
   Row _generateProductOptions(){
 
     return Row(
-      children: cartItem.productIsChosen.product.getOptions().entries.map((entry){
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: cartItem.productIsChosen.product.productVariations[0].attributes.entries.map((entry){
         return RichText(
           text: TextSpan(
             children: [

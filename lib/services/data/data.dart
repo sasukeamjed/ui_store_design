@@ -83,12 +83,13 @@ class ProductsProvider extends StateNotifier<DataState> {
 
   Future<void> dataInit() async {
     state = DataLoading();
-    print("data init function is called fetching all products ++++++++");
+    print("dataInit function is called fetching all DATAs ++++++++");
     // List<Vendor> vendors = await _fetchAllVendors();
     List<Product> products = await _fetchAllProducts();
     List<CategoryModel> categories = await _fetchAllCategories();
 
     state = DataLoaded(products, categories);
+    print("dataInit categories list => $categories");
 
     // _filteringProducts(vendors, products);
 
@@ -189,9 +190,9 @@ class ProductsProvider extends StateNotifier<DataState> {
       //         (product) => product.price != 0.00 && product.status == "publish")
       //     .toList());
 
-      print("fetching products has finished");
-      List<Product> products = productsResponse.map((data) => Product.fromJson(data)).toList();
 
+      List<Product> products = productsResponse.map((data) => Product.fromJson(data)).toList();
+      print("fetching products has finished");
 
       return products
           .where(
@@ -209,7 +210,7 @@ class ProductsProvider extends StateNotifier<DataState> {
 
     late Response response;
     try {
-      print("awaiting for products fetching");
+      print("awaiting for products categories fetching");
       response = await _dio.get("wp-json/wc/v3/products/categories", queryParameters: {
         "per_page": "100",
         // "consumer_secret" : "cs_edccfa40d65e6ede5b3ed40126793ef296910c58",
@@ -226,10 +227,10 @@ class ProductsProvider extends StateNotifier<DataState> {
       //         (product) => product.price != 0.00 && product.status == "publish")
       //     .toList());
 
-      print("fetching products has finished");
+
       // state = DataLoaded(products.map((data) => Product.fromJson(data)).toList());
       List<CategoryModel> categories = categoriesResponse.map((data) => CategoryModel.fromJson(data)).toList();
-
+      print("fetching Categories has finished ++++11111111111111111111111111111111111111111");
 
       return categories;
 

@@ -15,33 +15,53 @@ class ChosenProductNotifier extends StateNotifier<ProductState>{
     }
   }
 
-  //this method will get the crossbonding variation from the option which was
-  //choosed by the user dropdowns buttons
-  getTheCrossBondingVariation(Map<String, dynamic> choosenOptions){
+  //this method will get the crossbonding variation from the options which were
+  //chosed by the user dropdown buttons
+  ProductVariationModel? getTheCrossBondingVariation(Map<String, dynamic> choosenOptions){
 
     if(_product.productVariations.isEmpty){
       // print("getTheCrossBondingVariation function, 1st condition => true");
-      state = ProductIsChosen(product: this._product, price: this._product.price ?? "0.0", thumbnailImage: this._product.images[0].src);
-      return;
+      state = ProductIsChosen(product: this._product, price: this._product.price ?? "0.0", thumbnailImage: this._product.images[0].getThumbnailImage());
+      return null;
     }
     List<ProductVariationModel> variations = this._product.productVariations;
+
     ProductVariationModel? variation;
     try{
       variation = variations.firstWhere((variation){
 
-        // print("The Cross Bonding Variation is => ${mapEquals(variation.attributes, choosenOptions)}");
-        return mapEquals(variation.attributes, choosenOptions);
+        Map<String, dynamic> orginalProductAttributesMap = variation.attributes.map((key, value) {
+          if (key.contains("pa_")) {
+            return MapEntry(key.replaceAll("pa_", "").toLowerCase(), value.toLowerCase());
+          } else if (key.contains("attribute_pa_")) {
+            return MapEntry(key.replaceAll("attribute_pa_", "").toLowerCase(), value.toLowerCase());
+          }else if(key.contains("attribute_")){
+            return MapEntry(key.replaceAll("attribute_", "").toLowerCase(), value.toLowerCase());
+          }
+          else {
+            return MapEntry(key.toLowerCase(), value.toLowerCase());
+          }
+        });
+
+        Map<String, dynamic> choosenOptionsMapToSmallLetters = choosenOptions.map((key, value) {
+
+          return MapEntry(key.toLowerCase(), value.toLowerCase());
+
+        });
+
+        return mapEquals(orginalProductAttributesMap, choosenOptionsMapToSmallLetters);
 
       });
+
+      if(variation == null){
+        state = MissingVariationState();
+      }else{
+        state = ProductIsChosen(product: _product.productIsChosen(variation), price: variation.variationPrice, thumbnailImage: variation.image.getThumbnailImage() ?? "");
+      }      return variation;
     }catch(e){
       state = MissingVariationState();
     }
 
-    if(variation == null){
-      state = MissingVariationState();
-    }else{
-      state = ProductIsChosen(product: _product.productIsChosen(variation), price: variation.variationPrice, thumbnailImage: _product.productIsChosen(variation).productVariations[0].image.getThumbnailImage() ?? "");
-    }
     // print("The product state is => $state");
   }
 }
