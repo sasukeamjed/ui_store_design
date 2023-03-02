@@ -4,14 +4,14 @@ part 'image_model.g.dart';
 
 @JsonSerializable()
 class ImageModel{
-  @JsonKey(defaultValue: 6)
+
   final int id;
-  @JsonKey(defaultValue: "https://4ustore.net/wp-content/uploads/woocommerce-placeholder.png")
+
   final String src;
-  @JsonKey(defaultValue: "woocommerce-placeholder.png")
+
   final String name;
 
-  ImageModel({required this.id, required this.src, required this.name});
+  const ImageModel({this.id = 6, this.src = "https://4ustore.net/wp-content/uploads/woocommerce-placeholder.png", this.name = "woocommerce-placeholder.png"});
 
   factory ImageModel.fromJson(Map<String, dynamic> json)=> _$ImageModelFromJson(json);
   Map<String, dynamic> toJson() => _$ImageModelToJson(this);

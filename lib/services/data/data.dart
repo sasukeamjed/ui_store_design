@@ -89,7 +89,7 @@ class ProductsProvider extends StateNotifier<DataState> {
     List<CategoryModel> categories = await _fetchAllCategories();
 
     state = DataLoaded(products, categories);
-    print("dataInit categories list => $categories");
+
 
     // _filteringProducts(vendors, products);
 
@@ -230,7 +230,7 @@ class ProductsProvider extends StateNotifier<DataState> {
 
       // state = DataLoaded(products.map((data) => Product.fromJson(data)).toList());
       List<CategoryModel> categories = categoriesResponse.map((data) => CategoryModel.fromJson(data)).toList();
-      print("fetching Categories has finished ++++11111111111111111111111111111111111111111");
+      print("fetching Categories has finished ++++");
 
       return categories;
 

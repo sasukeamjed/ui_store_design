@@ -13,7 +13,9 @@ CategoryModel _$CategoryModelFromJson(Map<String, dynamic> json) =>
       slug: json['slug'] as String,
       parent: json['parent'] as int,
       description: json['description'] as String,
-      image: ImageModel.fromJson(json['image'] as Map<String, dynamic>),
+      image: json['image'] == null
+          ? const ImageModel()
+          : ImageModel.fromJson(json['image'] as Map<String, dynamic>),
       count: json['count'] as int,
     );
 

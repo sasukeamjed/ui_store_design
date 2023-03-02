@@ -10,7 +10,6 @@ class CategoryModel{
   final String slug;
   final int parent;
   final String description;
-  @JsonKey(defaultValue: ImageModel(id: 6, src: '', name: '', ))
   final ImageModel image;
   final int count;
 
@@ -20,7 +19,7 @@ class CategoryModel{
       required this.slug,
       required this.parent,
       required this.description,
-      required this.image,
+      this.image = const ImageModel(),
       required this.count});
 
   factory CategoryModel.fromJson(Map<String, dynamic> json)=> _$CategoryModelFromJson(json);
