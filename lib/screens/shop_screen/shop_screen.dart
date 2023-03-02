@@ -23,11 +23,11 @@ class ShopScreen extends ConsumerWidget {
     final List<Product> productsState = (ref.watch(productsDataProvider) as DataLoaded).products;
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          title: Text("Shop", style: TextStyle(color: Colors.black,),),
-        ),
+        // appBar: AppBar(
+        //   backgroundColor: Colors.white,
+        //   centerTitle: true,
+        //   title: Text("Shop", style: TextStyle(color: Colors.black,),),
+        // ),
         body: CustomScrollView(
           slivers: <Widget>[
             ShopSliverAppBar(),
