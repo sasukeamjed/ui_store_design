@@ -10,9 +10,9 @@ import 'package:ui_store_design/services/data/states/data_states.dart';
 import '../../../providers/data_providers.dart';
 
 class ShopSliverAppBar extends StatelessWidget {
-
-
-  const ShopSliverAppBar({Key? key,}) : super(key: key);
+  const ShopSliverAppBar({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +21,8 @@ class ShopSliverAppBar extends StatelessWidget {
       forceElevated: true,
       snap: false,
       pinned: true,
-      floating: false,
-      expandedHeight: 250.h,
+      floating: true,
+      expandedHeight: 200.h,
       backgroundColor: Colors.white,
       leading: IconButton(
         icon: Icon(
@@ -46,143 +46,164 @@ class ShopSliverAppBar extends StatelessWidget {
         SizedBox(
           width: 10.w,
         ),
-        IconButton(
-          icon: Icon(
-            Icons.search,
-            size: 24.w,
-          ),
-          tooltip: 'Search Icon',
-          onPressed: () {
-            showSearch(
-              context: context,
-              delegate: MySearchDelegate(),
-            );
-          },
-        ),
         SizedBox(
           width: 10.w,
         ),
       ],
-      flexibleSpace: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          return FlexibleSpaceBar(
-            titlePadding: EdgeInsets.all(0),
-            centerTitle: true,
-            //(kToolbarHeight + MediaQuery.of(context).padding.top) is the appbar height + the status bar
-            //(constraints.biggest.height) it gives you the height of it is child
-            title: kToolbarHeight + MediaQuery.of(context).padding.top ==
-                    constraints.biggest.height
-                ? Image.asset(
-                    "assets/images/splash_screen/logo-small.png",
-                    height: 80.w,
-                    width: 80.w,
-                  )
-                : Container(),
-            //Text
-            background: Column(
-              children: [
-                Flexible(
-                  flex: 3,
-                  child: Image.asset(
-                    'assets/images/place_holders/logo_placeholder.png',
-                    fit: BoxFit.fitWidth,
-                    width: double.infinity,
-                  ),
-                ),
-                Flexible(
-                  flex: 3,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 10.0.w,
-                      vertical: 15.h,
-                    ),
-                    child: Row(
-                      children: [
-                        Flexible(
-                          flex: 3,
-                          child: FittedBox(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Shop: This is shop name?",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14.sp,
-                                  ),
-                                  textAlign: TextAlign.left,
-                                ),
-                                SizedBox(
-                                  height: 10.h,
-                                ),
-                                Text(
-                                  "Contact Email: info@4ustore.net",
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 14.sp,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Spacer(),
-                        Flexible(
-                          flex: 1,
-                          child: Image.asset(
-                            'assets/images/place_holders/logo_placeholder.png',
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Flexible(
-                  flex: 1,
-                  child: Consumer(
-                    builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                      List<CategoryModel> categories = (ref.watch(productsDataProvider) as DataLoaded).categories;
-                      return ListView(
-                          scrollDirection: Axis.horizontal,
-                          // shrinkWrap: true,
-                          children: categories.mapIndexed((index,category){
-                            return GestureDetector(
-                              onTap: (){
-
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(
-                                  left: 10.w,
-                                  right: 5.w,
-                                ),
-                                padding: EdgeInsets.symmetric(horizontal: 15.w),
-                                decoration: BoxDecoration(
-                                  color: Colors.black,
-                                  borderRadius: BorderRadius.circular(15.w),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    category.name,
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontFamily: "Avenir-Book",
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            );
-                          }).toList()
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(height: 10,),
-              ],
+      flexibleSpace: FlexibleSpaceBar(
+        titlePadding: EdgeInsets.all(0),
+        centerTitle: true,
+        // title: Container(
+        //   color: Colors.red,
+        //   child: TextField(
+        //     decoration: InputDecoration(
+        //       hintText: "Search",
+        //     ),
+        //   ),
+        // ),
+        background: Column(
+          children: [
+            Flexible(
+              flex: 2,
+              child: TextField(),
             ),
-          );
-        },
+            Flexible(
+              flex: 1,
+              child: _flexibleAppBarCategories(),
+            ),
+            SizedBox(
+              height: 10,
+            ),
+          ],
+        ),
       ),
+      bottom: PreferredSize(
+        preferredSize: Size.fromHeight(50),
+        child: Container(
+          height: 40,
+          color: Colors.green,
+        ),
+      ),
+      // flexibleSpace: LayoutBuilder(
+      //   builder: (BuildContext context, BoxConstraints constraints) {
+      //     return FlexibleSpaceBar(
+      //       titlePadding: EdgeInsets.all(0),
+      //       centerTitle: true,
+      //       //(kToolbarHeight + MediaQuery.of(context).padding.top) is the appbar height + the status bar
+      //       //(constraints.biggest.height) it gives you the height of it is child
+      //       // title: kToolbarHeight + MediaQuery.of(context).padding.top ==
+      //       //         constraints.biggest.height
+      //       //     ? Image.asset(
+      //       //         "assets/images/splash_screen/logo-small.png",
+      //       //         height: 80.w,
+      //       //         width: 80.w,
+      //       //       )
+      //       //     : Container(),
+      //       title: Container(
+      //         color: Colors.red,
+      //         child: Text("fish"),
+      //       ),
+      //       background: Column(
+      //         children: [
+      //           // Flexible(
+      //           //   flex: 3,
+      //           //   child: Image.asset(
+      //           //     'assets/images/place_holders/logo_placeholder.png',
+      //           //     fit: BoxFit.fitWidth,
+      //           //     width: double.infinity,
+      //           //   ),
+      //           // ),
+      //           Flexible(
+      //             flex: 1,
+      //             child: Consumer(
+      //               builder:
+      //                   (BuildContext context, WidgetRef ref, Widget? child) {
+      //                 List<CategoryModel> categories =
+      //                     (ref.watch(productsDataProvider) as DataLoaded)
+      //                         .categories;
+      //                 return ListView(
+      //                     scrollDirection: Axis.horizontal,
+      //                     // shrinkWrap: true,
+      //                     children: categories.mapIndexed((index, category) {
+      //                       return GestureDetector(
+      //                         onTap: () {},
+      //                         child: Container(
+      //                           margin: EdgeInsets.only(
+      //                             left: 10.w,
+      //                             right: 5.w,
+      //                           ),
+      //                           padding: EdgeInsets.symmetric(horizontal: 15.w),
+      //                           decoration: BoxDecoration(
+      //                             color: Colors.black,
+      //                             borderRadius: BorderRadius.circular(15.w),
+      //                           ),
+      //                           child: Center(
+      //                             child: Text(
+      //                               category.name,
+      //                               style: TextStyle(
+      //                                 color: Colors.white,
+      //                                 fontFamily: "Avenir-Book",
+      //                               ),
+      //                             ),
+      //                           ),
+      //                         ),
+      //                       );
+      //                     }).toList());
+      //               },
+      //             ),
+      //           ),
+      //           SizedBox(
+      //             height: 10,
+      //           ),
+      //         ],
+      //       ),
+      //     );
+      //   },
+      // ),
+    );
+  }
+
+  Widget _flexibleAppBarCategories() {
+    return Consumer(
+      builder: (BuildContext context, WidgetRef ref, Widget? child) {
+        List<CategoryModel> categories =
+            (ref.watch(productsDataProvider) as DataLoaded).categories;
+        return ListView(
+            scrollDirection: Axis.horizontal,
+            // shrinkWrap: true,
+            children: categories.mapIndexed((index, category) {
+              return GestureDetector(
+                onTap: () {},
+                child: Container(
+                  height: 20,
+                  width: 200,
+                  margin: EdgeInsets.only(
+                    left: 10.w,
+                    right: 5.w,
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 15.w),
+                  decoration: BoxDecoration(
+                    color: Colors.blue,
+                    borderRadius: BorderRadius.circular(15.w),
+                  ),
+                  child: Row(
+                    children: [
+                      Image.network(category.image.getThumbnailImage()),
+                      Center(
+                        child: Text(
+                          category.name,
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontFamily: "Avenir-Book",
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }).toList());
+      },
     );
   }
 }
