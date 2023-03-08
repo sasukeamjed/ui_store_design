@@ -67,12 +67,15 @@ class ShopSliverAppBar extends StatelessWidget {
               flex: 2,
               child: TextField(),
             ),
+            SizedBox(
+              height: 10.h,
+            ),
             Flexible(
               flex: 1,
               child: _flexibleAppBarCategories(),
             ),
             SizedBox(
-              height: 10,
+              height: 10.h,
             ),
           ],
         ),
@@ -176,19 +179,21 @@ class ShopSliverAppBar extends StatelessWidget {
                 onTap: () {},
                 child: Container(
                   height: 20,
-                  width: 200,
                   margin: EdgeInsets.only(
                     left: 10.w,
                     right: 5.w,
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 15.w),
                   decoration: BoxDecoration(
-                    color: Colors.blue,
                     borderRadius: BorderRadius.circular(15.w),
+                    border: Border.all(),
                   ),
                   child: Row(
                     children: [
                       Image.network(category.image.getThumbnailImage()),
+                      SizedBox(
+                        width: 10.w,
+                      ),
                       Center(
                         child: Text(
                           category.name,
