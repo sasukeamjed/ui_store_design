@@ -64,6 +64,7 @@ class HomeDrawer extends StatelessWidget {
               title: Text("Shop"),
               leading: Icon(Icons.logout_rounded),
               onTap: (){
+                Navigator.of(context).pop();
                 Navigator.of(context).pushNamed(ShopScreen.routeName);
               },
             ),

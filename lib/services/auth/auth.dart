@@ -42,6 +42,7 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       // 15 seconds
       connectTimeout: 15000,
       sendTimeout: 15000,
+      // responseType: ResponseType.json,
       headers: {
         "Connection": "Keep-Alive",
         // 'authorization': desktopTestUrl,

@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/models/category_model.dart';
 import 'package:ui_store_design/models/vendor_model.dart';
 import 'package:ui_store_design/screens/search_page/search_page.dart';
+import 'package:ui_store_design/screens/search_page/search_text_field.dart';
 import 'package:ui_store_design/services/data/states/data_states.dart';
 
 import '../../../providers/data_providers.dart';
@@ -24,32 +25,7 @@ class ShopSliverAppBar extends StatelessWidget {
       floating: true,
       expandedHeight: 200.h,
       backgroundColor: Colors.white,
-      leading: IconButton(
-        icon: Icon(
-          Icons.arrow_back,
-          size: 24.w,
-        ),
-        tooltip: 'Back',
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-      actions: <Widget>[
-        IconButton(
-          icon: Icon(
-            Icons.filter_list,
-            size: 24.w,
-          ),
-          tooltip: 'Filters Icon',
-          onPressed: () {},
-        ),
-        SizedBox(
-          width: 10.w,
-        ),
-        SizedBox(
-          width: 10.w,
-        ),
-      ],
+      automaticallyImplyLeading: false,
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: EdgeInsets.all(0),
         centerTitle: true,
@@ -65,14 +41,49 @@ class ShopSliverAppBar extends StatelessWidget {
           children: [
             Flexible(
               flex: 2,
-              child: TextField(),
+              child: Padding(
+                padding: EdgeInsets.only(right: 10.w),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(
+                        Icons.arrow_back,
+                        size: 24.w,
+                      ),
+                      tooltip: 'Back',
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    Expanded(
+                      child: SearchTextField(
+                        isActive: false,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
             SizedBox(
               height: 10.h,
             ),
             Flexible(
               flex: 1,
-              child: _flexibleAppBarCategories(),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.filter_list,
+                      size: 24.w,
+                    ),
+                    tooltip: 'Filters Icon',
+                    onPressed: () {},
+                  ),
+                  Expanded(
+                    child: _flexibleAppBarCategories(),
+                  ),
+                ],
+              ),
             ),
             SizedBox(
               height: 10.h,
@@ -82,87 +93,29 @@ class ShopSliverAppBar extends StatelessWidget {
       ),
       bottom: PreferredSize(
         preferredSize: Size.fromHeight(50),
-        child: Container(
+        child: SizedBox(
           height: 40,
-          color: Colors.green,
+          child: Row(
+            children: [
+              Expanded(
+                child: FilterDropDownButton(
+                  hintText: "Sort By",
+                ),
+              ),
+              Expanded(
+                child: FilterDropDownButton(
+                  hintText: "Color",
+                ),
+              ),
+              Expanded(
+                child: FilterDropDownButton(
+                  hintText: "Price",
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-      // flexibleSpace: LayoutBuilder(
-      //   builder: (BuildContext context, BoxConstraints constraints) {
-      //     return FlexibleSpaceBar(
-      //       titlePadding: EdgeInsets.all(0),
-      //       centerTitle: true,
-      //       //(kToolbarHeight + MediaQuery.of(context).padding.top) is the appbar height + the status bar
-      //       //(constraints.biggest.height) it gives you the height of it is child
-      //       // title: kToolbarHeight + MediaQuery.of(context).padding.top ==
-      //       //         constraints.biggest.height
-      //       //     ? Image.asset(
-      //       //         "assets/images/splash_screen/logo-small.png",
-      //       //         height: 80.w,
-      //       //         width: 80.w,
-      //       //       )
-      //       //     : Container(),
-      //       title: Container(
-      //         color: Colors.red,
-      //         child: Text("fish"),
-      //       ),
-      //       background: Column(
-      //         children: [
-      //           // Flexible(
-      //           //   flex: 3,
-      //           //   child: Image.asset(
-      //           //     'assets/images/place_holders/logo_placeholder.png',
-      //           //     fit: BoxFit.fitWidth,
-      //           //     width: double.infinity,
-      //           //   ),
-      //           // ),
-      //           Flexible(
-      //             flex: 1,
-      //             child: Consumer(
-      //               builder:
-      //                   (BuildContext context, WidgetRef ref, Widget? child) {
-      //                 List<CategoryModel> categories =
-      //                     (ref.watch(productsDataProvider) as DataLoaded)
-      //                         .categories;
-      //                 return ListView(
-      //                     scrollDirection: Axis.horizontal,
-      //                     // shrinkWrap: true,
-      //                     children: categories.mapIndexed((index, category) {
-      //                       return GestureDetector(
-      //                         onTap: () {},
-      //                         child: Container(
-      //                           margin: EdgeInsets.only(
-      //                             left: 10.w,
-      //                             right: 5.w,
-      //                           ),
-      //                           padding: EdgeInsets.symmetric(horizontal: 15.w),
-      //                           decoration: BoxDecoration(
-      //                             color: Colors.black,
-      //                             borderRadius: BorderRadius.circular(15.w),
-      //                           ),
-      //                           child: Center(
-      //                             child: Text(
-      //                               category.name,
-      //                               style: TextStyle(
-      //                                 color: Colors.white,
-      //                                 fontFamily: "Avenir-Book",
-      //                               ),
-      //                             ),
-      //                           ),
-      //                         ),
-      //                       );
-      //                     }).toList());
-      //               },
-      //             ),
-      //           ),
-      //           SizedBox(
-      //             height: 10,
-      //           ),
-      //         ],
-      //       ),
-      //     );
-      //   },
-      // ),
     );
   }
 
@@ -183,14 +136,20 @@ class ShopSliverAppBar extends StatelessWidget {
                     left: 10.w,
                     right: 5.w,
                   ),
-                  padding: EdgeInsets.symmetric(horizontal: 15.w),
+                  padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 5.h),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.w),
-                    border: Border.all(),
+                    border: Border.all(color: Colors.grey.withOpacity(0.5)),
                   ),
                   child: Row(
                     children: [
-                      Image.network(category.image.getThumbnailImage()),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(5),
+                        child: Image(
+                          image:
+                              NetworkImage(category.image.getThumbnailImage()),
+                        ),
+                      ),
                       SizedBox(
                         width: 10.w,
                       ),
@@ -200,6 +159,7 @@ class ShopSliverAppBar extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.black,
                             fontFamily: "Avenir-Book",
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
@@ -209,6 +169,58 @@ class ShopSliverAppBar extends StatelessWidget {
               );
             }).toList());
       },
+    );
+  }
+}
+
+class FilterDropDownButton extends StatefulWidget {
+  const FilterDropDownButton({Key? key, required this.hintText})
+      : super(key: key);
+
+  final String hintText;
+
+  @override
+  State<FilterDropDownButton> createState() => _FilterDropDownButtonState();
+}
+
+class _FilterDropDownButtonState extends State<FilterDropDownButton> {
+  List<String> list = <String>['One', 'Two', 'Three', 'Four'];
+
+  late String? dropdownValue = null;
+
+  @override
+  void initState() {
+    // dropdownValue = list.first;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<String>(
+      hint: Center(child: Text(widget.hintText)),
+      value: dropdownValue,
+      icon: const Icon(Icons.arrow_downward),
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      isExpanded: true,
+      underline: Container(
+        height: 2,
+        color: Colors.deepPurpleAccent,
+      ),
+      onChanged: (String? value) {
+        // This is called when the user selects an item.
+        setState(() {
+          dropdownValue = value!;
+        });
+      },
+      items: list.map<DropdownMenuItem<String>>((String value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Center(
+            child: Text(value, textAlign: TextAlign.center,),
+          ),
+        );
+      }).toList(),
     );
   }
 }

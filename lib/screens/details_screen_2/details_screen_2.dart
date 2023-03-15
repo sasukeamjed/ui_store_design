@@ -7,6 +7,7 @@ import 'package:ui_store_design/models/product_model.dart';
 
 import 'package:ui_store_design/screens/details_screen_2/componenets/add_cart_bar.dart';
 import 'package:ui_store_design/screens/details_screen_2/componenets/body.dart';
+import 'package:ui_store_design/screens/search_page/search_delegate_custom_class.dart';
 import 'package:ui_store_design/screens/search_page/search_page.dart';
 
 
@@ -33,7 +34,10 @@ class DetailsScreen2 extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.search),
             onPressed: () {
-              showSearch(context: context, delegate: MySearchDelegate());
+              customShowSearchFunction(
+                context: context,
+                delegate: MySearchDelegate(),
+              );
             },
           ),
           SizedBox(

@@ -28,6 +28,8 @@ class ProductsProvider extends StateNotifier<DataState> {
       receiveTimeout: 15000, // 15 seconds
       connectTimeout: 15000,
       sendTimeout: 15000,
+      // responseType: ResponseType.json,
+
       queryParameters: {
         "consumer_key": "ck_9e32dcae3003edf2db8ec232c0c958ec735210e9",
         "consumer_secret" : "cs_e0d9e53cff19cff292d0fe5706665fc628d4ebfb",

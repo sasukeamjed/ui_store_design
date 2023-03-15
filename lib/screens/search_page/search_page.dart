@@ -7,9 +7,10 @@ import 'package:ui_store_design/models/vendor_model.dart';
 import 'package:ui_store_design/providers/data_providers.dart';
 import 'package:ui_store_design/providers/search_providers.dart';
 import 'package:ui_store_design/screens/details_screen_2/details_screen_2.dart';
+import 'package:ui_store_design/screens/search_page/search_delegate_custom_class.dart';
 import 'package:ui_store_design/screens/shop_screen/shop_screen.dart';
 
-class MySearchDelegate extends SearchDelegate {
+class MySearchDelegate extends CustomSearchDelegate {
   @override
   ThemeData appBarTheme(BuildContext context) {
     return ThemeData(
@@ -31,6 +32,7 @@ class MySearchDelegate extends SearchDelegate {
       ),
     );
   }
+
 
   @override
   String get searchFieldLabel => 'Interested on searching for something?';
@@ -84,58 +86,6 @@ class MySearchDelegate extends SearchDelegate {
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // if (vendors!.isNotEmpty)
-                  //   Flexible(
-                  //     flex: 1,
-                  //     child: Padding(
-                  //       padding: EdgeInsets.symmetric(horizontal: 5.w),
-                  //       child: ListView.builder(
-                  //           scrollDirection: Axis.horizontal,
-                  //           itemCount: vendors.length,
-                  //           itemBuilder: (context, index) {
-                  //             print("This list search length is => ${[
-                  //               ...products,
-                  //               ...?vendors
-                  //             ].length}");
-                  //             return GestureDetector(
-                  //               onTap: () {
-                  //                 Navigator.of(context).push(MaterialPageRoute(
-                  //                     builder: (context) => VendorScreen(
-                  //                         vendor: vendors[index])));
-                  //               },
-                  //               child: Container(
-                  //                 margin:
-                  //                     EdgeInsets.symmetric(horizontal: 10.w),
-                  //                 // height: 120.h,
-                  //                 width: 80.w,
-                  //                 // color: Colors.green,
-                  //                 child: Card(
-                  //                   child: Column(
-                  //                     mainAxisAlignment:
-                  //                         MainAxisAlignment.center,
-                  //                     crossAxisAlignment:
-                  //                         CrossAxisAlignment.center,
-                  //                     children: [
-                  //                       Flexible(
-                  //                           child: Image.network(
-                  //                               vendors[index].vendorShopLogo)),
-                  //                       Flexible(
-                  //                           child: AutoSizeText(
-                  //                         vendors[index].vendorShopName,
-                  //                         textAlign: TextAlign.center,
-                  //                       ))
-                  //                     ],
-                  //                   ),
-                  //                 ),
-                  //               ),
-                  //             );
-                  //           }),
-                  //     ),
-                  //   ),
-                  // if (vendors.isNotEmpty) Divider(),
-                  SizedBox(
-                    height: 20.h,
-                  ),
                   Flexible(
                     flex: 3,
                     child: ListView.builder(
@@ -197,7 +147,7 @@ class MySearchDelegate extends SearchDelegate {
 
           return result.contains(input);
         }).toList();
-        
+
 
         return searchHistory.isEmpty
             ? GestureDetector(
@@ -243,3 +193,24 @@ class MySearchDelegate extends SearchDelegate {
 
 
 }
+
+class CustomTextField extends StatelessWidget {
+  final TextEditingController controller;
+  final VoidCallback onSubmitted;
+
+  CustomTextField({required this.controller, required this.onSubmitted});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      decoration: InputDecoration(
+        hintText: 'Search...',
+        border: OutlineInputBorder(),
+      ),
+      onSubmitted: (_) => onSubmitted(),
+    );
+  }
+}
+
+

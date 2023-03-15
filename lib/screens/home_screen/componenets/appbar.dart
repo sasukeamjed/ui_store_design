@@ -5,6 +5,8 @@ import 'package:ui_store_design/components/cart_icon_with_badge.dart';
 import 'package:ui_store_design/screens/search_page/search_page.dart';
 import 'package:ui_store_design/screens/shopping_cart_screen/shopping_cart.dart';
 
+import '../../search_page/search_delegate_custom_class.dart';
+
 
 class ChangableAppBar extends StatefulWidget implements PreferredSizeWidget {
 
@@ -59,7 +61,7 @@ class _ChangableAppBarState extends State<ChangableAppBar> {
               GestureDetector(
                 child: Icon(Icons.search, size: 25.w,),
                 onTap: () {
-                      showSearch(
+                  customShowSearchFunction(
                         context: context,
                         delegate: MySearchDelegate(),
                       );
