@@ -100,16 +100,19 @@ class ShopSliverAppBar extends StatelessWidget {
               Expanded(
                 child: FilterDropDownButton(
                   hintText: "Sort By",
+                  values: ["Popular", "Sales", "New", "Price:Low to High", "Price:High to low"],
                 ),
               ),
               Expanded(
                 child: FilterDropDownButton(
                   hintText: "Color",
+                  values: ["Green", "Black", "White", "Blue", "Yellow"],
                 ),
               ),
               Expanded(
                 child: FilterDropDownButton(
                   hintText: "Price",
+                  values: ["0 - 20", "20 -32", "32 - 40", "40 - 52", "52 - 60"],
                 ),
               ),
             ],
@@ -174,19 +177,20 @@ class ShopSliverAppBar extends StatelessWidget {
 }
 
 class FilterDropDownButton extends StatefulWidget {
-  const FilterDropDownButton({Key? key, required this.hintText})
+  const FilterDropDownButton({Key? key, required this.hintText, required this.values})
       : super(key: key);
 
   final String hintText;
+  final List<dynamic> values;
 
   @override
   State<FilterDropDownButton> createState() => _FilterDropDownButtonState();
 }
 
 class _FilterDropDownButtonState extends State<FilterDropDownButton> {
-  List<String> list = <String>['One', 'Two', 'Three', 'Four'];
 
-  late String? dropdownValue = null;
+
+  late dynamic dropdownValue = null;
 
   @override
   void initState() {
@@ -196,28 +200,25 @@ class _FilterDropDownButtonState extends State<FilterDropDownButton> {
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
+    return DropdownButton<dynamic>(
       hint: Center(child: Text(widget.hintText)),
       value: dropdownValue,
       icon: const Icon(Icons.arrow_downward),
       elevation: 16,
       style: const TextStyle(color: Colors.deepPurple),
       isExpanded: true,
-      underline: Container(
-        height: 2,
-        color: Colors.deepPurpleAccent,
-      ),
-      onChanged: (String? value) {
+      underline: SizedBox(),
+      onChanged: (dynamic value) {
         // This is called when the user selects an item.
         setState(() {
           dropdownValue = value!;
         });
       },
-      items: list.map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
+      items: widget.values.map<DropdownMenuItem<dynamic>>((dynamic value) {
+        return DropdownMenuItem<dynamic>(
           value: value,
           child: Center(
-            child: Text(value, textAlign: TextAlign.center,),
+            child: Text(value.toString(), textAlign: TextAlign.center,),
           ),
         );
       }).toList(),
