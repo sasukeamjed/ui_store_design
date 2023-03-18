@@ -11,9 +11,7 @@ Product _$ProductFromJson(Map<String, dynamic> json) => Product(
       images: (json['images'] as List<dynamic>)
           .map((e) => ImageModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      dateCreated: json['date_created'] == null
-          ? null
-          : DateTime.parse(json['date_created'] as String),
+      dateCreated: DateTime.parse(json['date_created'] as String),
       status: json['status'] as String,
       featured: json['featured'] as bool,
       description: json['description'] as String,
@@ -39,7 +37,7 @@ Product _$ProductFromJson(Map<String, dynamic> json) => Product(
 Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'date_created': instance.dateCreated?.toIso8601String(),
+      'date_created': instance.dateCreated.toIso8601String(),
       'type': instance.type,
       'status': instance.status,
       'featured': instance.featured,

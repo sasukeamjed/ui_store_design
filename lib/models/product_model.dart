@@ -41,7 +41,7 @@ class Product extends Equatable{
   final String name;
   // final String postAuthor;
   @JsonKey(name: 'date_created')
-  final DateTime? dateCreated;
+  final DateTime dateCreated;
   final String type;
   final String status;
   final bool featured;

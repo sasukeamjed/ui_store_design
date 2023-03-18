@@ -36,16 +36,21 @@ class ShopFilter{
                   (product) => product.price != 0.00 && product.status == "publish")
               .toList();
         }
-        break;
 
         case SortByFilter.sales:{
-          response = await dio.get("wp-json/wc/v2/products", queryParameters: {
-            "per_page": "100",
-            "orderby" : "popularity",
-            "order" : "desc"
+          products.sort((product1, product2){
+            return product2.totalSales.compareTo(product1.totalSales);
           });
+          return products;
         }
-        break;
+
+        case SortByFilter.newest:{
+          products.sort((product1, product2){
+            return product2.dateCreated.compareTo(product1.dateCreated);
+          });
+          return products;
+        }
+
       }
 
 
