@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ui_store_design/colors_library/string_color_genrator.dart';
 import 'package:ui_store_design/models/category_model.dart';
 import 'package:ui_store_design/models/vendor_model.dart';
 import 'package:ui_store_design/screens/search_page/search_page.dart';
@@ -104,7 +105,7 @@ class ShopSliverAppBar extends StatelessWidget {
                 ),
               ),
               Expanded(
-                child: FilterDropDownButton(
+                child: ColorFilterDropDownButton(
                   hintText: "Color",
                   values: ["Green", "Black", "White", "Blue", "Yellow"],
                 ),
@@ -219,6 +220,60 @@ class _FilterDropDownButtonState extends State<FilterDropDownButton> {
           value: value,
           child: Center(
             child: Text(value.toString(), textAlign: TextAlign.center,),
+          ),
+        );
+      }).toList(),
+    );
+  }
+}
+
+class ColorFilterDropDownButton extends StatefulWidget {
+  const ColorFilterDropDownButton({Key? key, required this.hintText, required this.values})
+      : super(key: key);
+
+  final String hintText;
+  final List<dynamic> values;
+
+  @override
+  _ColorFilterDropDownButtonState createState() => _ColorFilterDropDownButtonState();
+}
+
+class _ColorFilterDropDownButtonState extends State<ColorFilterDropDownButton> {
+
+
+  late dynamic dropdownValue = null;
+
+  @override
+  void initState() {
+    // dropdownValue = list.first;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton<dynamic>(
+      hint: Center(child: Text(widget.hintText)),
+      value: dropdownValue,
+      icon: const Icon(Icons.arrow_downward),
+      elevation: 16,
+      style: const TextStyle(color: Colors.deepPurple),
+      isExpanded: true,
+      underline: SizedBox(),
+      onChanged: (dynamic value) {
+        // This is called when the user selects an item.
+        setState(() {
+          dropdownValue = value!;
+        });
+      },
+      items: widget.values.map<DropdownMenuItem<dynamic>>((dynamic value) {
+        return DropdownMenuItem<dynamic>(
+          value: value,
+          child: Center(
+            child: Container(
+              height: 15,
+              width: 15,
+              color: getColorHexFromName("yellow"),
+            ),
           ),
         );
       }).toList(),
