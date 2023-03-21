@@ -101,7 +101,13 @@ class ShopSliverAppBar extends StatelessWidget {
               Expanded(
                 child: FilterDropDownButton(
                   hintText: "Sort By",
-                  values: ["Popular", "Sales", "New", "Price:Low to High", "Price:High to low"],
+                  values: [
+                    "Popular",
+                    "Sales",
+                    "New",
+                    "Price:Low to High",
+                    "Price:High to low"
+                  ],
                 ),
               ),
               Expanded(
@@ -115,6 +121,11 @@ class ShopSliverAppBar extends StatelessWidget {
                   hintText: "Price",
                   values: ["0 - 20", "20 -32", "32 - 40", "40 - 52", "52 - 60"],
                 ),
+              ),
+              Expanded(
+                child: GridDropDownButton(items: ["Green", "Black", "White", "Blue", "Yellow"], selectedItem: "Green", onChanged: (value){
+                  print("this is tge selected $value");
+                },),
               ),
             ],
           ),
@@ -178,7 +189,8 @@ class ShopSliverAppBar extends StatelessWidget {
 }
 
 class FilterDropDownButton extends StatefulWidget {
-  const FilterDropDownButton({Key? key, required this.hintText, required this.values})
+  const FilterDropDownButton(
+      {Key? key, required this.hintText, required this.values})
       : super(key: key);
 
   final String hintText;
@@ -189,8 +201,6 @@ class FilterDropDownButton extends StatefulWidget {
 }
 
 class _FilterDropDownButtonState extends State<FilterDropDownButton> {
-
-
   late dynamic dropdownValue = null;
 
   @override
@@ -219,7 +229,10 @@ class _FilterDropDownButtonState extends State<FilterDropDownButton> {
         return DropdownMenuItem<dynamic>(
           value: value,
           child: Center(
-            child: Text(value.toString(), textAlign: TextAlign.center,),
+            child: Text(
+              value.toString(),
+              textAlign: TextAlign.center,
+            ),
           ),
         );
       }).toList(),
@@ -228,19 +241,19 @@ class _FilterDropDownButtonState extends State<FilterDropDownButton> {
 }
 
 class ColorFilterDropDownButton extends StatefulWidget {
-  const ColorFilterDropDownButton({Key? key, required this.hintText, required this.values})
+  const ColorFilterDropDownButton(
+      {Key? key, required this.hintText, required this.values})
       : super(key: key);
 
   final String hintText;
   final List<dynamic> values;
 
   @override
-  _ColorFilterDropDownButtonState createState() => _ColorFilterDropDownButtonState();
+  _ColorFilterDropDownButtonState createState() =>
+      _ColorFilterDropDownButtonState();
 }
 
 class _ColorFilterDropDownButtonState extends State<ColorFilterDropDownButton> {
-
-
   late dynamic dropdownValue = null;
 
   @override
@@ -277,6 +290,78 @@ class _ColorFilterDropDownButtonState extends State<ColorFilterDropDownButton> {
           ),
         );
       }).toList(),
+    );
+  }
+}
+
+class GridDropDownButton<T> extends StatefulWidget {
+  final List<T> items;
+  final T selectedItem;
+  final void Function(T) onChanged;
+
+  GridDropDownButton({
+    required this.items,
+    required this.selectedItem,
+    required this.onChanged,
+  });
+
+  @override
+  _GridDropDownButtonState<T> createState() => _GridDropDownButtonState<T>();
+}
+
+class _GridDropDownButtonState<T> extends State<GridDropDownButton<T>> {
+  T? _selectedItem;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedItem = widget.selectedItem;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButtonHideUnderline(
+      child: DropdownButton<T>(
+        value: _selectedItem,
+        onChanged: (value) {
+          setState(() {
+            _selectedItem = value;
+          });
+          widget.onChanged(value!);
+        },
+        items: widget.items.map((item) {
+          return DropdownMenuItem<T>(
+            value: item,
+            child: GestureDetector(
+              onTap: () {
+                setState(() {
+                  _selectedItem = item;
+                });
+                widget.onChanged(item);
+              },
+              child: Container(
+                alignment: Alignment.center,
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  item.toString(),
+                ),
+              ),
+            ),
+          );
+        }).toList(),
+        selectedItemBuilder: (BuildContext context) {
+          return widget.items.map<Widget>((T item) {
+            return Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+                item.toString(),
+              ),
+            );
+          }).toList();
+        },
+        hint: Text("Select an item"),
+      ),
     );
   }
 }
