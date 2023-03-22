@@ -98,30 +98,30 @@ class ShopSliverAppBar extends StatelessWidget {
           height: 40,
           child: Row(
             children: [
-              Expanded(
-                child: FilterDropDownButton(
-                  hintText: "Sort By",
-                  values: [
-                    "Popular",
-                    "Sales",
-                    "New",
-                    "Price:Low to High",
-                    "Price:High to low"
-                  ],
-                ),
-              ),
-              Expanded(
-                child: ColorFilterDropDownButton(
-                  hintText: "Color",
-                  values: ["Green", "Black", "White", "Blue", "Yellow"],
-                ),
-              ),
-              Expanded(
-                child: FilterDropDownButton(
-                  hintText: "Price",
-                  values: ["0 - 20", "20 -32", "32 - 40", "40 - 52", "52 - 60"],
-                ),
-              ),
+              // Expanded(
+              //   child: FilterDropDownButton(
+              //     hintText: "Sort By",
+              //     values: [
+              //       "Popular",
+              //       "Sales",
+              //       "New",
+              //       "Price:Low to High",
+              //       "Price:High to low"
+              //     ],
+              //   ),
+              // ),
+              // Expanded(
+              //   child: ColorFilterDropDownButton(
+              //     hintText: "Color",
+              //     values: ["Green", "Black", "White", "Blue", "Yellow"],
+              //   ),
+              // ),
+              // Expanded(
+              //   child: FilterDropDownButton(
+              //     hintText: "Price",
+              //     values: ["0 - 20", "20 -32", "32 - 40", "40 - 52", "52 - 60"],
+              //   ),
+              // ),
               Expanded(
                 child: GridDropDownButton(items: ["Green", "Black", "White", "Blue", "Yellow"], selectedItem: "Green", onChanged: (value){
                   print("this is tge selected $value");
@@ -350,8 +350,12 @@ class _GridDropDownButtonState<T> extends State<GridDropDownButton<T>> {
           );
         }).toList(),
         selectedItemBuilder: (BuildContext context) {
+          return GridView(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(),);
           return widget.items.map<Widget>((T item) {
             return Container(
+              height: 50,
+              width: 100,
+              color: Colors.grey,
               alignment: Alignment.center,
               padding: EdgeInsets.all(8.0),
               child: Text(
