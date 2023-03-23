@@ -123,9 +123,13 @@ class ShopSliverAppBar extends StatelessWidget {
               //   ),
               // ),
               Expanded(
-                child: GridDropDownButton(items: ["Green", "Black", "White", "Blue", "Yellow"], selectedItem: "Green", onChanged: (value){
-                  print("this is tge selected $value");
-                },),
+                child: GridDropDownButton(
+                  items: ["Green", "Black", "White", "Blue", "Yellow"],
+                  selectedItem: "Green",
+                  onChanged: (value) {
+                    print("this is tge selected $value");
+                  },
+                ),
               ),
             ],
           ),
@@ -350,7 +354,10 @@ class _GridDropDownButtonState<T> extends State<GridDropDownButton<T>> {
           );
         }).toList(),
         selectedItemBuilder: (BuildContext context) {
-          return GridView(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(),);
+          return GridView(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),
+            children: [],
+          );
           return widget.items.map<Widget>((T item) {
             return Container(
               height: 50,
