@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,11 +12,16 @@ import 'package:ui_store_design/services/data/states/data_states.dart';
 
 import '../../../providers/data_providers.dart';
 
-class ShopSliverAppBar extends StatelessWidget {
+class ShopSliverAppBar extends StatefulWidget {
   const ShopSliverAppBar({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<ShopSliverAppBar> createState() => _ShopSliverAppBarState();
+}
+
+class _ShopSliverAppBarState extends State<ShopSliverAppBar> {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
@@ -98,43 +104,83 @@ class ShopSliverAppBar extends StatelessWidget {
           height: 40,
           child: Row(
             children: [
-              // Expanded(
-              //   child: FilterDropDownButton(
-              //     hintText: "Sort By",
-              //     values: [
-              //       "Popular",
-              //       "Sales",
-              //       "New",
-              //       "Price:Low to High",
-              //       "Price:High to low"
-              //     ],
-              //   ),
-              // ),
-              // Expanded(
-              //   child: ColorFilterDropDownButton(
-              //     hintText: "Color",
-              //     values: ["Green", "Black", "White", "Blue", "Yellow"],
-              //   ),
-              // ),
-              // Expanded(
-              //   child: FilterDropDownButton(
-              //     hintText: "Price",
-              //     values: ["0 - 20", "20 -32", "32 - 40", "40 - 52", "52 - 60"],
-              //   ),
-              // ),
               Expanded(
-                child: GridDropDownButton(
-                  items: ["Green", "Black", "White", "Blue", "Yellow"],
-                  selectedItem: "Green",
-                  onChanged: (value) {
-                    print("this is tge selected $value");
-                  },
+                child: FilterDropDownButton(
+                  hintText: "Sort By",
+                  values: [
+                    "Popular",
+                    "Sales",
+                    "New",
+                    "Price:Low to High",
+                    "Price:High to low"
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Consumer(builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                  final List<String> colors = ref.read(productsDataProvider.notifier).getColors();
+                  return OutlinedButton(
+                    child: Text("Colors"),
+                    onPressed: (){
+                      openFilterDelegate(context, colors);
+                    },
+                  );
+                },),
+              ),
+              Expanded(
+                child: FilterDropDownButton(
+                  hintText: "Price",
+                  values: ["0 - 20", "20 -32", "32 - 40", "40 - 52", "52 - 60"],
                 ),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> openFilterDelegate(BuildContext context, List<String> colorsNames) async {
+
+    List<String>? selectedColors = [];
+
+    await FilterListDelegate.show<String>(
+      context: context,
+      list: colorsNames,
+      selectedListData: selectedColors,
+      theme: FilterListDelegateThemeData(
+        listTileTheme: ListTileThemeData(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          tileColor: Colors.white,
+          selectedColor: Colors.red,
+          selectedTileColor: const Color(0xFF649BEC).withOpacity(.5),
+          textColor: Colors.blue,
+        ),
+      ),
+      // enableOnlySingleSelection: true,
+      onItemSearch: (color, query) {
+        return color.toLowerCase().contains(query.toLowerCase());
+      },
+      tileLabel: (color) => color,
+      emptySearchChild: const Center(child: Text('No user found')),
+      // enableOnlySingleSelection: true,
+      searchFieldHint: 'Search Here..',
+      /*suggestionBuilder: (context, user, isSelected) {
+        return ListTile(
+          title: Text(user.name!),
+          leading: const CircleAvatar(
+            backgroundColor: Colors.blue,
+          ),
+          selected: isSelected,
+        );
+      },*/
+      onApplyButtonClick: (list) {
+        setState(() {
+          selectedColors = list;
+        });
+      },
     );
   }
 
@@ -298,81 +344,4 @@ class _ColorFilterDropDownButtonState extends State<ColorFilterDropDownButton> {
   }
 }
 
-class GridDropDownButton<T> extends StatefulWidget {
-  final List<T> items;
-  final T selectedItem;
-  final void Function(T) onChanged;
 
-  GridDropDownButton({
-    required this.items,
-    required this.selectedItem,
-    required this.onChanged,
-  });
-
-  @override
-  _GridDropDownButtonState<T> createState() => _GridDropDownButtonState<T>();
-}
-
-class _GridDropDownButtonState<T> extends State<GridDropDownButton<T>> {
-  T? _selectedItem;
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedItem = widget.selectedItem;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return DropdownButtonHideUnderline(
-      child: DropdownButton<T>(
-        value: _selectedItem,
-        onChanged: (value) {
-          setState(() {
-            _selectedItem = value;
-          });
-          widget.onChanged(value!);
-        },
-        items: widget.items.map((item) {
-          return DropdownMenuItem<T>(
-            value: item,
-            child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  _selectedItem = item;
-                });
-                widget.onChanged(item);
-              },
-              child: Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.all(8.0),
-                child: Text(
-                  item.toString(),
-                ),
-              ),
-            ),
-          );
-        }).toList(),
-        selectedItemBuilder: (BuildContext context) {
-          return GridView(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 5),
-            children: [],
-          );
-          return widget.items.map<Widget>((T item) {
-            return Container(
-              height: 50,
-              width: 100,
-              color: Colors.grey,
-              alignment: Alignment.center,
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                item.toString(),
-              ),
-            );
-          }).toList();
-        },
-        hint: Text("Select an item"),
-      ),
-    );
-  }
-}

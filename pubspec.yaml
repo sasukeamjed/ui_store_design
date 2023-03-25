@@ -48,7 +48,7 @@ dependencies:
   equatable: ^2.0.5
   url_launcher: ^6.1.7
   json_serializable: ^6.6.0
-
+  filter_list: ^1.0.2
 
 
 flutter_native_splash:
