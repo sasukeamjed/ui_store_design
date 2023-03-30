@@ -263,7 +263,7 @@ class ProductsProvider extends StateNotifier<DataState> {
     return allProducts;
   }
 
-  List<String> getColors() {
+  Set<String> getColors() {
     //filter the products to which has product variations only
     final List<Product> products = (state as DataLoaded).products.where((product) => product.productVariations != 0).toList();
 
@@ -283,7 +283,7 @@ class ProductsProvider extends StateNotifier<DataState> {
       );
     });
 
-    return productsColors;
+    return productsColors.toSet();
 
 
   }
