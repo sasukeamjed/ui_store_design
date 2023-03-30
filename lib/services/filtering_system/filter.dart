@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:ui_store_design/models/product_model.dart';
 
 enum SortByFilter{
+  //initial means not filter clicked
+  initial,
   popular,
   sales,
   newest,
@@ -10,15 +12,49 @@ enum SortByFilter{
 }
 
 
+
+
 class ShopFilter{
 
+  final SortByFilter sortBy;
+  final String priceRange;
+  final List<Product> products;
 
-  static Future<List<Product>> sortByFilter(SortByFilter sortBy,{required List<Product> products, required Dio dio}) async{
+  ShopFilter({required this.products, this.sortBy = SortByFilter.initial, this.priceRange = "0-..."});
+
+  Future<List<Product>> sortByFilter(SortByFilter sortBy,{required List<Product> products, required Dio dio}) async{
 
 
     try{
 
+
+
       switch(sortBy){
+        case SortByFilter.initial:{
+
+          return this.products;
+
+        }
+
+        case SortByFilter.popular:{
+
+          Response response = await dio.get("wp-json/wc/v2/products", queryParameters: {
+            "per_page": "100",
+            "orderby" : "popularity",
+            "order" : "desc"
+          });
+
+          List<dynamic> productsResponse = response.data;
+
+
+          List<Product> products = productsResponse.map((data) => Product.fromJson(data)).toList();
+
+          return products
+              .where(
+                  (product) => product.price != 0.00 && product.status == "publish")
+              .toList();
+        }
+
         case SortByFilter.popular:{
 
           Response response = await dio.get("wp-json/wc/v2/products", queryParameters: {
@@ -77,8 +113,15 @@ class ShopFilter{
   }
 
 
-  static Future<List<Product>> sortByPrice(String priceRange, {required List<Product> products,required Dio dio}) async{
+  Future<List<Product>> sortByPrice(String priceRange, {required Dio dio}) async{
+
     switch(priceRange){
+      case "0-...":{
+
+        return this.products;
+
+      }
+
       case "0-10":{
         Response response = await dio.get("wp-json/wc/v2/products", queryParameters: {
           "per_page": "100",
@@ -96,6 +139,7 @@ class ShopFilter{
                 (product) => product.price != 0.00 && product.status == "publish")
             .toList();
       }
+
       case "10-20":{
         Response response = await dio.get("wp-json/wc/v2/products", queryParameters: {
           "per_page": "100",
