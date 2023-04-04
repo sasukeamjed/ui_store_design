@@ -178,9 +178,8 @@ class ProductsProvider extends StateNotifier<DataState> {
       print("awaiting for products fetching");
       response = await _dio.get("wp-json/wc/v3/products", queryParameters: {
         "per_page": "100",
-        // "consumer_secret" : "cs_edccfa40d65e6ede5b3ed40126793ef296910c58",
-        // "orderby" : "date",
-        // "per_page" : 5,
+        "orderby" : "popularity",
+        "order" : "desc"
       });
       print(
           "Trying to fetch all products +++++++++++++++++++++++++++++++++++++");

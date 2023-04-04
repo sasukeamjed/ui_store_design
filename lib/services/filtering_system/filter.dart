@@ -3,7 +3,7 @@ import 'package:ui_store_design/models/product_model.dart';
 
 enum SortByFilter{
   //initial means not filter clicked
-  initial,
+
   popular,
   sales,
   newest,
@@ -29,7 +29,7 @@ class ShopFilter{
   final String priceRange;
   final List<Product> products;
 
-  ShopFilter({required this.products, this.sortBy = SortByFilter.initial, this.priceRange = "0-..."});
+  ShopFilter({required this.products, this.sortBy = SortByFilter.popular, this.priceRange = "0-..."});
 
   Future<List<Product>> sortByFilter(SortByFilter sortBy,{required List<Product> products, required Dio dio}) async{
 
@@ -39,11 +39,6 @@ class ShopFilter{
 
 
       switch(sortBy){
-        case SortByFilter.initial:{
-
-          return this.products;
-
-        }
 
         case SortByFilter.popular:{
 

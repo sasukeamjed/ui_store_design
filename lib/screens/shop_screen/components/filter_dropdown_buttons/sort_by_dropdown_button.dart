@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ui_store_design/providers/choose_filter_state_provider.dart';
@@ -16,7 +17,7 @@ class SortByDropDownButton extends StatefulWidget {
 }
 
 class _SortByDropDownButtonState extends State<SortByDropDownButton> {
-  late dynamic dropdownValue = null;
+  late SortByFilter dropdownValue = SortByFilter.popular;
 
   @override
   void initState() {
@@ -28,7 +29,9 @@ class _SortByDropDownButtonState extends State<SortByDropDownButton> {
   Widget build(BuildContext context) {
     return Consumer(
         builder: (context, ref, child) {
-          return DropdownButton<SortByFilter>(
+          return DropdownButton2<SortByFilter>(
+
+            dropdownWidth: MediaQuery.of(context).size.width,
             hint: Center(
               child: Text(
                 widget.hintText,
@@ -40,7 +43,6 @@ class _SortByDropDownButtonState extends State<SortByDropDownButton> {
             ),
             value: dropdownValue,
             icon: const Icon(Icons.arrow_downward),
-            elevation: 16,
             style: const TextStyle(color: Colors.deepPurple),
             isExpanded: true,
             underline: SizedBox(),
@@ -52,7 +54,7 @@ class _SortByDropDownButtonState extends State<SortByDropDownButton> {
                 dropdownValue = value!;
               });
             },
-            items: SortByFilter.values.where((SortByFilter value) => value != SortByFilter.initial).map<DropdownMenuItem<SortByFilter>>((SortByFilter value) {
+            items: SortByFilter.values.map<DropdownMenuItem<SortByFilter>>((SortByFilter value) {
               return DropdownMenuItem<SortByFilter>(
                 value: value,
                 child: Center(
