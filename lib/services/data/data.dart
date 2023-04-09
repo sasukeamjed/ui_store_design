@@ -17,6 +17,7 @@ import 'package:ui_store_design/models/product_variation_model.dart';
 import 'package:ui_store_design/models/user_model.dart';
 import 'package:ui_store_design/models/vendor_model.dart';
 import 'package:ui_store_design/services/data/states/data_states.dart';
+import 'package:ui_store_design/services/filtering_system/filter.dart';
 
 class ProductsProvider extends StateNotifier<DataState> {
   final baseUrl = "https://4ustore.net/";
@@ -133,6 +134,18 @@ class ProductsProvider extends StateNotifier<DataState> {
     return filtteredProducts
         .where((currentProduct) => currentProduct.id != product.id)
         .toList();
+  }
+
+  filteredProducts(SortByFilter sortByFilter, List<String>? colorsFilter,  String? priceFilter){
+
+    List<Product> dataProducts = (state as DataLoaded).products;
+    ShopFilter shopFilter;
+
+    if(sortByFilter == SortByFilter.popular && colorsFilter == null && priceFilter == null){
+      return dataProducts;
+    }else if(sortByFilter == SortByFilter.sales && colorsFilter == null && priceFilter == null){
+      shopFilter = ShopFilter(products: dataProducts, );
+    }
   }
 
   //This function receives list of categories names and return all the products which has name with that category

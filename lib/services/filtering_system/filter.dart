@@ -25,13 +25,14 @@ List<String> pricesRanges = [
 
 class ShopFilter{
 
-  final SortByFilter sortBy;
-  final String priceRange;
+  // final SortByFilter sortBy;
+  // final String priceRange;
   final List<Product> products;
+  // final List<String>? colorsNames;
 
-  ShopFilter({required this.products, this.sortBy = SortByFilter.popular, this.priceRange = "0-..."});
+  ShopFilter({required this.products, this.sortBy = SortByFilter.popular, this.priceRange = "0-...", this.colorsNames});
 
-  Future<List<Product>> sortByFilter(SortByFilter sortBy,{required List<Product> products, required Dio dio}) async{
+  Future<List<Product>> sortByFilter({SortByFilter sortBy = SortByFilter.popular, List<String>? colorsNames, String? priceRange,required List<Product> products, required Dio dio}) async{
 
 
     try{
@@ -117,7 +118,7 @@ class ShopFilter{
   }
 
 
-  Future<List<Product>> sortByPrice(String priceRange, {required Dio dio}) async{
+  Future<List<Product>> sortByPrice(String priceRange, {required Dio dio, required List<Product> productsRecived}) async{
 
     switch(priceRange){
       case "0-...":{
@@ -236,6 +237,14 @@ class ShopFilter{
         return products;
 
     }
+  }
+
+  List<Product> sortByColor({required List<String> colorNames, required List<Product> productsRecived}) {
+    return this.products.where((product) {
+      return product.productVariations.any((productVariation) {
+        return colorNames.contains(productVariation.attributes['color']);
+      });
+    }).toList();
   }
 
 

@@ -47,8 +47,8 @@ class _SortByPriceRangeDropDownButtonState extends ConsumerState<SortByPriceRang
       underline: SizedBox(),
       onChanged: (String? value) {
         // This is called when the user selects an item.
-        ref.read(sortByPriceProvider.notifier).update((state) => value!);
-        print("this is the updated price filter => ${ref.read(sortByPriceProvider)}");
+        ref.read(priceFilterProvider.notifier).update((state) => value!);
+        print("this is the updated price filter => ${ref.read(priceFilterProvider)}");
         setState(() {
           dropdownValue = value!;
         });
@@ -110,8 +110,8 @@ class _SortByPriceRangeDropDownButtonState extends ConsumerState<SortByPriceRang
             setState(() {
               dropdownValue = null;
             });
-            ref.read(sortByPriceProvider.notifier).update((state) => null);
-            print("this is the updated price filter => ${ref.read(sortByPriceProvider)}");
+            ref.read(priceFilterProvider.notifier).update((state) => null);
+            print("this is the updated price filter => ${ref.read(priceFilterProvider)}");
             Navigator.pop(context);
           },
         ),

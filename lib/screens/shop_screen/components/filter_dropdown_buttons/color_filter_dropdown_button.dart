@@ -2,70 +2,65 @@ import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ui_store_design/colors_library/string_color_genrator.dart';
+import 'package:ui_store_design/providers/choose_filter_state_provider.dart';
 import 'package:ui_store_design/providers/data_providers.dart';
 
-class ColorFilterDropDownButton extends StatefulWidget {
+class ColorFilterDropDownButton extends ConsumerStatefulWidget {
   const ColorFilterDropDownButton({Key? key}) : super(key: key);
 
   @override
-  State<ColorFilterDropDownButton> createState() => _ColorFilterDropDownButtonState();
+  ConsumerState<ColorFilterDropDownButton> createState() => _ColorFilterDropDownButtonState();
 }
 
-class _ColorFilterDropDownButtonState extends State<ColorFilterDropDownButton> {
+class _ColorFilterDropDownButtonState extends ConsumerState<ColorFilterDropDownButton> {
 
 
 
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(
-      builder:
-          (BuildContext context, WidgetRef ref, Widget? child) {
-        final Set<String> colors =
-        ref.read(productsDataProvider.notifier).getColors();
-        return TextButton(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Center(
-                  child: Text(
-                    "Colors",
-                    // style: Theme.of(context)
-                    //     .textTheme
-                    //     .titleMedium
-                    //     ?.copyWith(
-                    //         color: Theme.of(context).hintColor),
-                    style: TextStyle(
-                        fontFamily: "Avenir-Book",
-                        color: Theme.of(context).hintColor,
-                        fontWeight: FontWeight.bold),
-                  ),
-                ),
+    final Set<String> colors = ref.read(productsDataProvider.notifier).getColors();
+    return TextButton(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Center(
+              child: Text(
+                "Colors",
+                // style: Theme.of(context)
+                //     .textTheme
+                //     .titleMedium
+                //     ?.copyWith(
+                //         color: Theme.of(context).hintColor),
+                style: TextStyle(
+                    fontFamily: "Avenir-Book",
+                    color: Theme.of(context).hintColor,
+                    fontWeight: FontWeight.bold),
               ),
-              // Spacer(),
-              Icon(
-                Icons.arrow_downward,
-                color: Theme.of(context).hintColor,
-              ),
-            ],
+            ),
           ),
-          onPressed: () {
-            // openFilterDelegate(context, colors);
-            openFilterDialog(colors);
-          },
-          style: OutlinedButton.styleFrom(
-              padding: EdgeInsets.all(0),
-              backgroundColor: Colors.transparent,
-              side: BorderSide(color: Colors.transparent),
-              surfaceTintColor: Colors.green,
-              shadowColor: Colors.green,
-              foregroundColor: Colors.grey
-            // foregroundColor: Colors.black,
+          // Spacer(),
+          Icon(
+            Icons.arrow_downward,
+            color: Theme.of(context).hintColor,
           ),
-        );
+        ],
+      ),
+      onPressed: () {
+        // openFilterDelegate(context, colors);
+        openFilterDialog(colors);
       },
-    );
+      style: OutlinedButton.styleFrom(
+          padding: EdgeInsets.all(0),
+          backgroundColor: Colors.transparent,
+          side: BorderSide(color: Colors.transparent),
+          surfaceTintColor: Colors.green,
+          shadowColor: Colors.green,
+          foregroundColor: Colors.grey
+        // foregroundColor: Colors.black,
+      ),
+    );;
   }
 
   void openFilterDialog(Set<String> colorsNames) async {
@@ -116,7 +111,9 @@ class _ColorFilterDropDownButtonState extends State<ColorFilterDropDownButton> {
       onApplyButtonClick: (list) {
         setState(() {
           selectedColors = List.from(list!);
+
         });
+        ref.read(colorFilterProvider.notifier).update((state) => selectedColors);
         Navigator.pop(context);
       },
     );
