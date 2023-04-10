@@ -21,10 +21,10 @@ import 'package:ui_store_design/services/filtering_system/filter.dart';
 
 class ProductsProvider extends StateNotifier<DataState> {
   final baseUrl = "https://4ustore.net/";
-  late Dio _dio;
+  late Dio dio;
 
   ProductsProvider() : super(DataInitial()) {
-    _dio = Dio(BaseOptions(
+    dio = Dio(BaseOptions(
       baseUrl: baseUrl,
       receiveTimeout: 15000,
       // 15 seconds
@@ -43,7 +43,7 @@ class ProductsProvider extends StateNotifier<DataState> {
       },
     ));
 
-    _dio.interceptors.add(
+    dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (request, handler) {
           print("${request.method} ${request.path}");
@@ -103,7 +103,7 @@ class ProductsProvider extends StateNotifier<DataState> {
     late Response response;
     try {
       print("fetching all vendors ++++++");
-      response = await _dio.get("wp-json/wcfmmp/v1/store-vendors");
+      response = await dio.get("wp-json/wcfmmp/v1/store-vendors");
       print("fetching vendors finished +++++++++++++++++++++++++++++++++++++");
       List<dynamic> vendors = response.data;
       // print(vendors[0]);
@@ -189,7 +189,7 @@ class ProductsProvider extends StateNotifier<DataState> {
     late Response response;
     try {
       print("awaiting for products fetching");
-      response = await _dio.get("wp-json/wc/v3/products", queryParameters: {
+      response = await dio.get("wp-json/wc/v3/products", queryParameters: {
         "per_page": "100",
         "orderby" : "popularity",
         "order" : "desc"
@@ -224,7 +224,7 @@ class ProductsProvider extends StateNotifier<DataState> {
     try {
       print("awaiting for products categories fetching");
       response =
-          await _dio.get("wp-json/wc/v3/products/categories", queryParameters: {
+          await dio.get("wp-json/wc/v3/products/categories", queryParameters: {
         "per_page": "100",
         // "consumer_secret" : "cs_edccfa40d65e6ede5b3ed40126793ef296910c58",
         // "orderby" : "date",

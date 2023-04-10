@@ -25,10 +25,10 @@ List<String> pricesRanges = [
 
 class ShopFilter{
 
-  // final SortByFilter sortBy;
-  // final String priceRange;
+  final SortByFilter sortBy;
+  final String priceRange;
   final List<Product> products;
-  // final List<String>? colorsNames;
+  final List<String>? colorsNames;
 
   ShopFilter({required this.products, this.sortBy = SortByFilter.popular, this.priceRange = "0-...", this.colorsNames});
 

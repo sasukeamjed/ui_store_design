@@ -17,7 +17,7 @@ class SortByDropDownButton extends StatefulWidget {
 }
 
 class _SortByDropDownButtonState extends State<SortByDropDownButton> {
-  late SortByFilter dropdownValue = SortByFilter.popular;
+
 
   @override
   void initState() {
@@ -41,21 +41,21 @@ class _SortByDropDownButtonState extends State<SortByDropDownButton> {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            value: dropdownValue,
+            value: ref.watch(sortByFilterProvider),
             icon: const Icon(Icons.arrow_downward),
             style: const TextStyle(color: Colors.deepPurple),
             isExpanded: true,
             underline: SizedBox(),
             onChanged: (SortByFilter? value) {
               // This is called when the user selects an item.
-              ref.read(sortByFilterProvider.notifier).update((state) => value!);
+              ref.read(sortByFilterProvider.notifier).state = value!;
 
               if(value == ref.read(sortByFilterProvider.notifier).state){
                 print("it is same value from sortby dropdown");
               }
-              setState(() {
-                dropdownValue = value!;
-              });
+              // setState(() {
+              //   dropdownValue = value!;
+              // });
             },
             items: SortByFilter.values.map<DropdownMenuItem<SortByFilter>>((SortByFilter value) {
               return DropdownMenuItem<SortByFilter>(
