@@ -22,7 +22,7 @@ class ShopScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final List<Product> dataProducts = ref.watch(mainFilterProvider);
-    print("grid is rebuild with ${dataProducts.length}");
+
 
     return SafeArea(
       child: Scaffold(
@@ -39,31 +39,7 @@ class ShopScreen extends ConsumerWidget {
                       right: 20.w,
                       left: 20.w,
                     ),
-                    child: Container(
-                      height: 600,
-                      child: GridView.builder(
-                        itemCount: dataProducts.length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10.w,
-                          mainAxisSpacing: 10.w,
-                          childAspectRatio: 0.6,
-                        ),
-                        itemBuilder: (context, index) {
-                          return LayoutBuilder(builder: (context, constraints) {
-                            return GestureDetector(
-                              child: ShopScreenProductItem(
-                                  product: dataProducts[index]),
-                              onTap: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => DetailsScreen2(
-                                          product: dataProducts[index]))),
-                            );
-                          });
-                        },
-                      ),
-                    ),
+                    child: _gridViewBuilderMethod(context, dataProducts),
                   ),
                   if (ref.watch(mainFilterProvider.notifier).isDataLoading)
                     CircularProgressIndicator(),
@@ -77,6 +53,46 @@ class ShopScreen extends ConsumerWidget {
             ),
           ],
         ),
+      ),
+    );
+
+
+  }
+
+  Widget _gridViewBuilderMethod(BuildContext context, List<Product> products){
+
+    final itemCount = products.length;
+    final crossAxisCount = 2;
+    final crossAxisSpacing = 10.w;
+    final mainAxisSpacing = 10.w;
+    final childAspectRatio = 0.6;
+    final itemWidth = (MediaQuery.of(context).size.width - (crossAxisCount - 1) * crossAxisSpacing) / crossAxisCount;
+    final itemHeight = itemWidth / childAspectRatio;
+    final rowCount = (itemCount / crossAxisCount).ceil();
+    final height = rowCount * itemHeight + (rowCount - 1) * mainAxisSpacing;
+
+    return Container(
+      height: height,
+      child: GridView.builder(
+        itemCount: products.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: crossAxisCount,
+          crossAxisSpacing: crossAxisSpacing,
+          mainAxisSpacing: mainAxisSpacing,
+          childAspectRatio: childAspectRatio,
+        ),
+        itemBuilder: (context, index) {
+          return LayoutBuilder(builder: (context, constraints) {
+            return GestureDetector(
+              child: ShopScreenProductItem(product: products[index]),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DetailsScreen2(
+                          product: products[index]))),
+            );
+          });
+        },
       ),
     );
   }
