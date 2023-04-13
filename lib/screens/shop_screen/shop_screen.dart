@@ -12,7 +12,7 @@ import 'package:ui_store_design/services/data/states/data_states.dart';
 
 import '../../models/product_model.dart';
 
-class ShopScreen extends StatelessWidget {
+class ShopScreen extends ConsumerWidget {
   // final Vendor vendor;
 
   const ShopScreen({Key? key}) : super(key: key);
@@ -20,53 +20,56 @@ class ShopScreen extends StatelessWidget {
   static String routeName = "/shop";
 
   @override
-  Widget build(BuildContext context) {
-    // final List<Product> productsState = (ref.watch(productsDataProvider) as DataLoaded).products;
+  Widget build(BuildContext context, ref) {
+    final List<Product> dataProducts = ref.watch(mainFilterProvider);
+    print("grid is rebuild with ${dataProducts.length}");
 
     return SafeArea(
       child: Scaffold(
         body: CustomScrollView(
           slivers: <Widget>[
             ShopSliverAppBar(),
-            Consumer(builder: (context, ref, child){
-
-              final AsyncValue<List<Product>> productsAsyncValue = ref.watch(mainFilterProvider);
-
-              return SliverToBoxAdapter(
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    productsAsyncValue.when(data: (List<Product> products){
-                      return SliverPadding(
-                        padding: EdgeInsets.only(
-                          top: 20.h,
-                          right: 20.w,
-                          left: 20.w,
+            SliverToBoxAdapter(
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 20.h,
+                      right: 20.w,
+                      left: 20.w,
+                    ),
+                    child: Container(
+                      height: 600,
+                      child: GridView.builder(
+                        itemCount: dataProducts.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10.w,
+                          mainAxisSpacing: 10.w,
+                          childAspectRatio: 0.6,
                         ),
-                        sliver: SliverGrid(
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10.w,
-                            mainAxisSpacing: 10.w,
-                            childAspectRatio: 0.6,
-                          ),
-                          delegate: SliverChildBuilderDelegate(
-                                (context, index) {
-                              return LayoutBuilder(builder: (context, constraints) {
-                                return GestureDetector(child: ShopScreenProductItem(product: products[index]), onTap: ()=> Navigator.push(context, MaterialPageRoute(builder: (context)=> DetailsScreen2(product: products[index]))),);
-                              });
-                            },
-                            childCount: products.length,
-                          ),
-                        ),
-                      );
-                    }, error: (error, stack)=> Text("An Error Has Occured"), loading: ()=>Container(),),
+                        itemBuilder: (context, index) {
+                          return LayoutBuilder(builder: (context, constraints) {
+                            return GestureDetector(
+                              child: ShopScreenProductItem(
+                                  product: dataProducts[index]),
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => DetailsScreen2(
+                                          product: dataProducts[index]))),
+                            );
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  if (ref.watch(mainFilterProvider.notifier).isDataLoading)
                     CircularProgressIndicator(),
-                  ],
-                ),
-              );
-
-            }),
+                ],
+              ),
+            ),
             SliverToBoxAdapter(
               child: SizedBox(
                 height: 80.h,
@@ -78,4 +81,3 @@ class ShopScreen extends StatelessWidget {
     );
   }
 }
-

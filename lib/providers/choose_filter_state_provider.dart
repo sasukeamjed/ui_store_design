@@ -8,11 +8,13 @@ import '../services/filtering_system/filter.dart';
 
 final sortByFilterProvider = StateProvider<SortByFilter>((ref) => SortByFilter.popular);
 
+
+
 final priceFilterProvider = StateProvider<String?>((ref) => null);
 
 final colorFilterProvider = StateProvider<List<String>?>((ref) => []);
 
-final mainFilterProvider = StateNotifierProvider<FilterNotifier, AsyncValue<List<Product>>>((ref){
+final mainFilterProvider = StateNotifierProvider<FilterNotifier, List<Product>>((ref){
   final SortByFilter sortByFilter = ref.watch(sortByFilterProvider);
   final DataState productsData = ref.watch(productsDataProvider);
 
@@ -176,14 +178,16 @@ final filteredProductsProvider = FutureProvider<List<Product>>((ref) async {
   return [];
 });
 
-class FilterNotifier extends StateNotifier<AsyncValue<List<Product>>> {
-  FilterNotifier(this.sortTypeFilter, this._dataLoaded, this._dataLoadedDio) : super(AsyncValue<List<Product>>.loading()){
-    mainFilter();
-  }
+class FilterNotifier extends StateNotifier<List<Product>> {
+  FilterNotifier(this.sortTypeFilter, this._dataLoaded, this._dataLoadedDio) : super(_dataLoaded.products);
+
+
 
   final SortByFilter sortTypeFilter;
   final DataLoaded _dataLoaded;
   final Dio _dataLoadedDio;
+  bool isDataLoading = false;
+
   // final String priceFilter;
   // final List<String> colorsFilter;
 
@@ -199,6 +203,7 @@ class FilterNotifier extends StateNotifier<AsyncValue<List<Product>>> {
 
       case SortByFilter.sales:
         {
+
           sortProducts.sort((product1, product2) {
             return product2.totalSales.compareTo(product1.totalSales);
           });
@@ -216,32 +221,34 @@ class FilterNotifier extends StateNotifier<AsyncValue<List<Product>>> {
 
       case SortByFilter.priceLowToHigh:
         {
-          sortProducts
-              .sort((product1, product2) {
-            return product1.price.compareTo(product2.price);
+          sortProducts.sort((product1, product2) {
+            return double.parse(product1.price).compareTo(double.parse(product2.price));
           });
           break;
         }
 
       case SortByFilter.priceHighToLow:
         {
-          sortProducts
-              .sort((product1, product2) {
-            return product2.price.compareTo(product1.price);
+          sortProducts.sort((product1, product2) {
+            return double.parse(product2.price).compareTo(double.parse(product1.price));
           });
           break;
         }
     }
 
-    return [];
+    return sortProducts;
   }
 
 
 
-  Future<void> mainFilter() async {
+  void mainFilter() async {
     // List<Product> filteredProducts =
     //     (ref.watch(productsDataProvider) as DataLoaded).products;
 
+    print("main filter provider is running");
+    isDataLoading = true;
+
+    // state = AsyncValue.loading();
     List<Product> filteredProducts;
 
     try {
@@ -254,19 +261,17 @@ class FilterNotifier extends StateNotifier<AsyncValue<List<Product>>> {
 
       List<dynamic> productsResponse = response.data;
 
-      List<Product> products =
-      productsResponse.map((data) => Product.fromJson(data)).toList();
+      List<Product> products = productsResponse.map((data) => Product.fromJson(data)).toList();
 
-      filteredProducts = products
-          .where(
-              (product) => product.price != 0.00 && product.status == "publish")
-          .toList();
+      filteredProducts = products.where((product) => product.price != 0.00 && product.status == "publish").toList();
+
     } catch (e) {
       filteredProducts = _dataLoaded.products;
       print(e);
     }
-
-    AsyncValue.data(_sortByFilter(filteredProducts));
+    print("this is the value of sortByFilter function => ${_sortByFilter(filteredProducts)}");
+    state = _sortByFilter(filteredProducts);
+    isDataLoading = false;
   }
 
 }

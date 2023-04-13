@@ -25,6 +25,16 @@ class _SortByDropDownButtonState extends State<SortByDropDownButton> {
     super.initState();
   }
 
+  String _enumToStringFilterName(SortByFilter enumName){
+    if(enumName == SortByFilter.priceHighToLow){
+      return "price high to low";
+    }else if(enumName == SortByFilter.priceLowToHigh){
+      return "price low to high";
+    }else{
+      return enumName.name.toString();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Consumer(
@@ -49,10 +59,8 @@ class _SortByDropDownButtonState extends State<SortByDropDownButton> {
             onChanged: (SortByFilter? value) {
               // This is called when the user selects an item.
               ref.read(sortByFilterProvider.notifier).state = value!;
+              ref.read(mainFilterProvider.notifier).mainFilter();
 
-              if(value == ref.read(sortByFilterProvider.notifier).state){
-                print("it is same value from sortby dropdown");
-              }
               // setState(() {
               //   dropdownValue = value!;
               // });
@@ -62,7 +70,7 @@ class _SortByDropDownButtonState extends State<SortByDropDownButton> {
                 value: value,
                 child: Center(
                   child: Text(
-                    value.name.toString(),
+                    _enumToStringFilterName(value),
                     textAlign: TextAlign.center,
                   ),
                 ),
