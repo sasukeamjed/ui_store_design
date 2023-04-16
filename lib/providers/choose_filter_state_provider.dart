@@ -269,7 +269,7 @@ class FilterNotifier extends StateNotifier<List<Product>> {
       filteredProducts = _dataLoaded.products;
       print(e);
     }
-    print("this is the value of sortByFilter function => ${_sortByFilter(filteredProducts)}");
+
     state = _sortByFilter(filteredProducts);
     isDataLoading = false;
   }
