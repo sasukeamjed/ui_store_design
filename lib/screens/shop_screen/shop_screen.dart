@@ -29,23 +29,22 @@ class ShopScreen extends ConsumerWidget {
         body: CustomScrollView(
           slivers: <Widget>[
             ShopSliverAppBar(),
-            _sliverGridViewBuilderMethod(context, dataProducts),
-            // SliverToBoxAdapter(
-            //   child: Stack(
-            //     alignment: Alignment.center,
-            //     children: [
-            //       Padding(
-            //         padding: EdgeInsets.only(
-            //           top: 20.h,
-            //           right: 20.w,
-            //           left: 20.w,
-            //         ),
-            //         child: _gridViewBuilderMethod(context, dataProducts),
-            //       ),
-            //       CircularProgressIndicator(),
-            //     ],
-            //   ),
-            // ),
+            SliverToBoxAdapter(
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: 20.h,
+                      right: 20.w,
+                      left: 20.w,
+                    ),
+                    child: _gridViewBuilderMethod(context, dataProducts),
+                  ),
+                  CircularProgressIndicator(),
+                ],
+              ),
+            ),
             SliverToBoxAdapter(
               child: SizedBox(
                 height: 80.h,
@@ -106,31 +105,29 @@ class ShopScreen extends ConsumerWidget {
     final rowCount = (itemCount / crossAxisCount).ceil();
     final height = rowCount * itemHeight + (rowCount - 1) * mainAxisSpacing;
 
-    return SliverToBoxAdapter(
-      child: Container(
-        height: 600,
-        child: GridView.builder(
-          // physics: ScrollPhysics(),
-          itemCount: products.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: crossAxisCount,
-            crossAxisSpacing: crossAxisSpacing,
-            mainAxisSpacing: mainAxisSpacing,
-            childAspectRatio: childAspectRatio,
-          ),
-          itemBuilder: (context, index) {
-            return LayoutBuilder(builder: (context, constraints) {
-              return GestureDetector(
-                child: ShopScreenProductItem(product: products[index]),
-                onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => DetailsScreen2(
-                            product: products[index]))),
-              );
-            });
-          },
+    return Container(
+      height: 600,
+      child: GridView.builder(
+        // physics: ScrollPhysics(),
+        itemCount: products.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: crossAxisCount,
+          crossAxisSpacing: crossAxisSpacing,
+          mainAxisSpacing: mainAxisSpacing,
+          childAspectRatio: childAspectRatio,
         ),
+        itemBuilder: (context, index) {
+          return LayoutBuilder(builder: (context, constraints) {
+            return GestureDetector(
+              child: ShopScreenProductItem(product: products[index]),
+              onTap: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => DetailsScreen2(
+                          product: products[index]))),
+            );
+          });
+        },
       ),
     );
   }

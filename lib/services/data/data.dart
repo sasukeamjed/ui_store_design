@@ -189,7 +189,7 @@ class ProductsProvider extends StateNotifier<DataState> {
     late Response response;
     try {
       print("awaiting for products fetching");
-      response = await dio.get("wp-json/wc/v3/products", queryParameters: {
+      response = await dio.get(Uri.parse("wp-json/wc/v3/products").toString(), queryParameters: {
         "per_page": "100",
         "orderby" : "popularity",
         "order" : "desc"
