@@ -29,15 +29,15 @@ class ShopScreen extends ConsumerWidget {
       child: Scaffold(
         body: CustomScrollView(
           slivers: [
-            SliverStack(
-              positionedAlignment: Alignment.center,
-              children: [
-                SliverPositioned.fill(child: Text("child")),
-              ],
-            ),
+            // SliverStack(
+            //   positionedAlignment: Alignment.center,
+            //   children: [
+            //     SliverPositioned.fill(child: Text("child")),
+            //   ],
+            // ),
             MultiSliver(
               children: [
-                // Text("child"),
+                Text("child"),
                 SliverStack(
                   positionedAlignment: Alignment.center,
                   children: [
