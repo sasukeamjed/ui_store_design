@@ -50,6 +50,7 @@ dependencies:
   json_serializable: ^6.6.0
   filter_list: ^1.0.2
   dropdown_button2: ^1.0.0
+  sliver_tools: ^0.2.10
 
 
 flutter_native_splash:

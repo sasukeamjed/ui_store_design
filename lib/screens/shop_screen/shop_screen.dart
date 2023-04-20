@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sliver_tools/sliver_tools.dart';
 import 'package:ui_store_design/models/vendor_model.dart';
 import 'package:ui_store_design/providers/choose_filter_state_provider.dart';
 import 'package:ui_store_design/providers/data_providers.dart';
@@ -27,44 +28,78 @@ class ShopScreen extends ConsumerWidget {
     return SafeArea(
       child: Scaffold(
         body: CustomScrollView(
-          slivers: <Widget>[
-            ShopSliverAppBar(),
-            SliverToBoxAdapter(
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: 20.h,
-                      right: 20.w,
-                      left: 20.w,
-                    ),
-                    child: _gridViewBuilderMethod(context, dataProducts),
-                  ),
-                  CircularProgressIndicator(),
-                ],
-              ),
+          slivers: [
+            SliverStack(
+              positionedAlignment: Alignment.center,
+              children: [
+                SliverPositioned.fill(child: Text("child")),
+              ],
             ),
-            SliverToBoxAdapter(
-              child: SizedBox(
-                height: 80.h,
-              ),
+            MultiSliver(
+              children: [
+                // Text("child"),
+                SliverStack(
+                  positionedAlignment: Alignment.center,
+                  children: [
+                    SliverPositioned.fill(child: Container(color: Colors.green,)),
+                    Container(
+                      color: Colors.brown,
+                      height: 50,
+                      width: 50,
+                    ),
+                  ],
+                ),
+              ],
             ),
           ],
         ),
+        // body: CustomScrollView(
+        //   slivers: <Widget>[
+        //     // ShopSliverAppBar(),
+        //     SliverStack(
+        //       // defaults to false
+        //       children: <Widget>[
+        //         Text("fish"),
+        //       ],
+        //     ),
+        //     // SliverToBoxAdapter(
+        //     //   child: Stack(
+        //     //     alignment: Alignment.center,
+        //     //      // defaults to false
+        //     //     children: <Widget>[
+        //     //       Positioned.fill(child: Container(
+        //     //         color: Colors.black,
+        //     //       ),),
+        //     //       Container(
+        //     //         height: 100,
+        //     //         width: 100,
+        //     //         color: Colors.orange,
+        //     //       ),
+        //     //     ],
+        //     //   ),
+        //     // ),
+        //     //
+        //     // SliverToBoxAdapter(
+        //     //   child: SizedBox(
+        //     //     height: 80.h,
+        //     //   ),
+        //     // ),
+        //   ],
+        // ),
       ),
     );
-
-
   }
-  Widget _sliverGridViewBuilderMethod(BuildContext context, List<Product> products){
 
+  Widget _sliverGridViewBuilderMethod(
+      BuildContext context, List<Product> products) {
     final itemCount = products.length;
     final crossAxisCount = 2;
     final crossAxisSpacing = 10.w;
     final mainAxisSpacing = 10.w;
     final childAspectRatio = 0.6;
-    final itemWidth = (MediaQuery.of(context).size.width - (crossAxisCount - 1) * crossAxisSpacing) / crossAxisCount;
+    final itemWidth = (MediaQuery.of(context).size.width -
+            (crossAxisCount - 1) * crossAxisSpacing) /
+        crossAxisCount;
     final itemHeight = itemWidth / childAspectRatio;
     final rowCount = (itemCount / crossAxisCount).ceil();
     final height = rowCount * itemHeight + (rowCount - 1) * mainAxisSpacing;
@@ -85,22 +120,23 @@ class ShopScreen extends ConsumerWidget {
             onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => DetailsScreen2(
-                        product: products[index]))),
+                    builder: (context) =>
+                        DetailsScreen2(product: products[index]))),
           );
         });
       },
     );
   }
 
-  Widget _gridViewBuilderMethod(BuildContext context, List<Product> products){
-
+  Widget _gridViewBuilderMethod(BuildContext context, List<Product> products) {
     final itemCount = products.length;
     final crossAxisCount = 2;
     final crossAxisSpacing = 10.w;
     final mainAxisSpacing = 10.w;
     final childAspectRatio = 0.6;
-    final itemWidth = (MediaQuery.of(context).size.width - (crossAxisCount - 1) * crossAxisSpacing) / crossAxisCount;
+    final itemWidth = (MediaQuery.of(context).size.width -
+            (crossAxisCount - 1) * crossAxisSpacing) /
+        crossAxisCount;
     final itemHeight = itemWidth / childAspectRatio;
     final rowCount = (itemCount / crossAxisCount).ceil();
     final height = rowCount * itemHeight + (rowCount - 1) * mainAxisSpacing;
@@ -123,8 +159,8 @@ class ShopScreen extends ConsumerWidget {
               onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => DetailsScreen2(
-                          product: products[index]))),
+                      builder: (context) =>
+                          DetailsScreen2(product: products[index]))),
             );
           });
         },
