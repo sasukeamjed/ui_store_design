@@ -252,8 +252,7 @@ class FilterNotifier extends StateNotifier<List<Product>> {
     List<Product> filteredProducts;
 
     try {
-      Response response = await _dataLoadedDio
-          .get("wp-json/wc/v2/products", queryParameters: {
+      Response response = await _dataLoadedDio.get("wp-json/wc/v2/products", queryParameters: {
         "per_page": "100",
         "orderby": "popularity",
         "order": "desc"

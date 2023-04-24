@@ -16,90 +16,54 @@ import '../../models/product_model.dart';
 class ShopScreen extends ConsumerWidget {
   // final Vendor vendor;
 
-  const ShopScreen({Key? key}) : super(key: key);
+
 
   static String routeName = "/shop";
+  // GlobalKey circularProgressBarKey = GlobalKey();
 
   @override
   Widget build(BuildContext context, ref) {
     final List<Product> dataProducts = ref.watch(mainFilterProvider);
+    // print('this the width => ${circularProgressBarKey.currentContext?.size?.width}');
 
     // print("data loading state => ${ref.watch(mainFilterProvider.notifier).isDataLoading}");
     return SafeArea(
       child: Scaffold(
-        body: CustomScrollView(
-          slivers: [
-            SliverStack(
-              positionedAlignment: Alignment.center,
-              children: [
-                SliverPositioned.fill(child: Text("child")),
-              ],
-            ),
-            MultiSliver(
-              children: [
-                // Text("child"),
-                SliverStack(
-                  positionedAlignment: Alignment.center,
-                  children: [
-                    SliverPositioned.fill(child: Container(color: Colors.green,)),
-                    Container(
-                      color: Colors.brown,
-                      height: 50,
-                      width: 50,
-                    ),
-                  ],
+        body: Stack(
+          children: [
+            CustomScrollView(
+              slivers: <Widget>[
+                ShopSliverAppBar(),
+
+                _sliverGridViewBuilderMethod(context, dataProducts),
+
+                SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 80.h,
+                  ),
                 ),
               ],
             ),
+            if(ref.watch(mainFilterProvider.notifier).isDataLoading)
+              Positioned(
+                top: MediaQuery.of(context).size.height / 2 + 20.h,
+                right: MediaQuery.of(context).size.width / 2 - 20.w,
+                child: CircularProgressIndicator(),
+              ),
+
           ],
         ),
-        // body: CustomScrollView(
-        //   slivers: <Widget>[
-        //     // ShopSliverAppBar(),
-        //     SliverStack(
-        //       // defaults to false
-        //       children: <Widget>[
-        //         Text("fish"),
-        //       ],
-        //     ),
-        //     // SliverToBoxAdapter(
-        //     //   child: Stack(
-        //     //     alignment: Alignment.center,
-        //     //      // defaults to false
-        //     //     children: <Widget>[
-        //     //       Positioned.fill(child: Container(
-        //     //         color: Colors.black,
-        //     //       ),),
-        //     //       Container(
-        //     //         height: 100,
-        //     //         width: 100,
-        //     //         color: Colors.orange,
-        //     //       ),
-        //     //     ],
-        //     //   ),
-        //     // ),
-        //     //
-        //     // SliverToBoxAdapter(
-        //     //   child: SizedBox(
-        //     //     height: 80.h,
-        //     //   ),
-        //     // ),
-        //   ],
-        // ),
       ),
     );
   }
 
-  Widget _sliverGridViewBuilderMethod(
-      BuildContext context, List<Product> products) {
+  Widget _sliverGridViewBuilderMethod(BuildContext context, List<Product> products) {
     final itemCount = products.length;
     final crossAxisCount = 2;
     final crossAxisSpacing = 10.w;
     final mainAxisSpacing = 10.w;
     final childAspectRatio = 0.6;
-    final itemWidth = (MediaQuery.of(context).size.width -
-            (crossAxisCount - 1) * crossAxisSpacing) /
-        crossAxisCount;
+    final itemWidth = (MediaQuery.of(context).size.width - (crossAxisCount - 1) * crossAxisSpacing) / crossAxisCount;
     final itemHeight = itemWidth / childAspectRatio;
     final rowCount = (itemCount / crossAxisCount).ceil();
     final height = rowCount * itemHeight + (rowCount - 1) * mainAxisSpacing;
@@ -119,9 +83,7 @@ class ShopScreen extends ConsumerWidget {
             child: ShopScreenProductItem(product: products[index]),
             onTap: () => Navigator.push(
                 context,
-                MaterialPageRoute(
-                    builder: (context) =>
-                        DetailsScreen2(product: products[index]))),
+                MaterialPageRoute(builder: (context) => DetailsScreen2(product: products[index]))),
           );
         });
       },
