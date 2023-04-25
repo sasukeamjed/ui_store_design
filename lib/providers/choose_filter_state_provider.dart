@@ -239,6 +239,20 @@ class FilterNotifier extends StateNotifier<List<Product>> {
     return sortProducts;
   }
 
+  //Test method
+  void removeFirstItem()async{
+    print("removing an item with items length: ${state.length}");
+    isDataLoading = true;
+    await Future.delayed(Duration(seconds: 3));
+
+    final List<Product> listOfProducts = state;
+    listOfProducts.removeAt(0);
+    state = listOfProducts;
+    isDataLoading = false;
+
+    print("item is removed with items length: ${state.length}");
+  }
+
 
 
   void mainFilter() async {
@@ -252,7 +266,7 @@ class FilterNotifier extends StateNotifier<List<Product>> {
     List<Product> filteredProducts;
 
     try {
-      Response response = await _dataLoadedDio.get("wp-json/wc/v2/products", queryParameters: {
+      Response response = await _dataLoadedDio.get(Uri.parse("wp-json/wc/v3/products").toString(), queryParameters: {
         "per_page": "100",
         "orderby": "popularity",
         "order": "desc"

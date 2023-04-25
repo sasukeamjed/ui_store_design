@@ -24,6 +24,7 @@ class ShopScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     final List<Product> dataProducts = ref.watch(mainFilterProvider);
+    print("is Data Loading => ${ref.watch(mainFilterProvider.notifier).isDataLoading}");
     // print('this the width => ${circularProgressBarKey.currentContext?.size?.width}');
 
     // print("data loading state => ${ref.watch(mainFilterProvider.notifier).isDataLoading}");

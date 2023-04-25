@@ -59,7 +59,8 @@ class _SortByDropDownButtonState extends State<SortByDropDownButton> {
             onChanged: (SortByFilter? value) {
               // This is called when the user selects an item.
               ref.read(sortByFilterProvider.notifier).state = value!;
-              ref.read(mainFilterProvider.notifier).mainFilter();
+              ref.read(mainFilterProvider.notifier).removeFirstItem();
+              // ref.read(mainFilterProvider.notifier).mainFilter();
 
               // setState(() {
               //   dropdownValue = value!;

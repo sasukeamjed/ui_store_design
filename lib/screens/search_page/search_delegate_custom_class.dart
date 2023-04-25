@@ -52,10 +52,8 @@ abstract class CustomSearchDelegate<T> {
     assert(theme != null);
     return theme.copyWith(
       appBarTheme: AppBarTheme(
-        brightness: colorScheme.brightness,
         backgroundColor: colorScheme.brightness == Brightness.dark ? Colors.grey[900] : Colors.white,
-        iconTheme: theme.primaryIconTheme.copyWith(color: Colors.grey),
-        textTheme: theme.textTheme,
+        iconTheme: theme.primaryIconTheme.copyWith(color: Colors.grey), toolbarTextStyle: theme.textTheme.bodyText2, titleTextStyle: theme.textTheme.headline6,
       ),
       inputDecorationTheme: searchFieldDecorationTheme ??
           InputDecorationTheme(
