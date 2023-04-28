@@ -13,7 +13,7 @@ import 'package:ui_store_design/services/data/states/data_states.dart';
 
 import '../../models/product_model.dart';
 
-class ShopScreen extends ConsumerWidget {
+class ShopScreen extends StatelessWidget {
   // final Vendor vendor;
 
 
@@ -22,9 +22,9 @@ class ShopScreen extends ConsumerWidget {
   // GlobalKey circularProgressBarKey = GlobalKey();
 
   @override
-  Widget build(BuildContext context, ref) {
-    final List<Product> dataProducts = ref.watch(mainFilterProvider);
-    print("is Data Loading => ${ref.watch(mainFilterProvider.notifier).isDataLoading}");
+  Widget build(BuildContext context) {
+    // final dataProducts = ref.watch(mainFilterProvider);
+    // print("is Data Loading => ${ref.watch(shopScreenLoadingDataState)}");
     // print('this the width => ${circularProgressBarKey.currentContext?.size?.width}');
 
     // print("data loading state => ${ref.watch(mainFilterProvider.notifier).isDataLoading}");
@@ -36,7 +36,9 @@ class ShopScreen extends ConsumerWidget {
               slivers: <Widget>[
                 ShopSliverAppBar(),
 
-                _sliverGridViewBuilderMethod(context, dataProducts),
+                SliverToBoxAdapter(
+                  child: _gridViewBuilderMethod(context),
+                ),
 
                 SliverToBoxAdapter(
                   child: SizedBox(
@@ -45,12 +47,18 @@ class ShopScreen extends ConsumerWidget {
                 ),
               ],
             ),
-            if(ref.watch(mainFilterProvider.notifier).isDataLoading)
-              Positioned(
-                top: MediaQuery.of(context).size.height / 2 + 20.h,
-                right: MediaQuery.of(context).size.width / 2 - 20.w,
-                child: CircularProgressIndicator(),
-              ),
+            // if(ref.watch(shopScreenLoadingDataState))
+            //   Positioned(
+            //     top: MediaQuery.of(context).size.height / 2 + 20.h,
+            //     right: MediaQuery.of(context).size.width / 2 - 20.w,
+            //     child: CircularProgressIndicator(),
+            //   ),
+            // if(ref.watch(mainFilterProvider.notifier).isDataLoading)
+            //   Positioned(
+            //     top: MediaQuery.of(context).size.height / 2 + 20.h,
+            //     right: MediaQuery.of(context).size.width / 2 - 20.w,
+            //     child: CircularProgressIndicator(),
+            //   ),
 
           ],
         ),
@@ -58,41 +66,45 @@ class ShopScreen extends ConsumerWidget {
     );
   }
 
-  Widget _sliverGridViewBuilderMethod(BuildContext context, List<Product> products) {
-    final itemCount = products.length;
+  Widget _sliverGridViewBuilderMethod(BuildContext context) {
+
     final crossAxisCount = 2;
     final crossAxisSpacing = 10.w;
     final mainAxisSpacing = 10.w;
     final childAspectRatio = 0.6;
-    final itemWidth = (MediaQuery.of(context).size.width - (crossAxisCount - 1) * crossAxisSpacing) / crossAxisCount;
-    final itemHeight = itemWidth / childAspectRatio;
-    final rowCount = (itemCount / crossAxisCount).ceil();
-    final height = rowCount * itemHeight + (rowCount - 1) * mainAxisSpacing;
 
-    return SliverGrid.builder(
-      // physics: ScrollPhysics(),
-      itemCount: products.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: crossAxisCount,
-        crossAxisSpacing: crossAxisSpacing,
-        mainAxisSpacing: mainAxisSpacing,
-        childAspectRatio: childAspectRatio,
-      ),
-      itemBuilder: (context, index) {
-        return LayoutBuilder(builder: (context, constraints) {
-          return GestureDetector(
-            child: ShopScreenProductItem(product: products[index]),
-            onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => DetailsScreen2(product: products[index]))),
-          );
-        });
+
+
+    return Consumer(
+      builder: (context, ref, child){
+        final dataProducts = ref.watch(mainFilterProvider);
+        print("grid silver is rebuilding");
+        return SliverGrid.builder(
+          // physics: ScrollPhysics(),
+          itemCount: dataProducts.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: crossAxisCount,
+            crossAxisSpacing: crossAxisSpacing,
+            mainAxisSpacing: mainAxisSpacing,
+            childAspectRatio: childAspectRatio,
+          ),
+          itemBuilder: (context, index) {
+            return LayoutBuilder(builder: (context, constraints) {
+              return GestureDetector(
+                child: ShopScreenProductItem(product: dataProducts[index]),
+                onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DetailsScreen2(product: dataProducts[index]))),
+              );
+            });
+          },
+        );
       },
     );
   }
 
-  Widget _gridViewBuilderMethod(BuildContext context, List<Product> products) {
-    final itemCount = products.length;
+  Widget _gridViewBuilderMethod(BuildContext context) {
+
     final crossAxisCount = 2;
     final crossAxisSpacing = 10.w;
     final mainAxisSpacing = 10.w;
@@ -101,33 +113,39 @@ class ShopScreen extends ConsumerWidget {
             (crossAxisCount - 1) * crossAxisSpacing) /
         crossAxisCount;
     final itemHeight = itemWidth / childAspectRatio;
-    final rowCount = (itemCount / crossAxisCount).ceil();
-    final height = rowCount * itemHeight + (rowCount - 1) * mainAxisSpacing;
 
-    return Container(
-      height: 600,
-      child: GridView.builder(
-        // physics: ScrollPhysics(),
-        itemCount: products.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: crossAxisCount,
-          crossAxisSpacing: crossAxisSpacing,
-          mainAxisSpacing: mainAxisSpacing,
-          childAspectRatio: childAspectRatio,
-        ),
-        itemBuilder: (context, index) {
-          return LayoutBuilder(builder: (context, constraints) {
-            return GestureDetector(
-              child: ShopScreenProductItem(product: products[index]),
-              onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          DetailsScreen2(product: products[index]))),
-            );
-          });
-        },
-      ),
+
+
+    return Consumer(
+      builder: (context, ref, child){
+        final dataProducts = ref.watch(mainFilterProvider);
+        print("grid normal is rebuilding");
+        return Container(
+          height: 600,
+          child: GridView.builder(
+            // physics: ScrollPhysics(),
+            itemCount: dataProducts.length,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: crossAxisCount,
+              crossAxisSpacing: crossAxisSpacing,
+              mainAxisSpacing: mainAxisSpacing,
+              childAspectRatio: childAspectRatio,
+            ),
+            itemBuilder: (context, index) {
+              return LayoutBuilder(builder: (context, constraints) {
+                return GestureDetector(
+                  child: ShopScreenProductItem(product: dataProducts[index]),
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              DetailsScreen2(product: dataProducts[index]))),
+                );
+              });
+            },
+          ),
+        );
+      },
     );
   }
 }
