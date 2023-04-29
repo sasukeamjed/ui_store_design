@@ -47,6 +47,18 @@ class ShopScreen extends StatelessWidget {
                 ),
               ],
             ),
+            Positioned(
+              top: MediaQuery.of(context).size.height / 2 + 20.h,
+              right: MediaQuery.of(context).size.width / 2 - 20.w,
+              child: Consumer(
+                  builder: (context, ref, child){
+                    print("notifier loading state => ${ref.watch(mainFilterProvider.notifier).isDataLoading}");
+                    print("provider loading state => ${ref.watch(shopScreenLoadingDataState)}");
+
+                    return ref.watch(shopScreenLoadingDataState)? CircularProgressIndicator() : SizedBox();
+                  },
+              ),
+            )
             // if(ref.watch(shopScreenLoadingDataState))
             //   Positioned(
             //     top: MediaQuery.of(context).size.height / 2 + 20.h,

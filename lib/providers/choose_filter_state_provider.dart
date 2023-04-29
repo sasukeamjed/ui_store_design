@@ -95,7 +95,7 @@ class FilterNotifierUpdated extends StateNotifier<List<Product>> {
 
     final List<Product>? listOfProducts = state;
     listOfProducts?.removeAt(0);
-    state = listOfProducts!;
+    state = [...?listOfProducts]!;
 
 
     print("item is removed with items length: ${state.length}");
@@ -107,7 +107,7 @@ class FilterNotifierUpdated extends StateNotifier<List<Product>> {
 
     final List<Product>? listOfProducts = state;
     listOfProducts?.removeAt(0);
-    state = listOfProducts!;
+    state = [...?listOfProducts];
 
 
     print("item is removed with items length: ${state.length}");
