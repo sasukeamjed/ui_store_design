@@ -57,12 +57,12 @@ class _SortByDropDownButtonState extends State<SortByDropDownButton> {
             isExpanded: true,
             underline: SizedBox(),
             onChanged: (SortByFilter? value) {
-              ref.read(shopScreenLoadingDataState) == true;
+              ref.read(shopScreenLoadingDataState.notifier).state == true;
               ref.read(sortByFilterProvider.notifier).state = value!;
               ref.read(mainFilterProvider.notifier).removeFirstItem();
 
               // ref.read(mainFilterProvider.notifier).mainFilter();
-              ref.read(shopScreenLoadingDataState) == false;
+              ref.read(shopScreenLoadingDataState.notifier).state == false;
               // setState(() {
               //   dropdownValue = value!;
               // });
