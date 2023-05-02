@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ui_store_design/models/product_model.dart';
 import 'package:ui_store_design/providers/data_providers.dart';
+import 'package:ui_store_design/providers/shop_page_provider/state/shop_page_state.dart';
 import 'package:ui_store_design/services/data/states/data_states.dart';
 
 import '../services/filtering_system/filter.dart';
@@ -16,7 +17,7 @@ final colorFilterProvider = StateProvider<List<String>?>((ref) => []);
 
 final shopScreenLoadingDataState = StateProvider<bool>((ref) => false);
 
-final mainFilterProvider = StateNotifierProvider<FilterNotifierUpdated, List<Product>>((ref){
+final mainFilterProvider = StateNotifierProvider<FilterNotifierUpdated, ShopPageState>((ref){
   final SortByFilter sortByFilter = ref.watch(sortByFilterProvider);
   final DataState productsData = ref.watch(productsDataProvider);
 
@@ -25,9 +26,11 @@ final mainFilterProvider = StateNotifierProvider<FilterNotifierUpdated, List<Pro
 
 
 
-class FilterNotifierUpdated extends StateNotifier<List<Product>> {
+class FilterNotifierUpdated extends StateNotifier<ShopPageState> {
 
-  FilterNotifierUpdated(this.sortTypeFilter, this.dataLoaded, this._dataLoadedDio) : super(dataLoaded.products);
+  FilterNotifierUpdated(this.sortTypeFilter, this.dataLoaded, this._dataLoadedDio) : super(ShopPageState(productsState: dataLoaded.products, loadingState: false)){
+    print("Fiter Provider has been initilized");
+  }
 
 
 
@@ -88,30 +91,6 @@ class FilterNotifierUpdated extends StateNotifier<List<Product>> {
   }
 
   //Test method
-  void removeFirstItem()async{
-    print("removing an item with items length: ${state.length}");
-
-    await Future.delayed(Duration(seconds: 3));
-
-    final List<Product>? listOfProducts = state;
-    listOfProducts?.removeAt(0);
-    state = [...?listOfProducts]!;
-
-
-    print("item is removed with items length: ${state.length}");
-  }
-  void removeFirstItemNormal(){
-    print("removing an item with items length: ${state.length}");
-
-    // await Future.delayed(Duration(seconds: 3));
-
-    final List<Product>? listOfProducts = state;
-    listOfProducts?.removeAt(0);
-    state = [...?listOfProducts];
-
-
-    print("item is removed with items length: ${state.length}");
-  }
 
 
 
@@ -121,9 +100,9 @@ class FilterNotifierUpdated extends StateNotifier<List<Product>> {
     //     (ref.watch(productsDataProvider) as DataLoaded).products;
 
     print("main filter provider is running");
-    isDataLoading = true;
 
-    // state = AsyncValue.loading();
+
+    state = ShopPageState(productsState: state.productsState, loadingState: true);
     List<Product> filteredProducts;
 
     try {
@@ -144,8 +123,8 @@ class FilterNotifierUpdated extends StateNotifier<List<Product>> {
       print(e);
     }
 
-    state = _sortByFilter(filteredProducts);
-    isDataLoading = false;
+    state = ShopPageState(productsState: _sortByFilter(filteredProducts), loadingState: false);
+
   }
 
 }

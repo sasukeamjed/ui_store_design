@@ -56,16 +56,12 @@ class _SortByDropDownButtonState extends State<SortByDropDownButton> {
             style: const TextStyle(color: Colors.deepPurple),
             isExpanded: true,
             underline: SizedBox(),
-            onChanged: (SortByFilter? value) {
-              ref.read(shopScreenLoadingDataState.notifier).state == true;
-              ref.read(sortByFilterProvider.notifier).state = value!;
-              ref.read(mainFilterProvider.notifier).removeFirstItem();
+            onChanged: (SortByFilter? value) async{
 
-              // ref.read(mainFilterProvider.notifier).mainFilter();
-              ref.read(shopScreenLoadingDataState.notifier).state == false;
-              // setState(() {
-              //   dropdownValue = value!;
-              // });
+              ref.read(sortByFilterProvider.notifier).state = value!;
+
+              ref.read(mainFilterProvider.notifier).mainFilter();
+
             },
             items: SortByFilter.values.map<DropdownMenuItem<SortByFilter>>((SortByFilter value) {
               return DropdownMenuItem<SortByFilter>(

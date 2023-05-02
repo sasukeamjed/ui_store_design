@@ -36,9 +36,7 @@ class ShopScreen extends StatelessWidget {
               slivers: <Widget>[
                 ShopSliverAppBar(),
 
-                SliverToBoxAdapter(
-                  child: _gridViewBuilderMethod(context),
-                ),
+                _sliverGridViewBuilderMethod(context),
 
                 SliverToBoxAdapter(
                   child: SizedBox(
@@ -52,10 +50,10 @@ class ShopScreen extends StatelessWidget {
               right: MediaQuery.of(context).size.width / 2 - 20.w,
               child: Consumer(
                   builder: (context, ref, child){
-                    print("notifier loading state => ${ref.watch(mainFilterProvider.notifier).isDataLoading}");
-                    print("provider loading state => ${ref.watch(shopScreenLoadingDataState)}");
+                    print("notifier loading state => ${ref.read(mainFilterProvider.notifier).state.loadingState}");
+                    // print("provider loading state => ${ref.watch(shopScreenLoadingDataState)}");
 
-                    return ref.watch(shopScreenLoadingDataState)? CircularProgressIndicator() : SizedBox();
+                    return ref.watch(mainFilterProvider).loadingState ? CircularProgressIndicator() : SizedBox();
                   },
               ),
             )
@@ -89,11 +87,11 @@ class ShopScreen extends StatelessWidget {
 
     return Consumer(
       builder: (context, ref, child){
-        final dataProducts = ref.watch(mainFilterProvider);
+        final dataState = ref.watch(mainFilterProvider);
         print("grid silver is rebuilding");
         return SliverGrid.builder(
           // physics: ScrollPhysics(),
-          itemCount: dataProducts.length,
+          itemCount: dataState.productsState.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: crossAxisCount,
             crossAxisSpacing: crossAxisSpacing,
@@ -103,10 +101,10 @@ class ShopScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             return LayoutBuilder(builder: (context, constraints) {
               return GestureDetector(
-                child: ShopScreenProductItem(product: dataProducts[index]),
+                child: ShopScreenProductItem(product: dataState.productsState[index]),
                 onTap: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => DetailsScreen2(product: dataProducts[index]))),
+                    MaterialPageRoute(builder: (context) => DetailsScreen2(product: dataState.productsState[index]))),
               );
             });
           },
@@ -130,13 +128,13 @@ class ShopScreen extends StatelessWidget {
 
     return Consumer(
       builder: (context, ref, child){
-        final dataProducts = ref.watch(mainFilterProvider);
+        final dataState = ref.watch(mainFilterProvider);
         print("grid normal is rebuilding");
         return Container(
           height: 600,
           child: GridView.builder(
             // physics: ScrollPhysics(),
-            itemCount: dataProducts.length,
+            itemCount: dataState.productsState.length,
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: crossAxisCount,
               crossAxisSpacing: crossAxisSpacing,
@@ -146,12 +144,12 @@ class ShopScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               return LayoutBuilder(builder: (context, constraints) {
                 return GestureDetector(
-                  child: ShopScreenProductItem(product: dataProducts[index]),
+                  child: ShopScreenProductItem(product: dataState.productsState[index]),
                   onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              DetailsScreen2(product: dataProducts[index]))),
+                              DetailsScreen2(product: dataState.productsState[index]))),
                 );
               });
             },
