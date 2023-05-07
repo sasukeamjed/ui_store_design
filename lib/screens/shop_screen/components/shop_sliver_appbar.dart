@@ -1,19 +1,13 @@
 import 'package:collection/collection.dart';
-import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ui_store_design/colors_library/string_color_genrator.dart';
 import 'package:ui_store_design/models/category_model.dart';
-import 'package:ui_store_design/models/vendor_model.dart';
-import 'package:ui_store_design/providers/choose_filter_state_provider.dart';
-import 'package:ui_store_design/screens/search_page/search_page.dart';
 import 'package:ui_store_design/screens/search_page/search_text_field.dart';
 import 'package:ui_store_design/screens/shop_screen/components/filter_dropdown_buttons/color_filter_dropdown_button.dart';
 import 'package:ui_store_design/screens/shop_screen/components/filter_dropdown_buttons/sort_by_dropdown_button.dart';
 import 'package:ui_store_design/screens/shop_screen/components/filter_dropdown_buttons/sort_by_price_dropdown_button.dart';
 import 'package:ui_store_design/services/data/states/data_states.dart';
-import 'package:ui_store_design/services/filtering_system/filter.dart';
 
 import '../../../providers/data_providers.dart';
 
@@ -41,14 +35,6 @@ class _ShopSliverAppBarState extends State<ShopSliverAppBar> {
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: EdgeInsets.all(0),
         centerTitle: true,
-        // title: Container(
-        //   color: Colors.red,
-        //   child: TextField(
-        //     decoration: InputDecoration(
-        //       hintText: "Search",
-        //     ),
-        //   ),
-        // ),
         background: Column(
           children: [
             Flexible(

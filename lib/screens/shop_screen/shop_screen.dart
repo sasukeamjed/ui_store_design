@@ -1,26 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:sliver_tools/sliver_tools.dart';
-import 'package:ui_store_design/models/vendor_model.dart';
 import 'package:ui_store_design/providers/choose_filter_state_provider.dart';
 import 'package:ui_store_design/providers/data_providers.dart';
+import 'package:ui_store_design/providers/filter_provider.dart';
+import 'package:ui_store_design/providers/shop_page_provider/state/shop_page_state.dart';
 import 'package:ui_store_design/screens/details_screen_2/details_screen_2.dart';
 import 'package:ui_store_design/screens/shop_screen/components/shop_screen_product_item.dart';
 import 'package:ui_store_design/screens/shop_screen/components/shop_sliver_appbar.dart';
-import 'package:ui_store_design/services/auth/states/auth_state.dart';
-import 'package:ui_store_design/services/data/states/data_states.dart';
 
-import '../../models/product_model.dart';
 
 class ShopScreen extends StatelessWidget {
-  // final Vendor vendor;
-
-
-
-  static String routeName = "/shop";
   // GlobalKey circularProgressBarKey = GlobalKey();
 
+  static String routeName = "/shop";
   @override
   Widget build(BuildContext context) {
     // final dataProducts = ref.watch(mainFilterProvider);
@@ -36,7 +29,7 @@ class ShopScreen extends StatelessWidget {
               slivers: <Widget>[
                 ShopSliverAppBar(),
 
-                _sliverGridViewBuilderMethod(context),
+                SliverProductsGrid(),
 
                 SliverToBoxAdapter(
                   child: SizedBox(
@@ -50,25 +43,13 @@ class ShopScreen extends StatelessWidget {
               right: MediaQuery.of(context).size.width / 2 - 20.w,
               child: Consumer(
                   builder: (context, ref, child){
-                    print("notifier loading state => ${ref.read(mainFilterProvider.notifier).state.loadingState}");
+
                     // print("provider loading state => ${ref.watch(shopScreenLoadingDataState)}");
 
-                    return ref.watch(mainFilterProvider).loadingState ? CircularProgressIndicator() : SizedBox();
+                    return ref.watch(shopScreenLoadingDataState) ? CircularProgressIndicator() : SizedBox();
                   },
               ),
-            )
-            // if(ref.watch(shopScreenLoadingDataState))
-            //   Positioned(
-            //     top: MediaQuery.of(context).size.height / 2 + 20.h,
-            //     right: MediaQuery.of(context).size.width / 2 - 20.w,
-            //     child: CircularProgressIndicator(),
-            //   ),
-            // if(ref.watch(mainFilterProvider.notifier).isDataLoading)
-            //   Positioned(
-            //     top: MediaQuery.of(context).size.height / 2 + 20.h,
-            //     right: MediaQuery.of(context).size.width / 2 - 20.w,
-            //     child: CircularProgressIndicator(),
-            //   ),
+            ),
 
           ],
         ),
@@ -76,35 +57,36 @@ class ShopScreen extends StatelessWidget {
     );
   }
 
-  Widget _sliverGridViewBuilderMethod(BuildContext context) {
-
-    final crossAxisCount = 2;
-    final crossAxisSpacing = 10.w;
-    final mainAxisSpacing = 10.w;
-    final childAspectRatio = 0.6;
+  Widget _sliverGridViewBuilderMethod() {
 
 
 
     return Consumer(
       builder: (context, ref, child){
-        final dataState = ref.watch(mainFilterProvider);
-        print("grid silver is rebuilding");
+        // final DataLoaded productsData = ref.read(productsDataProvider) as DataLoaded;
+        // final List<Product> products = ref.read(mainFilterProvider(productsData.products)).productsState;
+        final products = ref.watch(productsProvider);
+        // final dataState = ref.watch(sortedProducts);
+        // final dataState = ref.watch(filterChangeNotifier);
+        // dataState.productsState.forEach((element) {
+        //   print(element.name);
+        // });
         return SliverGrid.builder(
           // physics: ScrollPhysics(),
-          itemCount: dataState.productsState.length,
+          itemCount: products.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: crossAxisCount,
-            crossAxisSpacing: crossAxisSpacing,
-            mainAxisSpacing: mainAxisSpacing,
-            childAspectRatio: childAspectRatio,
+            crossAxisCount: 2,
+            crossAxisSpacing: 10.w,
+            mainAxisSpacing: 10.w,
+            childAspectRatio: 0.6,
           ),
           itemBuilder: (context, index) {
             return LayoutBuilder(builder: (context, constraints) {
               return GestureDetector(
-                child: ShopScreenProductItem(product: dataState.productsState[index]),
+                child: ShopScreenProductItem(product: products[index]),
                 onTap: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => DetailsScreen2(product: dataState.productsState[index]))),
+                    MaterialPageRoute(builder: (context) => DetailsScreen2(product: products[index]))),
               );
             });
           },
@@ -112,50 +94,48 @@ class ShopScreen extends StatelessWidget {
       },
     );
   }
+}
 
-  Widget _gridViewBuilderMethod(BuildContext context) {
+class SliverProductsGrid extends ConsumerStatefulWidget {
+  const SliverProductsGrid({Key? key}) : super(key: key);
 
-    final crossAxisCount = 2;
-    final crossAxisSpacing = 10.w;
-    final mainAxisSpacing = 10.w;
-    final childAspectRatio = 0.6;
-    final itemWidth = (MediaQuery.of(context).size.width -
-            (crossAxisCount - 1) * crossAxisSpacing) /
-        crossAxisCount;
-    final itemHeight = itemWidth / childAspectRatio;
+  @override
+  ConsumerState<SliverProductsGrid> createState() => _SliverProductsGridState();
+}
 
+class _SliverProductsGridState extends ConsumerState<SliverProductsGrid> {
 
+  @override
+  void initState() {
+    ref.read(productsProvider);
+    super.initState();
+  }
 
-    return Consumer(
-      builder: (context, ref, child){
-        final dataState = ref.watch(mainFilterProvider);
-        print("grid normal is rebuilding");
-        return Container(
-          height: 600,
-          child: GridView.builder(
-            // physics: ScrollPhysics(),
-            itemCount: dataState.productsState.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: crossAxisCount,
-              crossAxisSpacing: crossAxisSpacing,
-              mainAxisSpacing: mainAxisSpacing,
-              childAspectRatio: childAspectRatio,
-            ),
-            itemBuilder: (context, index) {
-              return LayoutBuilder(builder: (context, constraints) {
-                return GestureDetector(
-                  child: ShopScreenProductItem(product: dataState.productsState[index]),
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              DetailsScreen2(product: dataState.productsState[index]))),
-                );
-              });
-            },
-          ),
-        );
+  @override
+  Widget build(BuildContext context) {
+    final products = ref.watch(productsProvider);
+    return SliverGrid.builder(
+      // physics: ScrollPhysics(),
+      itemCount: products.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 10.w,
+        mainAxisSpacing: 10.w,
+        childAspectRatio: 0.6,
+      ),
+      itemBuilder: (context, index) {
+        return LayoutBuilder(builder: (context, constraints) {
+          return GestureDetector(
+            child: ShopScreenProductItem(product: products[index]),
+            onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => DetailsScreen2(product: products[index]))),
+          );
+        });
       },
-    );
+    );;
   }
 }
+
+
+

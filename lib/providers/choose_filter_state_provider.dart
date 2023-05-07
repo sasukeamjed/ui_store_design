@@ -15,119 +15,12 @@ final priceFilterProvider = StateProvider<String?>((ref) => null);
 
 final colorFilterProvider = StateProvider<List<String>?>((ref) => []);
 
-final shopScreenLoadingDataState = StateProvider<bool>((ref) => false);
-
-final mainFilterProvider = StateNotifierProvider<FilterNotifierUpdated, ShopPageState>((ref){
-  final SortByFilter sortByFilter = ref.watch(sortByFilterProvider);
-  final DataState productsData = ref.watch(productsDataProvider);
-
-  return FilterNotifierUpdated(sortByFilter, productsData as DataLoaded, ref.read(productsDataProvider.notifier).dio);
-});
-
-
-
-class FilterNotifierUpdated extends StateNotifier<ShopPageState> {
-
-  FilterNotifierUpdated(this.sortTypeFilter, this.dataLoaded, this._dataLoadedDio) : super(ShopPageState(productsState: dataLoaded.products, loadingState: false)){
-    print("Fiter Provider has been initilized");
-  }
-
-
-
-  final SortByFilter sortTypeFilter;
-  final DataLoaded dataLoaded;
-  final Dio _dataLoadedDio;
-  bool isDataLoading = false;
-
-  // final String priceFilter;
-  // final List<String> colorsFilter;
-
-  List<Product> _sortByFilter(List<Product> sortProducts) {
-
-
-    switch (sortTypeFilter) {
-      case SortByFilter.popular:
-        {
-
-          return sortProducts;
-        }
-
-      case SortByFilter.sales:
-        {
-
-          sortProducts.sort((product1, product2) {
-            return product2.totalSales.compareTo(product1.totalSales);
-          });
-          break;
-        }
-
-      case SortByFilter.newest:
-        {
-          sortProducts
-              .sort((product1, product2) {
-            return product1.dateCreated.compareTo(product2.dateCreated);
-          });
-          break;
-        }
-
-      case SortByFilter.priceLowToHigh:
-        {
-          sortProducts.sort((product1, product2) {
-            return double.parse(product1.price).compareTo(double.parse(product2.price));
-          });
-          break;
-        }
-
-      case SortByFilter.priceHighToLow:
-        {
-          sortProducts.sort((product1, product2) {
-            return double.parse(product2.price).compareTo(double.parse(product1.price));
-          });
-          break;
-        }
-    }
-
-    return sortProducts;
-  }
-
-  //Test method
 
 
 
 
-  void mainFilter() async {
-    // List<Product> filteredProducts =
-    //     (ref.watch(productsDataProvider) as DataLoaded).products;
-
-    print("main filter provider is running");
 
 
-    state = ShopPageState(productsState: state.productsState, loadingState: true);
-    List<Product> filteredProducts;
-
-    try {
-      Response response = await _dataLoadedDio.get(Uri.parse("wp-json/wc/v3/products").toString(), queryParameters: {
-        "per_page": "100",
-        "orderby": "popularity",
-        "order": "desc"
-      });
-
-      List<dynamic> productsResponse = response.data;
-
-      List<Product> products = productsResponse.map((data) => Product.fromJson(data)).toList();
-
-      filteredProducts = products.where((product) => product.price != 0.00 && product.status == "publish").toList();
-
-    } catch (e) {
-      filteredProducts = dataLoaded.products;
-      print(e);
-    }
-
-    state = ShopPageState(productsState: _sortByFilter(filteredProducts), loadingState: false);
-
-  }
-
-}
 
 
 final filteredProductsProvider = FutureProvider<List<Product>>((ref) async {
@@ -368,7 +261,7 @@ class FilterNotifier extends StateNotifier<List<Product>> {
     // List<Product> filteredProducts =
     //     (ref.watch(productsDataProvider) as DataLoaded).products;
 
-    print("main filter provider is running");
+
     isDataLoading = true;
 
     // state = AsyncValue.loading();

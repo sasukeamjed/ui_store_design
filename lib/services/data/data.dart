@@ -148,42 +148,7 @@ class ProductsProvider extends StateNotifier<DataState> {
     }
   }
 
-  //This function receives list of categories names and return all the products which has name with that category
-  // List<Product> filterProductsByCategory(int categoryId) {
-  //
-  //   // List<Product> listOfAllProducts = [];
-  //
-  //   List<Product> filteredList = [];
-  //
-  //   List<Product> allProducts = (state as DataLoaded).products;
-  //
-  //   allProducts.where((product){
-  //     product.categories
-  //   });
-  //   // state?.forEach((vendor) {
-  //   //   vendorsProducts.addAll(vendor.vendorProducts);
-  //   // });
-  //
-  //   //We shuffle the list because we don't want them in a specific range
-  //   // vendorsProducts.shuffle();
-  //
-  //   categoriesParameter.forEach((outerCategory) {
-  //     allProducts.forEach((product) {
-  //       product.categories.forEach((insideCategory) {
-  //         if(insideCategory.id == outerCategory.id){
-  //             filteredList.add(product);
-  //         }
-  //       });
-  //     });
-  //   });
-  //
-  //
-  //   //And to remove any product Duplicates we will use set() method which make a list of unique elements
-  //
-  //
-  //   //ToDo: next we want to shuffle the list by using the shuffle method because we don't want it to be organized
-  //   return filteredList.toSet().toList();
-  // }
+
 
   Future<List<Product>> _fetchAllProducts() async {
     late Response response;
@@ -220,11 +185,12 @@ class ProductsProvider extends StateNotifier<DataState> {
   }
 
   Future<List<CategoryModel>> _fetchAllCategories() async {
+
     late Response response;
     try {
       print("awaiting for products categories fetching");
       response =
-          await dio.get("wp-json/wc/v3/products/categories", queryParameters: {
+          await dio.get(Uri.parse("wp-json/wc/v3/products/categories").toString(), queryParameters: {
         "per_page": "100",
         // "consumer_secret" : "cs_edccfa40d65e6ede5b3ed40126793ef296910c58",
         // "orderby" : "date",
