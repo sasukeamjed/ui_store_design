@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ui_store_design/providers/choose_filter_state_provider.dart';
-import 'package:ui_store_design/providers/data_providers.dart';
 import 'package:ui_store_design/providers/filter_provider.dart';
-import 'package:ui_store_design/providers/shop_page_provider/state/shop_page_state.dart';
+
 import 'package:ui_store_design/screens/details_screen_2/details_screen_2.dart';
 import 'package:ui_store_design/screens/shop_screen/components/shop_screen_product_item.dart';
 import 'package:ui_store_design/screens/shop_screen/components/shop_sliver_appbar.dart';
+
+import 'components/sliver_products_grid.dart';
 
 
 class ShopScreen extends StatelessWidget {
@@ -16,11 +16,7 @@ class ShopScreen extends StatelessWidget {
   static String routeName = "/shop";
   @override
   Widget build(BuildContext context) {
-    // final dataProducts = ref.watch(mainFilterProvider);
-    // print("is Data Loading => ${ref.watch(shopScreenLoadingDataState)}");
-    // print('this the width => ${circularProgressBarKey.currentContext?.size?.width}');
 
-    // print("data loading state => ${ref.watch(mainFilterProvider.notifier).isDataLoading}");
     return SafeArea(
       child: Scaffold(
         body: Stack(
@@ -93,47 +89,6 @@ class ShopScreen extends StatelessWidget {
         );
       },
     );
-  }
-}
-
-class SliverProductsGrid extends ConsumerStatefulWidget {
-  const SliverProductsGrid({Key? key}) : super(key: key);
-
-  @override
-  ConsumerState<SliverProductsGrid> createState() => _SliverProductsGridState();
-}
-
-class _SliverProductsGridState extends ConsumerState<SliverProductsGrid> {
-
-  @override
-  void initState() {
-    ref.read(productsProvider);
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final products = ref.watch(productsProvider);
-    return SliverGrid.builder(
-      // physics: ScrollPhysics(),
-      itemCount: products.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: 10.w,
-        mainAxisSpacing: 10.w,
-        childAspectRatio: 0.6,
-      ),
-      itemBuilder: (context, index) {
-        return LayoutBuilder(builder: (context, constraints) {
-          return GestureDetector(
-            child: ShopScreenProductItem(product: products[index]),
-            onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => DetailsScreen2(product: products[index]))),
-          );
-        });
-      },
-    );;
   }
 }
 
