@@ -17,7 +17,7 @@ class _HeartIconState extends State<HeartIcon> {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      bottom: 90.w,
+      right: 0,
       child: GestureDetector(
         child: Container(
           width: 40.w,

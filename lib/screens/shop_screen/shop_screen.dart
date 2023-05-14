@@ -26,12 +26,6 @@ class ShopScreen extends StatelessWidget {
                 ShopSliverAppBar(),
 
                 SliverProductsGrid(),
-
-                SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: 80.h,
-                  ),
-                ),
               ],
             ),
             Positioned(
@@ -39,9 +33,6 @@ class ShopScreen extends StatelessWidget {
               right: MediaQuery.of(context).size.width / 2 - 20.w,
               child: Consumer(
                   builder: (context, ref, child){
-
-                    // print("provider loading state => ${ref.watch(shopScreenLoadingDataState)}");
-
                     return ref.watch(shopScreenLoadingDataState) ? CircularProgressIndicator() : SizedBox();
                   },
               ),

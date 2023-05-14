@@ -29,6 +29,7 @@ class _ProductItemState extends State<ProductItem> {
               children: [
                 Image.network(
                   widget.product.images[0].getThumbnailImage(),
+                  key: ValueKey(widget.product.images[0].getThumbnailImage()),
                   width: 140.w,
                   height: 140.h,
                   fit: BoxFit.fill,

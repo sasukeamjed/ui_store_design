@@ -21,6 +21,7 @@ class ShopScreenProductItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Stack(
+          clipBehavior: Clip.none,
           children: [
             Container(
               child: OptimizedCacheImage(
@@ -32,10 +33,11 @@ class ShopScreenProductItem extends StatelessWidget {
                 ),
               ),
             ),
-            Align(
-              alignment: Alignment.topRight,
-              child: HeartIcon(),
-            ),
+            // Align(
+            //   alignment: AlignmentDirectional.topEnd,
+            //   child: HeartIcon(),
+            // ),
+            HeartIcon()
           ],
         ),
         //Here the categories which is a list of Category object and map it to get a list of strings names only

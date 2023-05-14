@@ -150,8 +150,9 @@ class _ShopSliverAppBarState extends State<ShopSliverAppBar> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(5),
                         child: Image(
+                          key: ValueKey(category.image.getThumbnailImage()),
                           image:
-                          NetworkImage(category.image.getThumbnailImage()),
+                          NetworkImage(category.image.getThumbnailImage(),),
                         ),
                       ),
                       SizedBox(
