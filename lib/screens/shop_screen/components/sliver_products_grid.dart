@@ -16,6 +16,7 @@ class _SliverProductsGridState extends ConsumerState<SliverProductsGrid> {
 
   @override
   void initState() {
+    //Initinalizing the provider with default value for the grid
     ref.read(productsProvider);
     super.initState();
   }

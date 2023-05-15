@@ -68,7 +68,7 @@ class _SortByDropDownButtonState extends State<SortByDropDownButton> {
               });
               ref.read(shopScreenLoadingDataState.notifier).state = true;
               final dio = ref.read(dioProvider);
-              List<Product>? products = await _mainFilter(dio);
+              List<Product>? products = await ref.read(mainFilterMethod(dio));
               ref.read(productsProvider.notifier).state = _sortByFilter(products!, value!);
               ref.read(shopScreenLoadingDataState.notifier).state = false;
             },
@@ -137,27 +137,5 @@ class _SortByDropDownButtonState extends State<SortByDropDownButton> {
   }
 
 
-  Future<List<Product>?> _mainFilter(Dio dio) async {
 
-    try {
-      List<Product> filteredProducts;
-      Response response = await dio.get(Uri.parse("wp-json/wc/v3/products").toString(), queryParameters: {
-        "per_page": "100",
-        "orderby": "popularity",
-        "order": "desc"
-      });
-
-      List<dynamic> productsResponse = response.data;
-
-      List<Product> products = productsResponse.map((data) => Product.fromJson(data)).toList();
-
-      filteredProducts = products.where((product) => product.price != 0.00 && product.status == "publish").toList();
-      return filteredProducts;
-    } catch (e) {
-      print(e);
-    }
-
-
-
-  }
 }
