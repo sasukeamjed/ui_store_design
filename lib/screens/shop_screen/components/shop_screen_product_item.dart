@@ -47,8 +47,7 @@ class ShopScreenProductItem extends StatelessWidget {
           style: TextStyle(
               fontFamily: "Avenir-Book",
               fontSize: 12.sp,
-              color:
-              Colors.black.withOpacity(0.4)),
+              color: Colors.black.withOpacity(0.4)),
         ))
             .toList(),
         AutoSizeText(

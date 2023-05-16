@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ui_store_design/providers/choose_filter_state_provider.dart';
+import 'package:ui_store_design/providers/filter_provider.dart';
 import 'package:ui_store_design/services/filtering_system/filter.dart';
 
 class SortByPriceRangeDropDownButton extends ConsumerStatefulWidget  {

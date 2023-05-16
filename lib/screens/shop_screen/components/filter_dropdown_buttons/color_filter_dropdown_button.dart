@@ -2,8 +2,10 @@ import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ui_store_design/colors_library/string_color_genrator.dart';
-import 'package:ui_store_design/providers/choose_filter_state_provider.dart';
+import 'package:ui_store_design/models/product_model.dart';
+
 import 'package:ui_store_design/providers/data_providers.dart';
+import 'package:ui_store_design/providers/filter_provider.dart';
 
 class ColorFilterDropDownButton extends ConsumerStatefulWidget {
   const ColorFilterDropDownButton({Key? key}) : super(key: key);
@@ -108,13 +110,19 @@ class _ColorFilterDropDownButtonState extends ConsumerState<ColorFilterDropDownB
           ],
         );
       },
-      onApplyButtonClick: (list) {
+      onApplyButtonClick: (list) async{
+        Navigator.pop(context);
         setState(() {
           selectedColors = List.from(list!);
 
         });
-        ref.read(colorFilterProvider.notifier).update((state) => selectedColors);
-        Navigator.pop(context);
+        ref.read(colorFilterProvider.notifier).update((state) => selectedColors!);
+        ref.read(shopScreenLoadingDataState.notifier).state = true;
+
+        List<Product>? products = await ref.read(mainFilterMethod);
+        ref.read(productsProvider.notifier).state = products!;
+        ref.read(shopScreenLoadingDataState.notifier).state = false;
+
       },
     );
   }
