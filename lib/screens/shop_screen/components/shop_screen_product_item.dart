@@ -26,10 +26,12 @@ class ShopScreenProductItem extends StatelessWidget {
             Container(
               child: OptimizedCacheImage(
                 imageUrl: product.images[0].getThumbnailImage(),
+                height: 200,
+                width: 150,
                 placeholder: (context, url) => Container(
                   color: Colors.black.withOpacity(0.04),
                   width: 150,
-                  height: 150,
+                  height: 200,
                 ),
               ),
             ),

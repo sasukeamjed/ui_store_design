@@ -1,6 +1,7 @@
 import 'package:filter_list/filter_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ui_store_design/colors_library/string_color_genrator.dart';
 import 'package:ui_store_design/models/product_model.dart';
 
@@ -67,22 +68,32 @@ class _ColorFilterDropDownButtonState extends ConsumerState<ColorFilterDropDownB
 
   void openFilterDialog(Set<String> colorsNames) async {
     List<String>? selectedColors = [];
+
+
     await FilterListDialog.display<String>(
       context,
+      controlButtons: [ControlButtonType.Reset],
       listData: colorsNames.toList(),
-      selectedListData: selectedColors,
+      selectedListData: ref.read(colorFilterProvider),
       choiceChipLabel: (color) => color,
       validateSelectedItem: (list, val) => list!.contains(val),
       onItemSearch: (color, query) {
         return color.toLowerCase().contains(query.toLowerCase());
       },
       choiceChipBuilder: (context, colorName, isClicked) {
+        if(isClicked != null){
+          if(isClicked){
+            print("$colorName filter is clicked selected colors");
+            // ref.read(colorFilterProvider).add(colorName);
+          }
+        }
+
         return Stack(
           clipBehavior: Clip.none,
           alignment: Alignment.topRight,
           children: [
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 10),
+              margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.w),
               height: 30,
               width: 50,
               child: Center(
@@ -93,8 +104,8 @@ class _ColorFilterDropDownButtonState extends ConsumerState<ColorFilterDropDownB
               decoration: BoxDecoration(
                 color: getColorHexFromName(colorName),
                 borderRadius: BorderRadius.circular(20),
-                border: isClicked != null
-                    ? isClicked
+                border: ref.read(colorFilterProvider).contains(colorName)
+                    ? ref.read(colorFilterProvider).contains(colorName)
                     ? Border.all(color: Colors.orange.shade300, width: 2)
                     : null
                     : null,
@@ -124,6 +135,7 @@ class _ColorFilterDropDownButtonState extends ConsumerState<ColorFilterDropDownB
         ref.read(shopScreenLoadingDataState.notifier).state = false;
 
       },
+
     );
   }
 }

@@ -33,7 +33,8 @@ class _SliverProductsGridState extends ConsumerState<SliverProductsGrid> {
           crossAxisCount: 2,
           crossAxisSpacing: 10.w,
           mainAxisSpacing: 10.w,
-          childAspectRatio: 0.6,
+          mainAxisExtent: 300.w,
+          childAspectRatio: 0.6.w,
         ),
         itemBuilder: (context, index) {
           return LayoutBuilder(builder: (context, constraints) {

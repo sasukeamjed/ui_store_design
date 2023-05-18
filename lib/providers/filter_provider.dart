@@ -47,7 +47,7 @@ final mainFilterMethod = Provider.autoDispose<Future<List<Product>?>>((ref){
         {
           return sortProducts
               .sorted((product1, product2) {
-            return product1.dateCreated.compareTo(product2.dateCreated);
+            return product2.dateCreated.compareTo(product1.dateCreated);
           });
 
         }
@@ -72,25 +72,28 @@ final mainFilterMethod = Provider.autoDispose<Future<List<Product>?>>((ref){
     }
   }
 
+  //we want a function which check if the keys of following map contains a sepecific keyword, and if it dose we want the value
+  String? getValueFromMapWithKeyword(Map<String, dynamic> map, String keyword) {
+    for (String key in map.keys) {
+      if (key.contains(keyword)) {
+        return map[key];
+      }
+    }
+    return null;
+  }
+
   List<Product> _sortByColor({required List<String> colorNames, required List<Product> productsRecived}) {
     print("color names => $colorNames");
     print("products length => ${productsRecived.length}");
     if(colorNames.isEmpty){
       return productsRecived;
     }
-    //1- get products which has variations
-    // final productsWithVariations = productsRecived.where((product){return product.productVariations.isNotEmpty;});
-    // print("products length with variations => ${productsWithVariations.length}");
-    // //2- check if each of these variations has attribuets called color
-    // final productsWithColorAttr = productsWithVariations.where((product){
-    //   return product.productVariations
-    // });
-    //3- check if the color is found
+
     return productsRecived.where((product) {
       print("this is product variation => ${product.productVariations}");
       return product.productVariations.any((productVariation) {
-        print("this product dose onctains the following color => ${productVariation.attributes['color']}");
-        return colorNames.contains(productVariation.attributes['color']);
+        print("this product dose onctains the following color => ${getValueFromMapWithKeyword(productVariation.attributes, 'color')}");
+        return colorNames.contains(getValueFromMapWithKeyword(productVariation.attributes, 'color'));
       });
     }).toList();
   }
