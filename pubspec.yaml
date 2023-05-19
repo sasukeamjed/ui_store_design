@@ -40,7 +40,7 @@ dependencies:
   crypto: ^3.0.2
   flutter_secure_storage: ^7.0.1
   flutter_native_splash: ^2.2.16
-  collection: 1.17.2
+  collection: ^1.17.0
   optimized_cached_image: ^3.0.1
   flutter_html:
   uuid: ^3.0.7

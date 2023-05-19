@@ -72,6 +72,7 @@ class _ColorFilterDropDownButtonState extends ConsumerState<ColorFilterDropDownB
 
     await FilterListDialog.display<String>(
       context,
+
       controlButtons: [ControlButtonType.Reset],
       listData: colorsNames.toList(),
       selectedListData: ref.read(colorFilterProvider),
@@ -83,42 +84,60 @@ class _ColorFilterDropDownButtonState extends ConsumerState<ColorFilterDropDownB
       choiceChipBuilder: (context, colorName, isClicked) {
         if(isClicked != null){
           if(isClicked){
-            print("$colorName filter is clicked selected colors");
-            // ref.read(colorFilterProvider).add(colorName);
+            // print("$colorName filter is clicked selected colors");
+            // print("$selectedColors this is selected colors");
+            // print("${ref.read(colorFilterProvider)} Selected Colors before condition");
+            // print("${ref.read(colorFilterProvider).contains(colorName)} color condition");
+            // if(ref.read(colorFilterProvider).contains(colorName)){
+            //   ref.read(colorFilterProvider).remove(colorName);
+            // }else{
+            //   ref.read(colorFilterProvider).add(colorName);
+            // }
+            //
+            // print("${ref.read(colorFilterProvider)} Selected Colors after condition");
           }
         }
 
-        return Stack(
-          clipBehavior: Clip.none,
-          alignment: Alignment.topRight,
-          children: [
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.w),
-              height: 30,
-              width: 50,
-              child: Center(
-                child: Text(
-                  colorName.toString(),
+        return GestureDetector(
+          onTap: (){
+            if(ref.read(colorFilterProvider).contains(colorName)){
+              ref.read(colorFilterProvider).remove(colorName);
+            }else{
+              ref.read(colorFilterProvider).add(colorName);
+            }
+          },
+          child: Stack(
+            clipBehavior: Clip.none,
+            alignment: Alignment.topRight,
+            children: [
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.w),
+                height: 30,
+                width: 50,
+                child: Center(
+                  child: Text(
+                    colorName.toString(),
+                  ),
+                ),
+                decoration: BoxDecoration(
+                  color: getColorHexFromName(colorName),
+                  borderRadius: BorderRadius.circular(20),
+                  border: ref.watch(colorFilterProvider).contains(colorName)
+                      ? ref.watch(colorFilterProvider).contains(colorName)
+                      ? Border.all(color: Colors.orange.shade300, width: 2)
+                      : null
+                      : null,
                 ),
               ),
-              decoration: BoxDecoration(
-                color: getColorHexFromName(colorName),
-                borderRadius: BorderRadius.circular(20),
-                border: ref.read(colorFilterProvider).contains(colorName)
-                    ? ref.read(colorFilterProvider).contains(colorName)
-                    ? Border.all(color: Colors.orange.shade300, width: 2)
-                    : null
-                    : null,
-              ),
-            ),
-            if (isClicked != null)
-              if (isClicked)
-                Icon(
-                  Icons.close,
-                  color: Colors.orange.shade300,
-                  size: 10,
-                ),
-          ],
+              if (isClicked != null)
+                if (ref.watch(colorFilterProvider).contains(colorName))
+                  Icon(
+                    Icons.close,
+                    color: Colors.orange.shade300,
+                    size: 10,
+                  ),
+            ],
+          ),
         );
       },
       onApplyButtonClick: (list) async{
