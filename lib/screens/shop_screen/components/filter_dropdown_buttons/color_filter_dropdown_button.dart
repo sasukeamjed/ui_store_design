@@ -16,8 +16,7 @@ class ColorFilterDropDownButton extends ConsumerStatefulWidget {
       _ColorFilterDropDownButtonState();
 }
 
-class _ColorFilterDropDownButtonState
-    extends ConsumerState<ColorFilterDropDownButton> {
+class _ColorFilterDropDownButtonState extends ConsumerState<ColorFilterDropDownButton> {
   @override
   Widget build(BuildContext context) {
     final Set<String> colors =
@@ -67,51 +66,53 @@ class _ColorFilterDropDownButtonState
   }
 
   void openFilterDialog(Set<String> colorsNames) async {
-    List<String> selectedColors = ref.read(colorFilterProvider);
+    List<String> selectedColors = [];
 
     await FilterListDialog.display<String>(
       context,
       listData: colorsNames.toList(),
-      selectedListData: ref.read(colorFilterProvider),
+      selectedListData: selectedColors,
       // selectedListData: ref.read(colorFilterProvider).toSet().toList(),
       choiceChipLabel: (color) => color,
       validateSelectedItem: (list, val) {
-        return ref.read(colorFilterProvider).contains(val);
+        // print("this is the list => $list");
+        // print("this is the provider list => ${ref.read(colorFilterProvider)}");
+        return ref.read(colorFilterProvider).contains(val) || list!.contains(val);
       },
       onItemSearch: (color, query) {
         return color.toLowerCase().contains(query.toLowerCase());
       },
       choiceChipBuilder: (context, colorName, isClicked) {
-        // if(isClicked != null){
-        //   if(isClicked){
-        //     // print("$colorName filter is clicked selected colors");
-        //     // print("$selectedColors this is selected colors");
-        //     // print("${ref.read(colorFilterProvider)} Selected Colors before condition");
-        //     // print("${ref.read(colorFilterProvider).contains(colorName)} color condition");
-        //     // if(ref.read(colorFilterProvider).contains(colorName)){
-        //
-        //       if(!ref.read(colorFilterProvider).contains(colorName)){
-        //         ref.read(colorFilterProvider).add(colorName);
-        //       }
-        //
-        //
-        //
-        //     // }else{
-        //
-        //     // }
-        //     // //
-        //     // print("${ref.read(colorFilterProvider)} Selected Colors after condition");
-        //   }else{
-        //     // print("color is in the list removing a color");
-        //     // selectedColors.remove(colorName);
-        //     ref.read(colorFilterProvider).remove(colorName);
-        //
-        //   }
-        //
-        // }
-        // print("=====================================================");
-        // print("this $colorName is clicked => $isClicked");
-        // print("this is the list => ${ref.read(colorFilterProvider)}");
+        if(isClicked != null){
+          if(isClicked){
+            // print("$colorName filter is clicked selected colors");
+            // print("$selectedColors this is selected colors");
+            // print("${ref.read(colorFilterProvider)} Selected Colors before condition");
+            // print("${ref.read(colorFilterProvider).contains(colorName)} color condition");
+            // if(ref.read(colorFilterProvider).contains(colorName)){
+
+              if(!ref.read(colorFilterProvider).contains(colorName)){
+                ref.read(colorFilterProvider).add(colorName);
+              }
+
+
+
+            // }else{
+
+            // }
+            // //
+            // print("${ref.read(colorFilterProvider)} Selected Colors after condition");
+          }else{
+            // print("color is in the list removing a color");
+            // selectedColors.remove(colorName);
+            ref.read(colorFilterProvider).remove(colorName);
+
+          }
+
+        }
+        print("=====================================================");
+        print("this $colorName is clicked => $isClicked");
+        print("this is the list => ${ref.read(colorFilterProvider)}");
 
         print("this the selected colors is in the list => ${ref.read(colorFilterProvider)}");
         // print("=====================================================");
@@ -153,9 +154,9 @@ class _ColorFilterDropDownButtonState
       },
       onApplyButtonClick: (list) async {
         Navigator.pop(context);
-        setState(() {
-          selectedColors = List.from(list!);
-        });
+        // setState(() {
+        //   selectedColors = List.from(list!);
+        // });
         ref.read(colorFilterProvider.notifier).update((state) => selectedColors);
         ref.read(shopScreenLoadingDataState.notifier).state = true;
 
