@@ -50,7 +50,8 @@ class _ColorFilterDropDownButtonState extends ConsumerState<ColorFilterDropDownB
       ),
       onPressed: () {
         // openFilterDelegate(context, colors);
-        openFilterDialog(colors);
+        // openFilterDialog(colors);
+        _showSimpleDialog(context);
       },
       style: OutlinedButton.styleFrom(
           padding: EdgeInsets.all(0),
@@ -63,6 +64,46 @@ class _ColorFilterDropDownButtonState extends ConsumerState<ColorFilterDropDownB
           ),
     );
     ;
+  }
+
+  Future<void> _showSimpleDialog(BuildContext context) async {
+    await showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            child: Container(
+              height: MediaQuery.of(context).size.height * .5,
+              width: MediaQuery.of(context).size.width,
+              child: ClipRRect(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20),
+                ),
+                child: Container(
+                  color: Colors.green,
+                  child: Column(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.08,
+                        color: Colors.red,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Align(
+                            alignment: Alignment.centerRight,
+                            child: Icon(Icons.close, color: Colors.white,),
+                          ),
+                        ),
+                      ),
+                      Center(child: Text("Colors Picked: 3")),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        });
   }
 
   void openFilterDialog(Set<String> colorsNames) async {
