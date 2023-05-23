@@ -1,3 +1,4 @@
+import 'package:fading_edge_scrollview/fading_edge_scrollview.dart';
 import 'package:filter_list/filter_list.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -71,6 +72,7 @@ class _ColorFilterDropDownButtonState
 
   Future<void> _showSimpleDialog(BuildContext context, List<String> colors) async {
     List<String> addColors = ["royalblue", "saddlebrown", "salmon", "sandybrown", "seagreen", "seashell", "sienna", "silver", "skyblue", "slateblue", ...colors];
+    final _controller = ScrollController();
     await showDialog<void>(
         context: context,
         builder: (BuildContext context) {
@@ -130,45 +132,48 @@ class _ColorFilterDropDownButtonState
                       Expanded(
                         child: Stack(
                           children: [
-                            GridView.count(
-                              crossAxisCount: 3,
-                              childAspectRatio: 1.8,
-                              // clipBehavior: C,
-                              padding: EdgeInsets.only(bottom: 100.h),
-                              children: List.generate(addColors.length, (index){
-                                return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints){
-                                  return Container(
-                                    margin: EdgeInsets.only(left: 10.w, right: 10.w, bottom:  5),
-                                    padding: EdgeInsets.symmetric(horizontal: 5.w),
-                                    // height: 30,
-                                    // width: 50,
-                                    child: Center(
-                                      child: FittedBox(
-                                        fit: BoxFit.fitWidth,
-                                        child: Text(
-                                          addColors[index].toString().capitalize(),
-                                          style: TextStyle(
-                                            fontSize: 13.sp,
+                            FadingEdgeScrollView.fromScrollView(
+                              child: GridView.count(
+                                controller: _controller,
+                                crossAxisCount: 3,
+                                childAspectRatio: 1.8,
+                                // clipBehavior: C,
+                                padding: EdgeInsets.only(bottom: 100.h),
+                                children: List.generate(addColors.length, (index){
+                                  return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints){
+                                    return Container(
+                                      margin: EdgeInsets.only(left: 10.w, right: 10.w, bottom:  5),
+                                      padding: EdgeInsets.symmetric(horizontal: 5.w),
+                                      // height: 30,
+                                      // width: 50,
+                                      child: Center(
+                                        child: FittedBox(
+                                          fit: BoxFit.fitWidth,
+                                          child: Text(
+                                            addColors[index].toString().capitalize(),
+                                            style: TextStyle(
+                                              fontSize: 13.sp,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: getColorHexFromName(addColors[index]),
-                                      borderRadius: BorderRadius.circular(20),
+                                      decoration: BoxDecoration(
+                                        color: getColorHexFromName(addColors[index]),
+                                        borderRadius: BorderRadius.circular(20),
 
-                                      // border: ref.watch(colorFilterProvider).contains(colorName)
-                                      //     ? Border.all(color: Colors.orange.shade300, width: 2)
-                                      //     : isClicked!
-                                      //     ? Border.all(color: Colors.orange.shade300, width: 2)
-                                      //     : null,
-                                      // border: ref.watch(colorFilterProvider).contains(colorName)
-                                      //     ? Border.all(color: Colors.orange.shade300, width: 2)
-                                      //     : null,
-                                    ),
-                                  );
-                                });
-                              }),
+                                        // border: ref.watch(colorFilterProvider).contains(colorName)
+                                        //     ? Border.all(color: Colors.orange.shade300, width: 2)
+                                        //     : isClicked!
+                                        //     ? Border.all(color: Colors.orange.shade300, width: 2)
+                                        //     : null,
+                                        // border: ref.watch(colorFilterProvider).contains(colorName)
+                                        //     ? Border.all(color: Colors.orange.shade300, width: 2)
+                                        //     : null,
+                                      ),
+                                    );
+                                  });
+                                }),
+                              ),
                             ),
                             Align(
                               alignment: Alignment.bottomCenter,
