@@ -11,20 +11,12 @@ import 'package:ui_store_design/models/product_model.dart';
 import 'package:ui_store_design/providers/data_providers.dart';
 import 'package:ui_store_design/providers/filter_provider.dart';
 
-class ColorFilterDropDownButton extends ConsumerStatefulWidget {
-  const ColorFilterDropDownButton({Key? key}) : super(key: key);
 
-  @override
-  ConsumerState<ColorFilterDropDownButton> createState() =>
-      _ColorFilterDropDownButtonState();
-}
 
-class _ColorFilterDropDownButtonState
-    extends ConsumerState<ColorFilterDropDownButton> {
+class ColorFilterDropDownButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final Set<String> colors =
-        ref.read(productsDataProvider.notifier).getColors();
+
     return TextButton(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -55,7 +47,7 @@ class _ColorFilterDropDownButtonState
       onPressed: () {
         // openFilterDelegate(context, colors);
         // openFilterDialog(colors);
-        _showSimpleDialog(context, colors.toList());
+        _showSimpleDialog(context);
       },
       style: OutlinedButton.styleFrom(
           padding: EdgeInsets.all(0),
@@ -70,9 +62,23 @@ class _ColorFilterDropDownButtonState
     ;
   }
 
-  Future<void> _showSimpleDialog(BuildContext context, List<String> colors) async {
-    List<String> addColors = ["royalblue", "saddlebrown", "salmon", "sandybrown", "seagreen", "seashell", "sienna", "silver", "skyblue", "slateblue", ...colors];
-    final _controller = ScrollController();
+  Future<void> _showSimpleDialog(BuildContext context) async {
+    // List<String> addColors = [
+    //   "royalblue",
+    //   "saddlebrown",
+    //   "salmon",
+    //   "sandybrown",
+    //   "seagreen",
+    //   "seashell",
+    //   "sienna",
+    //   "silver",
+    //   "skyblue",
+    //   "slateblue",
+    //   ...colors
+    // ];
+
+
+
     await showDialog<void>(
         context: context,
         builder: (BuildContext context) {
@@ -124,7 +130,13 @@ class _ColorFilterDropDownButtonState
                         height: 10.h,
                       ),
                       Center(
-                        child: Text("Colors Picked: 3", style: TextStyle(fontSize: 13.sp),),
+                        child: Consumer(
+                          builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                            return Text(
+                              "Colors Picked: ${ref.watch(colorFilterProvider).length}",
+                              style: TextStyle(fontSize: 13.sp),
+                            );
+                          },),
                       ),
                       SizedBox(
                         height: 10.h,
@@ -132,62 +144,61 @@ class _ColorFilterDropDownButtonState
                       Expanded(
                         child: Stack(
                           children: [
-                            FadingEdgeScrollView.fromScrollView(
-                              child: GridView.count(
-                                controller: _controller,
-                                crossAxisCount: 3,
-                                childAspectRatio: 1.8,
-                                // clipBehavior: C,
-                                padding: EdgeInsets.only(bottom: 100.h),
-                                children: List.generate(addColors.length, (index){
-                                  return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints){
-                                    return Container(
-                                      margin: EdgeInsets.only(left: 10.w, right: 10.w, bottom:  5),
-                                      padding: EdgeInsets.symmetric(horizontal: 5.w),
-                                      // height: 30,
-                                      // width: 50,
-                                      child: Center(
-                                        child: FittedBox(
-                                          fit: BoxFit.fitWidth,
-                                          child: Text(
-                                            addColors[index].toString().capitalize(),
-                                            style: TextStyle(
-                                              fontSize: 13.sp,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      decoration: BoxDecoration(
-                                        color: getColorHexFromName(addColors[index]),
-                                        borderRadius: BorderRadius.circular(20),
-
-                                        // border: ref.watch(colorFilterProvider).contains(colorName)
-                                        //     ? Border.all(color: Colors.orange.shade300, width: 2)
-                                        //     : isClicked!
-                                        //     ? Border.all(color: Colors.orange.shade300, width: 2)
-                                        //     : null,
-                                        // border: ref.watch(colorFilterProvider).contains(colorName)
-                                        //     ? Border.all(color: Colors.orange.shade300, width: 2)
-                                        //     : null,
-                                      ),
-                                    );
-                                  });
-                                }),
-                              ),
-                            ),
+                            ColorsGridFilter(),
                             Align(
                               alignment: Alignment.bottomCenter,
                               child: Container(
-                                margin: EdgeInsets.only(bottom: 20.h, right: 10.w, left: 10.w),
-                                height: 60.h,
+                                margin: EdgeInsets.only(bottom: 20.h, right: 20.w, left: 20.w),
+                                height: 50.w,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(20),
-                                  color: Colors.yellow,
+                                  color: Colors.white,
                                   boxShadow: [
                                     BoxShadow(
                                       color: Colors.grey,
                                       offset: Offset(0.0, 1.0), //(x,y)
                                       blurRadius: 6.0,
+                                    ),
+                                  ],
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Expanded(
+                                      child: SizedBox(
+                                        height: double.infinity,
+                                        child: Center(
+                                          child: Text("Reset"),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: SizedBox(
+                                        height: double.infinity,
+                                        child: Center(
+                                          child: Text("All"),
+                                        ),
+                                      ),
+                                    ),
+                                    // ElevatedButton(
+                                    //   child: Text("Apply"),
+                                    //   onPressed: () {},
+                                    //   style: ElevatedButton.styleFrom(
+                                    //     backgroundColor: Colors.lightBlueAccent,
+                                    //   ),
+                                    // ),
+                                    Expanded(
+                                      child: Container(
+                                        height: double.infinity,
+                                        child: Center(
+                                          child: Text("Apply"),
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: Colors.lightBlueAccent,
+                                          borderRadius: BorderRadius.circular(20),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -205,108 +216,178 @@ class _ColorFilterDropDownButtonState
         });
   }
 
-  void openFilterDialog(Set<String> colorsNames) async {
-    List<String> selectedColors = [];
+  // void openFilterDialog(Set<String> colorsNames) async {
+  //   List<String> selectedColors = [];
+  //
+  //   await FilterListDialog.display<String>(
+  //     context,
+  //     listData: colorsNames.toList(),
+  //     selectedListData: selectedColors,
+  //     hideSearchField: true,
+  //     // selectedListData: ref.read(colorFilterProvider).toSet().toList(),
+  //     choiceChipLabel: (color) => color,
+  //     validateSelectedItem: (list, val) {
+  //       // print("this is the list => $list");
+  //       // print("this is the provider list => ${ref.read(colorFilterProvider)}");
+  //       return ref.read(colorFilterProvider).contains(val) ||
+  //           list!.contains(val);
+  //     },
+  //     onItemSearch: (color, query) {
+  //       return color.toLowerCase().contains(query.toLowerCase());
+  //     },
+  //     choiceChipBuilder: (context, colorName, isClicked) {
+  //       if (isClicked != null) {
+  //         if (isClicked) {
+  //           // print("$colorName filter is clicked selected colors");
+  //           // print("$selectedColors this is selected colors");
+  //           // print("${ref.read(colorFilterProvider)} Selected Colors before condition");
+  //           // print("${ref.read(colorFilterProvider).contains(colorName)} color condition");
+  //           // if(ref.read(colorFilterProvider).contains(colorName)){
+  //
+  //           if (!ref.read(colorFilterProvider).contains(colorName)) {
+  //             ref.read(colorFilterProvider).add(colorName);
+  //           }
+  //
+  //           // }else{
+  //
+  //           // }
+  //           // //
+  //           // print("${ref.read(colorFilterProvider)} Selected Colors after condition");
+  //         } else {
+  //           // print("color is in the list removing a color");
+  //           // selectedColors.remove(colorName);
+  //           ref.read(colorFilterProvider).remove(colorName);
+  //         }
+  //       }
+  //       print("=====================================================");
+  //       print("this $colorName is clicked => $isClicked");
+  //       print("this is the list => ${ref.read(colorFilterProvider)}");
+  //
+  //       print(
+  //           "this the selected colors is in the list => ${ref.read(colorFilterProvider)}");
+  //       // print("=====================================================");
+  //
+  //       return Stack(
+  //         clipBehavior: Clip.none,
+  //         alignment: Alignment.topRight,
+  //         children: [
+  //           Container(
+  //             margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.w),
+  //             height: 30,
+  //             width: 50,
+  //             child: Center(
+  //               child: Text(
+  //                 colorName.toString(),
+  //               ),
+  //             ),
+  //             decoration: BoxDecoration(
+  //               color: getColorHexFromName(colorName),
+  //               borderRadius: BorderRadius.circular(20),
+  //
+  //               border: ref.watch(colorFilterProvider).contains(colorName)
+  //                   ? Border.all(color: Colors.orange.shade300, width: 2)
+  //                   : isClicked!
+  //                       ? Border.all(color: Colors.orange.shade300, width: 2)
+  //                       : null,
+  //               // border: ref.watch(colorFilterProvider).contains(colorName)
+  //               //     ? Border.all(color: Colors.orange.shade300, width: 2)
+  //               //     : null,
+  //             ),
+  //           ),
+  //           if (isClicked != null)
+  //             if (isClicked)
+  //               Icon(
+  //                 Icons.close,
+  //                 color: Colors.orange.shade300,
+  //                 size: 10,
+  //               ),
+  //         ],
+  //       );
+  //     },
+  //     onApplyButtonClick: (list) async {
+  //       Navigator.pop(context);
+  //       // setState(() {
+  //       //   selectedColors = List.from(list!);
+  //       // });
+  //       ref
+  //           .read(colorFilterProvider.notifier)
+  //           .update((state) => selectedColors);
+  //       ref.read(shopScreenLoadingDataState.notifier).state = true;
+  //
+  //       List<Product>? products = await ref.read(mainFilterMethod);
+  //       ref.read(productsProvider.notifier).state = products!;
+  //       ref.read(shopScreenLoadingDataState.notifier).state = false;
+  //     },
+  //   );
+  // }
+}
 
-    await FilterListDialog.display<String>(
-      context,
-      listData: colorsNames.toList(),
-      selectedListData: selectedColors,
-      hideSearchField: true,
-      // selectedListData: ref.read(colorFilterProvider).toSet().toList(),
-      choiceChipLabel: (color) => color,
-      validateSelectedItem: (list, val) {
-        // print("this is the list => $list");
-        // print("this is the provider list => ${ref.read(colorFilterProvider)}");
-        return ref.read(colorFilterProvider).contains(val) ||
-            list!.contains(val);
-      },
-      onItemSearch: (color, query) {
-        return color.toLowerCase().contains(query.toLowerCase());
-      },
-      choiceChipBuilder: (context, colorName, isClicked) {
-        if (isClicked != null) {
-          if (isClicked) {
-            // print("$colorName filter is clicked selected colors");
-            // print("$selectedColors this is selected colors");
-            // print("${ref.read(colorFilterProvider)} Selected Colors before condition");
-            // print("${ref.read(colorFilterProvider).contains(colorName)} color condition");
-            // if(ref.read(colorFilterProvider).contains(colorName)){
+class ColorsGridFilter extends ConsumerWidget {
+  ColorsGridFilter({Key? key}) : super(key: key);
+  final ScrollController _controller = ScrollController();
 
-            if (!ref.read(colorFilterProvider).contains(colorName)) {
-              ref.read(colorFilterProvider).add(colorName);
-            }
+  @override
+  Widget build(BuildContext context, ref) {
 
-            // }else{
+    final addColors = [
+      ...ref.read(productsDataProvider.notifier).getColors()];
 
-            // }
-            // //
-            // print("${ref.read(colorFilterProvider)} Selected Colors after condition");
-          } else {
-            // print("color is in the list removing a color");
-            // selectedColors.remove(colorName);
-            ref.read(colorFilterProvider).remove(colorName);
-          }
-        }
-        print("=====================================================");
-        print("this $colorName is clicked => $isClicked");
-        print("this is the list => ${ref.read(colorFilterProvider)}");
+    return FadingEdgeScrollView.fromScrollView(
+      child: GridView.count(
+        controller: _controller,
+        crossAxisCount: 3,
+        childAspectRatio: 2.0,
+        // clipBehavior: C,
+        padding: EdgeInsets.only(bottom: 100.h, top: 10.h),
+        children: List.generate(addColors.length, (index) {
+          return GestureDetector(
+            onTap: (){
 
-        print(
-            "this the selected colors is in the list => ${ref.read(colorFilterProvider)}");
-        // print("=====================================================");
-
-        return Stack(
-          clipBehavior: Clip.none,
-          alignment: Alignment.topRight,
-          children: [
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.w),
-              height: 30,
-              width: 50,
-              child: Center(
-                child: Text(
-                  colorName.toString(),
+              if(ref.read(colorFilterProvider.notifier).state.contains(addColors[index])){
+                final List<String> filterdColors = ref.read(colorFilterProvider);
+                filterdColors.remove(addColors[index]);
+                ref.read(colorFilterProvider.notifier).state = [...filterdColors];
+              }else{
+                ref.read(colorFilterProvider.notifier).state = [addColors[index], ...ref.read(colorFilterProvider.notifier).state];
+              }
+              print("provider Lists colors => ${ref.read(colorFilterProvider)}");
+            },
+            child: Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.topRight,
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: 10.w, right: 10.w, bottom: 5),
+                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  // height: 30,
+                  // width: 50,
+                  child: Center(
+                    child: FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(addColors[index].toString().capitalize(),
+                        style: TextStyle(fontSize: 13.sp),
+                      ),
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                    color: getColorHexFromName(addColors[index]),
+                    borderRadius: BorderRadius.circular(20),
+                    border: ref.watch(colorFilterProvider).contains(addColors[index])
+                        ? Border.all(color: Colors.orange.shade300, width: 2) : null,
+                  ),
                 ),
-              ),
-              decoration: BoxDecoration(
-                color: getColorHexFromName(colorName),
-                borderRadius: BorderRadius.circular(20),
-
-                border: ref.watch(colorFilterProvider).contains(colorName)
-                    ? Border.all(color: Colors.orange.shade300, width: 2)
-                    : isClicked!
-                        ? Border.all(color: Colors.orange.shade300, width: 2)
-                        : null,
-                // border: ref.watch(colorFilterProvider).contains(colorName)
-                //     ? Border.all(color: Colors.orange.shade300, width: 2)
-                //     : null,
-              ),
+                if(ref.watch(colorFilterProvider).contains(addColors[index]))
+                  Icon(
+                    Icons.close,
+                    color: Colors.orange.shade300,
+                    size: 10,
+                  ),
+              ],
             ),
-            if (isClicked != null)
-              if (isClicked)
-                Icon(
-                  Icons.close,
-                  color: Colors.orange.shade300,
-                  size: 10,
-                ),
-          ],
-        );
-      },
-      onApplyButtonClick: (list) async {
-        Navigator.pop(context);
-        // setState(() {
-        //   selectedColors = List.from(list!);
-        // });
-        ref
-            .read(colorFilterProvider.notifier)
-            .update((state) => selectedColors);
-        ref.read(shopScreenLoadingDataState.notifier).state = true;
-
-        List<Product>? products = await ref.read(mainFilterMethod);
-        ref.read(productsProvider.notifier).state = products!;
-        ref.read(shopScreenLoadingDataState.notifier).state = false;
-      },
+          );
+        }),
+      ),
     );
   }
 }
+

@@ -10,9 +10,13 @@ final dioProvider = Provider((ref)=> ref.read(productsDataProvider.notifier).dio
 
 final priceFilterProvider = StateProvider<String?>((ref) => null);
 
-final colorFilterProvider = StateProvider<List<String>>((ref) => []);
+final colorFilterProvider = StateProvider<List<String>>((ref) {
+  return [];
+});
 
-final sortByFilterProvider = StateProvider<SortByFilter>((ref) => SortByFilter.popular);
+final sortByFilterProvider = StateProvider<SortByFilter>((ref){
+  return SortByFilter.popular;
+});
 
 final shopScreenLoadingDataState = StateProvider<bool>((ref) => false);
 
@@ -119,9 +123,6 @@ final mainFilterMethod = Provider.autoDispose<Future<List<Product>?>>((ref){
 
       filteredProducts = products.where((product) => product.price != 0.00 && product.status == "publish").toList();
       final List<Product> productsAfterFirstFilter = _sortByFilter(filteredProducts, firstFilter);
-      _sortByColor(colorNames: secondFilter, productsRecived: productsAfterFirstFilter).forEach((element) {
-        print(element.name);
-      });
       return _sortByColor(colorNames: secondFilter, productsRecived: productsAfterFirstFilter);
     } catch (e) {
       print(e);
