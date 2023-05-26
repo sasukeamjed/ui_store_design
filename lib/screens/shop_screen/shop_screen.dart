@@ -13,12 +13,15 @@ import 'components/sliver_products_grid.dart';
 class ShopScreen extends StatelessWidget {
   // GlobalKey circularProgressBarKey = GlobalKey();
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   static String routeName = "/shop";
   @override
   Widget build(BuildContext context) {
 
     return SafeArea(
       child: Scaffold(
+
         body: Stack(
           children: [
             CustomScrollView(

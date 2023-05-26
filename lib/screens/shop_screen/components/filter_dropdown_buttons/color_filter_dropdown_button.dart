@@ -161,47 +161,59 @@ class ColorFilterDropDownButton extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Expanded(
-                                      child: SizedBox(
-                                        height: double.infinity,
-                                        child: Center(
-                                          child: Text("Reset"),
+                                child: Consumer(
+                                  builder: (BuildContext context, WidgetRef ref, Widget? child) {
+                                    return Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Expanded(
+                                          child: SizedBox(
+                                            height: double.infinity,
+                                            child: Center(
+                                              child: Text("Reset"),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: SizedBox(
-                                        height: double.infinity,
-                                        child: Center(
-                                          child: Text("All"),
+                                        Expanded(
+                                          child: SizedBox(
+                                            height: double.infinity,
+                                            child: Center(
+                                              child: Text("All"),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                    // ElevatedButton(
-                                    //   child: Text("Apply"),
-                                    //   onPressed: () {},
-                                    //   style: ElevatedButton.styleFrom(
-                                    //     backgroundColor: Colors.lightBlueAccent,
-                                    //   ),
-                                    // ),
-                                    Expanded(
-                                      child: Container(
-                                        height: double.infinity,
-                                        child: Center(
-                                          child: Text("Apply"),
+                                        // ElevatedButton(
+                                        //   child: Text("Apply"),
+                                        //   onPressed: () {},
+                                        //   style: ElevatedButton.styleFrom(
+                                        //     backgroundColor: Colors.lightBlueAccent,
+                                        //   ),
+                                        // ),
+                                        Expanded(
+                                          child: GestureDetector(
+                                            child: Container(
+                                              height: double.infinity,
+                                              child: Center(
+                                                child: Text("Apply"),
+                                              ),
+                                              decoration: BoxDecoration(
+                                                color: Colors.lightBlueAccent,
+                                                borderRadius: BorderRadius.circular(20),
+                                              ),
+                                            ),
+                                            onTap: () async{
+                                              Navigator.pop(context);
+                                              ref.read(shopScreenLoadingDataState.notifier).state = true;
+
+                                              List<Product>? products = await ref.read(mainFilterMethod);
+                                              ref.read(productsProvider.notifier).state = products!;
+                                              ref.read(shopScreenLoadingDataState.notifier).state = false;
+                                            },
+                                          ),
                                         ),
-                                        decoration: BoxDecoration(
-                                          color: Colors.lightBlueAccent,
-                                          borderRadius: BorderRadius.circular(20),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                      ],
+                                    );
+                                  },),
                               ),
                             ),
                           ],
@@ -309,9 +321,7 @@ class ColorFilterDropDownButton extends StatelessWidget {
   //       // setState(() {
   //       //   selectedColors = List.from(list!);
   //       // });
-  //       ref
-  //           .read(colorFilterProvider.notifier)
-  //           .update((state) => selectedColors);
+  //       ref.read(colorFilterProvider.notifier).update((state) => selectedColors);
   //       ref.read(shopScreenLoadingDataState.notifier).state = true;
   //
   //       List<Product>? products = await ref.read(mainFilterMethod);
@@ -329,8 +339,7 @@ class ColorsGridFilter extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
 
-    final addColors = [
-      ...ref.read(productsDataProvider.notifier).getColors()];
+    final addColors = [...ref.read(productsDataProvider.notifier).getColors()];
 
     return FadingEdgeScrollView.fromScrollView(
       child: GridView.count(
@@ -350,7 +359,7 @@ class ColorsGridFilter extends ConsumerWidget {
               }else{
                 ref.read(colorFilterProvider.notifier).state = [addColors[index], ...ref.read(colorFilterProvider.notifier).state];
               }
-              print("provider Lists colors => ${ref.read(colorFilterProvider)}");
+              // print("provider Lists colors => ${ref.read(colorFilterProvider)}");
             },
             child: Stack(
               clipBehavior: Clip.none,
