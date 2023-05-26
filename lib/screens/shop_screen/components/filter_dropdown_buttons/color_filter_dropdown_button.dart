@@ -14,6 +14,10 @@ import 'package:ui_store_design/providers/filter_provider.dart';
 
 
 class ColorFilterDropDownButton extends StatelessWidget {
+  final GlobalKey<ScaffoldState> scaffoldKey;
+
+  const ColorFilterDropDownButton({Key? key, required this.scaffoldKey}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
 
@@ -63,25 +67,12 @@ class ColorFilterDropDownButton extends StatelessWidget {
   }
 
   Future<void> _showSimpleDialog(BuildContext context) async {
-    // List<String> addColors = [
-    //   "royalblue",
-    //   "saddlebrown",
-    //   "salmon",
-    //   "sandybrown",
-    //   "seagreen",
-    //   "seashell",
-    //   "sienna",
-    //   "silver",
-    //   "skyblue",
-    //   "slateblue",
-    //   ...colors
-    // ];
 
-
+    print("this is the build context value => ${scaffoldKey.currentContext}");
 
     await showDialog<void>(
-        context: context,
-        builder: (BuildContext context) {
+        context: scaffoldKey.currentContext!,
+        builder: (BuildContext dialogContext) {
           return Dialog(
             backgroundColor: Colors.transparent,
             elevation: 0,
@@ -202,10 +193,26 @@ class ColorFilterDropDownButton extends StatelessWidget {
                                               ),
                                             ),
                                             onTap: () async{
-                                              Navigator.pop(context);
+
+                                              // try{
+                                              //
+                                              // }catch(e){
+                                              //
+                                              // }
+                                              print("this is the Scaffold Context value p1 => ${scaffoldKey.currentContext}");
+                                              print("this is the context value p2 => ${context}");
+                                              print("this is the dailogContext value p3 => ${dialogContext}");
+
                                               ref.read(shopScreenLoadingDataState.notifier).state = true;
 
+                                              Navigator.of(dialogContext, rootNavigator: true).pop('dialog');
+
                                               List<Product>? products = await ref.read(mainFilterMethod);
+
+                                              print("this is the Scaffold Context value A1 => ${scaffoldKey.currentContext}");
+                                              print("this is the context value A2 => ${context}");
+                                              print("this is the dailogContext value A3 => ${dialogContext}");
+
                                               ref.read(productsProvider.notifier).state = products!;
                                               ref.read(shopScreenLoadingDataState.notifier).state = false;
                                             },

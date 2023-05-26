@@ -21,12 +21,12 @@ class ShopScreen extends StatelessWidget {
 
     return SafeArea(
       child: Scaffold(
-
+        key: _scaffoldKey,
         body: Stack(
           children: [
             CustomScrollView(
               slivers: <Widget>[
-                ShopSliverAppBar(),
+                ShopSliverAppBar(scaffoldKey: _scaffoldKey,),
 
                 SliverProductsGrid(),
               ],

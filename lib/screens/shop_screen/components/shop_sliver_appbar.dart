@@ -13,8 +13,11 @@ import '../../../providers/data_providers.dart';
 
 class ShopSliverAppBar extends StatefulWidget {
   const ShopSliverAppBar({
-    Key? key,
+    Key? key, required this.scaffoldKey,
   }) : super(key: key);
+
+  final GlobalKey<ScaffoldState> scaffoldKey;
+
 
   @override
   State<ShopSliverAppBar> createState() => _ShopSliverAppBarState();
@@ -108,7 +111,7 @@ class _ShopSliverAppBarState extends State<ShopSliverAppBar> {
                 ),
               ),
               Expanded(
-                child: ColorFilterDropDownButton(),
+                child: ColorFilterDropDownButton(scaffoldKey: widget.scaffoldKey,),
               ),
               Expanded(
                 child: SortByPriceRangeDropDownButton(

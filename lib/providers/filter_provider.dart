@@ -87,16 +87,12 @@ final mainFilterMethod = Provider.autoDispose<Future<List<Product>?>>((ref){
   }
 
   List<Product> _sortByColor({required List<String> colorNames, required List<Product> productsRecived}) {
-    print("color names => $colorNames");
-    print("products length => ${productsRecived.length}");
     if(colorNames.isEmpty){
       return productsRecived;
     }
 
     return productsRecived.where((product) {
-      print("this is product variation => ${product.productVariations}");
       return product.productVariations.any((productVariation) {
-        print("this product dose onctains the following color => ${getValueFromMapWithKeyword(productVariation.attributes, 'color')}");
         return colorNames.contains(getValueFromMapWithKeyword(productVariation.attributes, 'color'));
       });
     }).toList();
