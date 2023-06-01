@@ -68,7 +68,7 @@ class ColorFilterDropDownButton extends StatelessWidget {
 
   Future<void> _showSimpleDialog(BuildContext context) async {
 
-    print("this is the build context value => ${scaffoldKey.currentContext}");
+    // print("this is the build context value => ${scaffoldKey.currentContext}");
 
     await showDialog<void>(
         context: scaffoldKey.currentContext!,
@@ -152,75 +152,7 @@ class ColorFilterDropDownButton extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                child: Consumer(
-                                  builder: (BuildContext context, WidgetRef ref, Widget? child) {
-                                    return Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Expanded(
-                                          child: SizedBox(
-                                            height: double.infinity,
-                                            child: Center(
-                                              child: Text("Reset"),
-                                            ),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          child: SizedBox(
-                                            height: double.infinity,
-                                            child: Center(
-                                              child: Text("All"),
-                                            ),
-                                          ),
-                                        ),
-                                        // ElevatedButton(
-                                        //   child: Text("Apply"),
-                                        //   onPressed: () {},
-                                        //   style: ElevatedButton.styleFrom(
-                                        //     backgroundColor: Colors.lightBlueAccent,
-                                        //   ),
-                                        // ),
-                                        Expanded(
-                                          child: GestureDetector(
-                                            child: Container(
-                                              height: double.infinity,
-                                              child: Center(
-                                                child: Text("Apply"),
-                                              ),
-                                              decoration: BoxDecoration(
-                                                color: Colors.lightBlueAccent,
-                                                borderRadius: BorderRadius.circular(20),
-                                              ),
-                                            ),
-                                            onTap: () async{
-
-                                              // try{
-                                              //
-                                              // }catch(e){
-                                              //
-                                              // }
-                                              print("this is the Scaffold Context value p1 => ${scaffoldKey.currentContext}");
-                                              print("this is the context value p2 => ${context}");
-                                              print("this is the dailogContext value p3 => ${dialogContext}");
-
-                                              ref.read(shopScreenLoadingDataState.notifier).state = true;
-
-                                              Navigator.of(dialogContext, rootNavigator: true).pop('dialog');
-
-                                              List<Product>? products = await ref.read(mainFilterMethod);
-
-                                              print("this is the Scaffold Context value A1 => ${scaffoldKey.currentContext}");
-                                              print("this is the context value A2 => ${context}");
-                                              print("this is the dailogContext value A3 => ${dialogContext}");
-
-                                              ref.read(productsProvider.notifier).state = products!;
-                                              ref.read(shopScreenLoadingDataState.notifier).state = false;
-                                            },
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  },),
+                                child: ColorFilterButtons(),
                               ),
                             ),
                           ],
@@ -338,6 +270,88 @@ class ColorFilterDropDownButton extends StatelessWidget {
   //   );
   // }
 }
+
+class ColorFilterButtons extends StatefulWidget {
+  const ColorFilterButtons({Key? key}) : super(key: key);
+
+  @override
+  State<ColorFilterButtons> createState() => _ColorFilterButtonsState();
+}
+
+class _ColorFilterButtonsState extends State<ColorFilterButtons> with AutomaticKeepAliveClientMixin {
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer(
+      builder: (BuildContext context, WidgetRef ref, Widget? child) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Expanded(
+              child: SizedBox(
+                height: double.infinity,
+                child: Center(
+                  child: Text("Reset"),
+                ),
+              ),
+            ),
+            Expanded(
+              child: SizedBox(
+                height: double.infinity,
+                child: Center(
+                  child: Text("All"),
+                ),
+              ),
+            ),
+            Expanded(
+              child: GestureDetector(
+                child: Container(
+                  height: double.infinity,
+                  child: Center(
+                    child: Text("Apply"),
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.lightBlueAccent,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                onTap: () async{
+
+                  // try{
+                  //
+                  // }catch(e){
+                  //
+                  // }
+                  // print("this is the Scaffold Context value p1 => ${scaffoldKey.currentContext}");
+                  // print("this is the context value p2 => ${context}");
+                  // print("this is the dailogContext value p3 => ${dialogContext}");
+
+                  ref.read(shopScreenLoadingDataState.notifier).state = true;
+
+                  Navigator.of(context, rootNavigator: true).pop('dialog');
+
+                  List<Product>? products = await ref.read(mainFilterMethod);
+
+                  // print("this is the Scaffold Context value A1 => ${scaffoldKey.currentContext}");
+                  // print("this is the context value A2 => ${context}");
+                  // print("this is the dailogContext value A3 => ${dialogContext}");
+
+                  ref.read(productsProvider.notifier).state = products!;
+                  ref.read(shopScreenLoadingDataState.notifier).state = false;
+                },
+              ),
+            ),
+          ],
+        );
+      },);
+  }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
+}
+
 
 class ColorsGridFilter extends ConsumerWidget {
   ColorsGridFilter({Key? key}) : super(key: key);

@@ -26,7 +26,7 @@ final productsProvider = StateProvider<List<Product>>((ref){
   return (ref.read(productsDataProvider.notifier).state as DataLoaded).products;
 });
 
-final mainFilterMethod = Provider.autoDispose<Future<List<Product>?>>((ref){
+final mainFilterMethod = Provider<Future<List<Product>?>>((ref){
 
   List<Product> _sortByFilter(List<Product> sortProducts, SortByFilter sortTypeFilter) {
 
