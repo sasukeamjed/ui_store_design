@@ -278,7 +278,21 @@ class ColorFilterButtons extends StatefulWidget {
   State<ColorFilterButtons> createState() => _ColorFilterButtonsState();
 }
 
-class _ColorFilterButtonsState extends State<ColorFilterButtons> with AutomaticKeepAliveClientMixin {
+class _ColorFilterButtonsState extends State<ColorFilterButtons> {
+
+  late NavigatorState _navigatorState;
+
+  @override
+  void didChangeDependencies() {
+    _navigatorState = Navigator.of(context);
+    super.didChangeDependencies();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 
 
   @override
@@ -329,16 +343,21 @@ class _ColorFilterButtonsState extends State<ColorFilterButtons> with AutomaticK
 
                   ref.read(shopScreenLoadingDataState.notifier).state = true;
 
-                  Navigator.of(context, rootNavigator: true).pop('dialog');
+                  Navigator.of(_navigatorState.context, rootNavigator: true).pop('dialog');
 
-                  List<Product>? products = await ref.read(mainFilterMethod);
 
-                  // print("this is the Scaffold Context value A1 => ${scaffoldKey.currentContext}");
-                  // print("this is the context value A2 => ${context}");
-                  // print("this is the dailogContext value A3 => ${dialogContext}");
+                  try{
+                    List<Product>? products = await ref.read(mainFilterMethod);
 
-                  ref.read(productsProvider.notifier).state = products!;
-                  ref.read(shopScreenLoadingDataState.notifier).state = false;
+                    // print("this is the Scaffold Context value A1 => ${scaffoldKey.currentContext}");
+                    // print("this is the context value A2 => ${context}");
+                    // print("this is the dailogContext value A3 => ${dialogContext}");
+
+                    ref.read(productsProvider.notifier).state = products!;
+                    ref.read(shopScreenLoadingDataState.notifier).state = false;
+                  }catch(e){
+                    print("here is the color filter error => $e");
+                  }
                 },
               ),
             ),
@@ -347,9 +366,7 @@ class _ColorFilterButtonsState extends State<ColorFilterButtons> with AutomaticK
       },);
   }
 
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => true;
+
 }
 
 
