@@ -26,7 +26,9 @@ final productsProvider = StateProvider<List<Product>>((ref){
   return (ref.read(productsDataProvider.notifier).state as DataLoaded).products;
 });
 
-final mainFilterMethod = Provider<Future<List<Product>?>>((ref){
+final mainFilterMethod = Provider.autoDispose<Future<void>>((ref){
+
+  print("main filter method provider is initiated");
 
   List<Product> _sortByFilter(List<Product> sortProducts, SortByFilter sortTypeFilter) {
 
@@ -99,12 +101,11 @@ final mainFilterMethod = Provider<Future<List<Product>?>>((ref){
   }
 
 
-  Future<List<Product>?> _mainFilter() async {
+  Future<void> _mainFilter() async {
 
     final firstFilter = ref.read(sortByFilterProvider);
     final List<String> secondFilter = ref.read(colorFilterProvider);
     final dio = ref.read(dioProvider);
-
     try {
       List<Product> filteredProducts;
       Response response = await dio.get(Uri.parse("wp-json/wc/v3/products").toString(), queryParameters: {
@@ -119,10 +120,13 @@ final mainFilterMethod = Provider<Future<List<Product>?>>((ref){
 
       filteredProducts = products.where((product) => product.price != 0.00 && product.status == "publish").toList();
       final List<Product> productsAfterFirstFilter = _sortByFilter(filteredProducts, firstFilter);
-      return _sortByColor(colorNames: secondFilter, productsRecived: productsAfterFirstFilter);
+      // return _sortByColor(colorNames: secondFilter, productsRecived: productsAfterFirstFilter);
+
+      ref.read(productsProvider.notifier).state = _sortByColor(colorNames: secondFilter, productsRecived: productsAfterFirstFilter);
+      ref.read(shopScreenLoadingDataState.notifier).state = false;
     } catch (e) {
       print(e);
-      return [];
+      // return [];
     }
 
   }
@@ -131,6 +135,21 @@ final mainFilterMethod = Provider<Future<List<Product>?>>((ref){
 
   return _mainFilter();
 });
+
+class FilteringState{
+  final List<Product> filteredProducts;
+  final bool filteringState;
+
+  FilteringState({required this.filteredProducts, required this.filteringState});
+}
+
+class FilterStateNotifier extends StateNotifier<FilteringState>{
+
+  FilterStateNotifier(this.orginalProducts) : super(FilteringState(filteredProducts: orginalProducts, filteringState: false));
+
+  final List<Product> orginalProducts;
+
+}
 
 
 

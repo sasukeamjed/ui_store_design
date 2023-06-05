@@ -29,11 +29,6 @@ class ColorFilterDropDownButton extends StatelessWidget {
             child: Center(
               child: Text(
                 "Colors",
-                // style: Theme.of(context)
-                //     .textTheme
-                //     .titleMedium
-                //     ?.copyWith(
-                //         color: Theme.of(context).hintColor),
                 style: TextStyle(
                     fontFamily: "Avenir-Book",
                     color: Theme.of(context).hintColor,
@@ -51,7 +46,7 @@ class ColorFilterDropDownButton extends StatelessWidget {
       onPressed: () {
         // openFilterDelegate(context, colors);
         // openFilterDialog(colors);
-        _showSimpleDialog(context);
+        _showSimpleDialog(context, scaffoldKey);
       },
       style: OutlinedButton.styleFrom(
           padding: EdgeInsets.all(0),
@@ -66,19 +61,23 @@ class ColorFilterDropDownButton extends StatelessWidget {
     ;
   }
 
-  Future<void> _showSimpleDialog(BuildContext context) async {
+
+
+  Future<void> _showSimpleDialog(BuildContext ancestorContext, GlobalKey<ScaffoldState> scaffoldKey) async {
 
     // print("this is the build context value => ${scaffoldKey.currentContext}");
 
+
+
     await showDialog<void>(
         context: scaffoldKey.currentContext!,
-        builder: (BuildContext dialogContext) {
+        builder: (BuildContext builderContext) {
           return Dialog(
             backgroundColor: Colors.transparent,
             elevation: 0,
             child: Container(
-              height: MediaQuery.of(context).size.height * 0.5,
-              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(ancestorContext).size.height * 0.5,
+              width: MediaQuery.of(ancestorContext).size.width,
               child: ClipRRect(
                 borderRadius: BorderRadius.all(
                   Radius.circular(20),
@@ -88,8 +87,8 @@ class ColorFilterDropDownButton extends StatelessWidget {
                   child: Column(
                     children: [
                       Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: MediaQuery.of(context).size.height * 0.08,
+                        width: MediaQuery.of(ancestorContext).size.width,
+                        height: MediaQuery.of(ancestorContext).size.height * 0.08,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           boxShadow: [
@@ -111,7 +110,7 @@ class ColorFilterDropDownButton extends StatelessWidget {
                                 size: 30.w,
                               ),
                               onTap: () {
-                                Navigator.of(context).pop();
+                                Navigator.of(builderContext).pop();
                               },
                             ),
                           ),
@@ -152,7 +151,111 @@ class ColorFilterDropDownButton extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                child: ColorFilterButtons(),
+                                child: Consumer(
+                                  builder: (BuildContext consumerContext, WidgetRef ref, Widget? child) {
+                                    return Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Expanded(
+                                          child: SizedBox(
+                                            height: double.infinity,
+                                            child: Center(
+                                              child: Text("Reset"),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: SizedBox(
+                                            height: double.infinity,
+                                            child: Center(
+                                              child: Text("All"),
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: GestureDetector(
+                                            child: Container(
+                                              height: double.infinity,
+                                              child: Center(
+                                                child: Text("Apply"),
+                                              ),
+                                              decoration: BoxDecoration(
+                                                color: Colors.lightBlueAccent,
+                                                borderRadius: BorderRadius.circular(20),
+                                              ),
+                                            ),
+                                            onTap: () async{
+
+
+                                              ref.read(shopScreenLoadingDataState.notifier).state = true;
+
+                                              // if(ancestorContext.mounted){
+                                              //   print("ancestor context is mounted");
+                                              // }else{
+                                              //   print("ancestor context is not mounted");
+                                              // }
+                                              // if(builderContext.mounted){
+                                              //   print("builder context is mounted");
+                                              // }else{
+                                              //   print("builder context is not mounted");
+                                              // }
+                                              // if(consumerContext.mounted){
+                                              //   print("consumer context is mounted");
+                                              // }else{
+                                              //   print("consumer context is not mounted");
+                                              // }
+
+                                              Navigator.of(scaffoldKey.currentContext!).pop();
+
+
+                                              // if(ancestorContext.mounted){
+                                              //   print("After ancestor context is mounted");
+                                              // }else{
+                                              //   print("After ancestor context is not mounted");
+                                              // }
+                                              // if(builderContext.mounted){
+                                              //   print("After builder context is mounted");
+                                              // }else{
+                                              //   print("After builder context is not mounted");
+                                              // }
+                                              // if(consumerContext.mounted){
+                                              //   print("After consumer context is mounted");
+                                              // }else{
+                                              //   print("After consumer context is not mounted");
+                                              // }
+
+
+                                              try{
+
+                                                await ref.read(mainFilterMethod);
+                                                print("this is after await");
+
+                                                // ref.read(productsProvider.notifier).state = products!;
+                                                // ref.read(shopScreenLoadingDataState.notifier).state = false;
+                                              }catch(e){
+                                                // if(ancestorContext.mounted){
+                                                //   print("After in error ancestor context is mounted");
+                                                // }else{
+                                                //   print("After in error ancestor context is not mounted");
+                                                // }
+                                                // if(builderContext.mounted){
+                                                //   print("After in error builder context is mounted");
+                                                // }else{
+                                                //   print("After in error builder context is not mounted");
+                                                // }
+                                                // if(consumerContext.mounted){
+                                                //   print("After in error consumer context is mounted");
+                                                // }else{
+                                                //   print("After in error consumer context is not mounted");
+                                                // }
+                                                print("here is the color filter error => $e");
+                                              }
+                                            },
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },),
                               ),
                             ),
                           ],
@@ -167,108 +270,6 @@ class ColorFilterDropDownButton extends StatelessWidget {
         });
   }
 
-  // void openFilterDialog(Set<String> colorsNames) async {
-  //   List<String> selectedColors = [];
-  //
-  //   await FilterListDialog.display<String>(
-  //     context,
-  //     listData: colorsNames.toList(),
-  //     selectedListData: selectedColors,
-  //     hideSearchField: true,
-  //     // selectedListData: ref.read(colorFilterProvider).toSet().toList(),
-  //     choiceChipLabel: (color) => color,
-  //     validateSelectedItem: (list, val) {
-  //       // print("this is the list => $list");
-  //       // print("this is the provider list => ${ref.read(colorFilterProvider)}");
-  //       return ref.read(colorFilterProvider).contains(val) ||
-  //           list!.contains(val);
-  //     },
-  //     onItemSearch: (color, query) {
-  //       return color.toLowerCase().contains(query.toLowerCase());
-  //     },
-  //     choiceChipBuilder: (context, colorName, isClicked) {
-  //       if (isClicked != null) {
-  //         if (isClicked) {
-  //           // print("$colorName filter is clicked selected colors");
-  //           // print("$selectedColors this is selected colors");
-  //           // print("${ref.read(colorFilterProvider)} Selected Colors before condition");
-  //           // print("${ref.read(colorFilterProvider).contains(colorName)} color condition");
-  //           // if(ref.read(colorFilterProvider).contains(colorName)){
-  //
-  //           if (!ref.read(colorFilterProvider).contains(colorName)) {
-  //             ref.read(colorFilterProvider).add(colorName);
-  //           }
-  //
-  //           // }else{
-  //
-  //           // }
-  //           // //
-  //           // print("${ref.read(colorFilterProvider)} Selected Colors after condition");
-  //         } else {
-  //           // print("color is in the list removing a color");
-  //           // selectedColors.remove(colorName);
-  //           ref.read(colorFilterProvider).remove(colorName);
-  //         }
-  //       }
-  //       print("=====================================================");
-  //       print("this $colorName is clicked => $isClicked");
-  //       print("this is the list => ${ref.read(colorFilterProvider)}");
-  //
-  //       print(
-  //           "this the selected colors is in the list => ${ref.read(colorFilterProvider)}");
-  //       // print("=====================================================");
-  //
-  //       return Stack(
-  //         clipBehavior: Clip.none,
-  //         alignment: Alignment.topRight,
-  //         children: [
-  //           Container(
-  //             margin: EdgeInsets.symmetric(horizontal: 10.w, vertical: 5.w),
-  //             height: 30,
-  //             width: 50,
-  //             child: Center(
-  //               child: Text(
-  //                 colorName.toString(),
-  //               ),
-  //             ),
-  //             decoration: BoxDecoration(
-  //               color: getColorHexFromName(colorName),
-  //               borderRadius: BorderRadius.circular(20),
-  //
-  //               border: ref.watch(colorFilterProvider).contains(colorName)
-  //                   ? Border.all(color: Colors.orange.shade300, width: 2)
-  //                   : isClicked!
-  //                       ? Border.all(color: Colors.orange.shade300, width: 2)
-  //                       : null,
-  //               // border: ref.watch(colorFilterProvider).contains(colorName)
-  //               //     ? Border.all(color: Colors.orange.shade300, width: 2)
-  //               //     : null,
-  //             ),
-  //           ),
-  //           if (isClicked != null)
-  //             if (isClicked)
-  //               Icon(
-  //                 Icons.close,
-  //                 color: Colors.orange.shade300,
-  //                 size: 10,
-  //               ),
-  //         ],
-  //       );
-  //     },
-  //     onApplyButtonClick: (list) async {
-  //       Navigator.pop(context);
-  //       // setState(() {
-  //       //   selectedColors = List.from(list!);
-  //       // });
-  //       ref.read(colorFilterProvider.notifier).update((state) => selectedColors);
-  //       ref.read(shopScreenLoadingDataState.notifier).state = true;
-  //
-  //       List<Product>? products = await ref.read(mainFilterMethod);
-  //       ref.read(productsProvider.notifier).state = products!;
-  //       ref.read(shopScreenLoadingDataState.notifier).state = false;
-  //     },
-  //   );
-  // }
 }
 
 class ColorFilterButtons extends StatefulWidget {
@@ -347,13 +348,13 @@ class _ColorFilterButtonsState extends State<ColorFilterButtons> {
 
 
                   try{
-                    List<Product>? products = await ref.read(mainFilterMethod);
+                    // List<Product>? products = await ref.read(mainFilterMethod);
 
                     // print("this is the Scaffold Context value A1 => ${scaffoldKey.currentContext}");
                     // print("this is the context value A2 => ${context}");
                     // print("this is the dailogContext value A3 => ${dialogContext}");
 
-                    ref.read(productsProvider.notifier).state = products!;
+                    // ref.read(productsProvider.notifier).state = products!;
                     ref.read(shopScreenLoadingDataState.notifier).state = false;
                   }catch(e){
                     print("here is the color filter error => $e");

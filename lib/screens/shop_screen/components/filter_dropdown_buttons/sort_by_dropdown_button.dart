@@ -55,8 +55,8 @@ class SortByDropDownButton extends StatelessWidget {
               ref.read(sortByFilterProvider.notifier).state = value!;
               ref.read(shopScreenLoadingDataState.notifier).state = true;
 
-              List<Product>? products = await ref.read(mainFilterMethod);
-              ref.read(productsProvider.notifier).state = products!;
+              await ref.read(mainFilterMethod);
+              // ref.read(productsProvider.notifier).state = products!;
               ref.read(shopScreenLoadingDataState.notifier).state = false;
             },
             items: SortByFilter.values.map<DropdownMenuItem<SortByFilter>>((SortByFilter value) {
