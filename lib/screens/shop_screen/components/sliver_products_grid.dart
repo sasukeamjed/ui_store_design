@@ -26,7 +26,11 @@ class _SliverProductsGridState extends ConsumerState<SliverProductsGrid> {
     final products = ref.watch(productsProvider);
     return SliverPadding(
       padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 20.h),
-      sliver: SliverGrid.builder(
+      sliver: products.isEmpty ? SliverToBoxAdapter(
+        child: Center(
+          child: Text("No Products Found in This Filter."),
+        ),
+      ) : SliverGrid.builder(
         // physics: ScrollPhysics(),
         itemCount: products.length,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

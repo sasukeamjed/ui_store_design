@@ -101,10 +101,66 @@ final mainFilterMethod = Provider.autoDispose<Future<void>>((ref){
   }
 
 
+
+  List<Product> _sortByPrice(String priceRange, {required List<Product> productsRecived}) {
+
+    switch(priceRange){
+      case "0-...":{
+
+        return productsRecived;
+
+      }
+
+      case "0-10":{
+
+
+        return productsRecived.where((product) {
+          double productPrice = double.parse(product.price);
+          return productPrice >= 0 && productPrice <= 10;
+        }).toList();
+      }
+
+      case "10-20":{
+        return productsRecived.where((product) {
+          double productPrice = double.parse(product.price);
+          return productPrice >= 10 && productPrice <= 20;
+        }).toList();
+      }
+
+      case "20-30":{
+        return productsRecived.where((product) {
+          double productPrice = double.parse(product.price);
+          return productPrice >= 20 && productPrice <= 30;
+        }).toList();
+      }
+      case "30-40":{
+        return productsRecived.where((product) {
+          double productPrice = double.parse(product.price);
+          return productPrice >= 30 && productPrice <= 40;
+        }).toList();
+      }
+
+
+      case "40-...":{
+        return productsRecived.where((product) {
+          double productPrice = double.parse(product.price);
+          return productPrice > 40;
+        }).toList();
+      }
+
+      default:
+        return productsRecived;
+
+    }
+  }
+
+
+
   Future<void> _mainFilter() async {
 
     final firstFilter = ref.read(sortByFilterProvider);
     final List<String> secondFilter = ref.read(colorFilterProvider);
+    final String thirdFilter = ref.read(priceFilterProvider) ?? "0-...";
     final dio = ref.read(dioProvider);
     try {
       List<Product> filteredProducts;
@@ -121,8 +177,9 @@ final mainFilterMethod = Provider.autoDispose<Future<void>>((ref){
       filteredProducts = products.where((product) => product.price != 0.00 && product.status == "publish").toList();
       final List<Product> productsAfterFirstFilter = _sortByFilter(filteredProducts, firstFilter);
       // return _sortByColor(colorNames: secondFilter, productsRecived: productsAfterFirstFilter);
+      final List<Product> productsAfterSecondFilter = _sortByColor(colorNames: secondFilter, productsRecived: productsAfterFirstFilter);
 
-      ref.read(productsProvider.notifier).state = _sortByColor(colorNames: secondFilter, productsRecived: productsAfterFirstFilter);
+      ref.read(productsProvider.notifier).state = _sortByPrice(thirdFilter, productsRecived: productsAfterSecondFilter);
       ref.read(shopScreenLoadingDataState.notifier).state = false;
     } catch (e) {
       print(e);
@@ -136,20 +193,7 @@ final mainFilterMethod = Provider.autoDispose<Future<void>>((ref){
   return _mainFilter();
 });
 
-class FilteringState{
-  final List<Product> filteredProducts;
-  final bool filteringState;
 
-  FilteringState({required this.filteredProducts, required this.filteringState});
-}
-
-class FilterStateNotifier extends StateNotifier<FilteringState>{
-
-  FilterStateNotifier(this.orginalProducts) : super(FilteringState(filteredProducts: orginalProducts, filteringState: false));
-
-  final List<Product> orginalProducts;
-
-}
 
 
 

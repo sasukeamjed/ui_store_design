@@ -45,13 +45,27 @@ class _SortByPriceRangeDropDownButtonState extends ConsumerState<SortByPriceRang
       style: const TextStyle(color: Colors.deepPurple),
       isExpanded: true,
       underline: SizedBox(),
-      onChanged: (String? value) {
+      onChanged: (String? value) async{
         // This is called when the user selects an item.
         ref.read(priceFilterProvider.notifier).update((state) => value!);
         print("this is the updated price filter => ${ref.read(priceFilterProvider)}");
         setState(() {
           dropdownValue = value!;
         });
+
+        ref.read(shopScreenLoadingDataState.notifier).state = true;
+
+        // Navigator.of(consumerContext).pop();
+
+
+        try{
+
+          await ref.read(mainFilterMethod);
+          print("this is after await");
+
+        }catch(e){
+          print("here is the color filter error => $e");
+        }
       },
       items: dropdownMenuItems(),
       // items: pricesRanges.where((value) => value != '0-...').mapIndexed<DropdownMenuItem<String>>((int index,String value) {
@@ -84,7 +98,7 @@ class _SortByPriceRangeDropDownButtonState extends ConsumerState<SortByPriceRang
     }).toList();
 
 
-
+    //This is the reset button in the Price filter drop down button
     DropdownMenuItem<String> restMenuItem = DropdownMenuItem<String>(
       value: "Reset",
       enabled: false,
@@ -106,18 +120,33 @@ class _SortByPriceRangeDropDownButtonState extends ConsumerState<SortByPriceRang
               style: TextStyle(color: Colors.white),
             ),
           ),
-          onTap: (){
+          onTap: () async{
             setState(() {
               dropdownValue = null;
             });
             ref.read(priceFilterProvider.notifier).update((state) => null);
             print("this is the updated price filter => ${ref.read(priceFilterProvider)}");
             Navigator.pop(context);
+            ref.read(shopScreenLoadingDataState.notifier).state = true;
+
+            // Navigator.of(consumerContext).pop();
+
+
+            try{
+
+              await ref.read(mainFilterMethod);
+              print("this is after await");
+
+            }catch(e){
+              print("here is the color filter error => $e");
+            }
           },
         ),
         // decoration: null,
       ),
-      onTap: (){},
+      onTap: () {
+
+      },
     );
 
     listOfItems.add(restMenuItem);

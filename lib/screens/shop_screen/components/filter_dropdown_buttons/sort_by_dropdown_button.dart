@@ -45,7 +45,7 @@ class SortByDropDownButton extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
             ),
-            value: ref.read(sortByFilterProvider),
+            value: ref.watch(sortByFilterProvider),
             icon: const Icon(Icons.arrow_downward),
             style: const TextStyle(color: Colors.deepPurple),
             isExpanded: true,
