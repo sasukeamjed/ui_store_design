@@ -95,8 +95,10 @@ class _VariationsSectionState extends ConsumerState <VariationsSection> {
 
                   ImageModel? imageVariation = variation?.image;
 
-                  int currentImageIndex = widget.product.images.indexWhere((ImageModel imageModel) => imageModel.id == imageVariation?.id);
+                  print("this is image model: $imageVariation");
 
+                  int currentImageIndex = widget.product.images.indexWhere((ImageModel imageModel) => imageModel.id == imageVariation?.id);
+                  print("this is image index: $currentImageIndex");
                   ref.read(imageIndexProvider).animateToPage(currentImageIndex, duration: Duration(milliseconds: 200), curve: Curves.ease);
 
 

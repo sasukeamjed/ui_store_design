@@ -36,4 +36,9 @@ class ImageModel{
     }
     return this.src;
   }
+
+  @override
+  String toString() {
+    return "id => ${this.id}, src => ${this.src}, name => ${this.name}";
+  }
 }

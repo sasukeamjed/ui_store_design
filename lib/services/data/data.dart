@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,6 +25,7 @@ class ProductsProvider extends StateNotifier<DataState> {
   late Dio dio;
 
   ProductsProvider() : super(DataInitial()) {
+    var authToken = base64.encode(utf8.encode("ck_9e32dcae3003edf2db8ec232c0c958ec735210e9" + ":" + "cs_e0d9e53cff19cff292d0fe5706665fc628d4ebfb"));
     dio = Dio(BaseOptions(
       baseUrl: baseUrl,
       receiveTimeout: 15000,
@@ -39,7 +41,12 @@ class ProductsProvider extends StateNotifier<DataState> {
       //This is should be the solution for DioError [DioErrorType.response]: Http status error [415]
       // contentType: 'application/x-www-form-urlencoded',
       headers: {
+
         "Connection": "Keep-Alive",
+        // "Authorization": "AuthorizationToken",
+        // HttpHeaders.authorizationHeader: authToken,
+        // HttpHeaders.contentTypeHeader : "application/json",
+        // "Accept": "application/json"
       },
     ));
 
