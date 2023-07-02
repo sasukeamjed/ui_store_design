@@ -39,7 +39,7 @@ class ProductVariationModel{
 
   @override
   String toString() {
-    return "variationPrice => $variationPrice , dimension => $dimensions, attributes => $attributes";
+    return "id => $id, variationPrice => $variationPrice , dimension => $dimensions, attributes => $attributes, image => $image";
   }
 
 

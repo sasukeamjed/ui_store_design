@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:ui_store_design/models/image_model.dart';
 import 'package:ui_store_design/models/product_model.dart';
 import 'package:ui_store_design/models/product_variation_model.dart';
 import 'package:ui_store_design/providers/data_providers.dart';
@@ -27,6 +28,23 @@ class Body extends StatelessWidget {
 
   const Body({Key? key, required this.product}) : super(key: key);
 
+  List<ImageModel> _getVariationsImages(){
+    if(this.product.productVariations.isNotEmpty){
+      List<ProductVariationModel> variations = this.product.productVariations;
+      List<ImageModel> variationsImages = [];
+
+      variations.forEach((variation) {
+        variationsImages.add(variation.image);
+      });
+
+      return variationsImages;
+    }
+
+
+
+    return [];
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -36,7 +54,7 @@ class Body extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ProductImagesSlider(
-            images: product.images,
+            images: [...product.images, ..._getVariationsImages()],
           ),
           SizedBox(
             height: 30.h,
@@ -52,7 +70,7 @@ class Body extends StatelessWidget {
               color: Colors.black12,
             ),
           if (product.productVariations.isNotEmpty)
-            VariationsSection(product: product),
+            VariationsSection(product: product, images: [...product.images, ..._getVariationsImages()],),
           Divider(
             height: 40.h,
             color: Colors.black12,

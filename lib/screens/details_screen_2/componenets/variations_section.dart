@@ -11,11 +11,12 @@ import 'package:ui_store_design/providers/image_notifier.dart';
 import 'package:ui_store_design/screens/details_screen_2/helper_methods/helper_methods.dart';
 
 class VariationsSection extends ConsumerStatefulWidget  {
-  const VariationsSection({required this.product,
+  const VariationsSection({required this.product, required this.images,
     Key? key
   }) : super(key: key);
 
   final Product product;
+  final List<ImageModel> images;
 
   @override
   ConsumerState<VariationsSection> createState() => _VariationsSectionState();
@@ -92,13 +93,13 @@ class _VariationsSectionState extends ConsumerState <VariationsSection> {
 
                 try{
                   ProductVariationModel? variation = ref.read(productIsChosenNotifier(widget.product).notifier).getTheCrossBondingVariation(choosedOptions);
-
+                  // print("this is the variation model: $variation");
                   ImageModel? imageVariation = variation?.image;
 
-                  print("this is image model: $imageVariation");
+                  // print("this is the variation image model: $imageVariation");
 
-                  int currentImageIndex = widget.product.images.indexWhere((ImageModel imageModel) => imageModel.id == imageVariation?.id);
-                  print("this is image index: $currentImageIndex");
+                  int currentImageIndex = widget.images.indexWhere((ImageModel imageModel) => imageModel.id == imageVariation?.id);
+                  // print("this is image index: $currentImageIndex");
                   ref.read(imageIndexProvider).animateToPage(currentImageIndex, duration: Duration(milliseconds: 200), curve: Curves.ease);
 
 

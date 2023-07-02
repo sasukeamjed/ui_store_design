@@ -22,7 +22,6 @@ class DetailsScreen2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(product.dimensions);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xFFFFFFFF),
